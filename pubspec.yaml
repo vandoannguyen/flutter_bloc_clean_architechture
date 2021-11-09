@@ -41,6 +41,8 @@ dependencies:
   overlay_support: ^1.2.1
   equatable: ^2.0.3
   bloc: ^7.2.1
+  base_bloc_module:
+    path: ./base_bloc_module
 
 dev_dependencies:
   flutter_test:

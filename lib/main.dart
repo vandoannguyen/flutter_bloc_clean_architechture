@@ -1,9 +1,11 @@
+import 'package:baese_flutter_bloc/routes/pages.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 
-import 'common/routes.dart';
+import 'di/injection_container.dart';
 
-void main() {
+void main() async {
+  await configureDependencies();
   runApp(const MyApp());
 }
 
@@ -20,7 +22,7 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: "/",
         routes: {
-          for (RouteModel e in CommonRoutes.pages) e.name: (context) => e.page
+          for (RouteModel e in CommonPage.pages) e.name: (context) => e.page
         },
       ),
     );

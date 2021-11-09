@@ -1,14 +1,13 @@
+import 'package:base_bloc_module/base/cubit/base_cubit.dart';
 import 'package:base_bloc_module/views/widgets/loading_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../base/bloc/base_bloc.dart';
-
 // ignore: must_be_immutable
-abstract class BaseView<BLOC extends BaseBloc, STATE extends StatefulWidget>
-    extends State<STATE> {
-  BLOC? bloc;
+abstract class BaseViewCubit<CUBIT extends BaseCubit,
+    STATE extends StatefulWidget> extends State<STATE> {
+  CUBIT? bloc;
   late BuildContext contextScreen;
 
   Widget buildWidget(BuildContext context);
@@ -23,7 +22,7 @@ abstract class BaseView<BLOC extends BaseBloc, STATE extends StatefulWidget>
   @override
   Widget build(BuildContext context) {
     contextScreen = context;
-    return BlocProvider<BLOC>(
+    return BlocProvider<CUBIT>(
       create: (context) => bloc!,
       child: buildWidget(context),
     );
@@ -36,7 +35,7 @@ abstract class BaseView<BLOC extends BaseBloc, STATE extends StatefulWidget>
   }
 
   /// getBloc
-  BLOC initBloc();
+  CUBIT initBloc();
 
   /// function allow handle listen which broadcast from bloc
   void initEventViewModel() {

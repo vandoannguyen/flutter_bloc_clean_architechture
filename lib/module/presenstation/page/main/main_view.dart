@@ -1,8 +1,7 @@
 import 'package:baese_flutter_bloc/di/injection_container.dart';
 import 'package:baese_flutter_bloc/module/presenstation/bloc/main/main_view_bloc.dart';
-import 'package:baese_flutter_bloc/module/presenstation/bloc/main/main_view_event.dart';
 import 'package:baese_flutter_bloc/module/presenstation/bloc/main/main_view_sate.dart';
-import 'package:base_bloc_module/views/base_view.dart';
+import 'package:base_bloc_module/views/base_view_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,20 +12,33 @@ class MainView extends StatefulWidget {
   _MainViewState createState() => _MainViewState();
 }
 
-class _MainViewState extends BaseView<MainBloc, MainView> {
+class _MainViewState extends BaseViewCubit<MainBloc, MainView> {
   @override
   Widget buildWidget(BuildContext context) {
     return Scaffold(
       body: GestureDetector(
         onTap: () {
-          bloc?.add(ToMain2Event());
+          bloc?.testTap();
         },
         child: Container(
-          color: Colors.red,
-          alignment: Alignment.center,
-          child: BlocBuilder<MainBloc, MainState>(
-              bloc: bloc, builder: (context, state) => Text("${state.count}")),
-        ),
+            color: Colors.red,
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                BlocBuilder<MainBloc, MainState>(
+                    bloc: bloc,
+                    builder: (context, state) => Text("${state.count}")),
+                BlocBuilder<MainBloc, MainState>(
+                    bloc: bloc,
+                    buildWhen: (stateIn, stateOut) =>
+                        stateIn.value != stateOut.value,
+                    builder: (context, state) {
+                      print("rebuild${state.count}");
+                      return Text(state.value);
+                    }),
+              ],
+            )),
       ),
     );
   }

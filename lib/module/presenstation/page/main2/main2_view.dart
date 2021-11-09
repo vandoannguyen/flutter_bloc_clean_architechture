@@ -1,7 +1,9 @@
 import 'package:baese_flutter_bloc/di/injection_container.dart';
+import 'package:baese_flutter_bloc/module/presenstation/bloc/app/app_bloc.dart';
 import 'package:baese_flutter_bloc/module/presenstation/bloc/main2/main2_bloc.dart';
-import 'package:base_bloc_module/views/base_view.dart';
+import 'package:base_bloc_module/views/base_view_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Main2View extends StatefulWidget {
   const Main2View({Key? key}) : super(key: key);
@@ -10,11 +12,14 @@ class Main2View extends StatefulWidget {
   _Main2ViewState createState() => _Main2ViewState();
 }
 
-class _Main2ViewState extends BaseView<Main2Bloc, Main2View> {
+class _Main2ViewState extends BaseViewCubit<Main2Bloc, Main2View> {
   @override
   Widget buildWidget(BuildContext context) {
-    return Container(
-      color: Colors.orange,
+    return BlocProvider<AppBloc>(
+      create: (ctx) => getIt<AppBloc>(),
+      child: Container(
+        color: Colors.orange,
+      ),
     );
   }
 

@@ -16,9 +16,6 @@ class MainBloc extends BaseCubit<MainState> {
   MainBloc(this.contentUseCase) : super(MainState());
 
   @override
-  void initEventState() {}
-
-  @override
   void closeStream() {
     toMain2.close();
   }
@@ -30,5 +27,23 @@ class MainBloc extends BaseCubit<MainState> {
     } else {
       emit(state.copyWith(count: (state.count ?? 0) + 1));
     }
+  }
+
+  void clickEdit(int index) {
+    List<String> list = List.of(state.listItem ?? []);
+    list[index] = "edit ${DateTime.now().millisecondsSinceEpoch}";
+    emit(state.copyWith(listItem: list));
+  }
+
+  void deleteItem(int index) {
+    List<String> list = List.of(state.listItem ?? []);
+    list.removeAt(index);
+    emit(state.copyWith(listItem: list));
+  }
+
+  void addItem() {
+    List<String> list = List.of(state.listItem ?? []);
+    list.add("${DateTime.now().millisecondsSinceEpoch}");
+    emit(state.copyWith(listItem: list));
   }
 }

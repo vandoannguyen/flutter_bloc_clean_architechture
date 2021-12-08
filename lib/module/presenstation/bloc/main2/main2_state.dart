@@ -1,6 +1,8 @@
-part of 'main2_bloc.dart';
+import 'package:base_bloc_module/base/cubit/base_state_cubit.dart';
 
-@immutable
-abstract class Main2State {}
-
-class InitialMain2State extends Main2State {}
+class Main2State extends BaseStateCubit {
+  @override
+  List<Object?> equal() {
+    return [];
+  }
+}

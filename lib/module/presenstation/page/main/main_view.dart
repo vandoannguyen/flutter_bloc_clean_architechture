@@ -16,29 +16,59 @@ class _MainViewState extends BaseViewCubit<MainBloc, MainView> {
   @override
   Widget buildWidget(BuildContext context) {
     return Scaffold(
-      body: GestureDetector(
-        onTap: () {
-          bloc?.testTap();
-        },
-        child: Container(
+      body: SafeArea(
+        child: GestureDetector(
+          onTap: () {
+            bloc?.testTap();
+          },
+          child: Container(
             color: Colors.red,
             alignment: Alignment.center,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 BlocBuilder<MainBloc, MainState>(
-                    bloc: bloc,
                     builder: (context, state) => Text("${state.count}")),
                 BlocBuilder<MainBloc, MainState>(
-                    bloc: bloc,
-                    buildWhen: (stateIn, stateOut) =>
-                        stateIn.value != stateOut.value,
-                    builder: (context, state) {
-                      print("rebuild${state.count}");
-                      return Text(state.value);
-                    }),
+                  buildWhen: (stateIn, stateOut) =>
+                      stateIn.value != stateOut.value,
+                  builder: (context, state) => Text(state.value ?? ""),
+                ),
+                GestureDetector(
+                  onTap: () => bloc!.addItem(),
+                  child: Container(
+                    color: Colors.yellow,
+                    padding: const EdgeInsets.all(10),
+                    child: const Text("click me"),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Expanded(
+                  child: BlocBuilder<MainBloc, MainState>(
+                    builder: (context, state) => ListView.separated(
+                      itemBuilder: (ctx, index) => GestureDetector(
+                        onTap: () => bloc!.clickEdit(index),
+                        onLongPress: () => bloc!.deleteItem(index),
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          color: Colors.yellow,
+                          alignment: Alignment.center,
+                          child: Text("$index ${state.listItem![index]}"),
+                        ),
+                      ),
+                      separatorBuilder: (ctx, index) => const SizedBox(
+                        height: 10,
+                      ),
+                      itemCount: state.listItem?.length ?? 0,
+                    ),
+                  ),
+                ),
               ],
-            )),
+            ),
+          ),
+        ),
       ),
     );
   }

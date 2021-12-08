@@ -23,7 +23,7 @@ abstract class BaseViewCubit<CUBIT extends BaseCubit,
   Widget build(BuildContext context) {
     contextScreen = context;
     return BlocProvider<CUBIT>(
-      create: (context) => bloc!,
+      create: (ctx) => bloc!,
       child: buildWidget(context),
     );
   }

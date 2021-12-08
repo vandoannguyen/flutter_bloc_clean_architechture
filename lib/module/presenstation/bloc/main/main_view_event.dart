@@ -5,4 +5,20 @@ class MainEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class ToMain2Event extends MainEvent {}
+class ClickMeEvent extends MainEvent {}
+
+class ClickTestTapEvent extends MainEvent {}
+
+class ClickAddEvent extends MainEvent {}
+
+class ClickEditItemList extends MainEvent {
+  final int index;
+
+  ClickEditItemList(this.index);
+}
+
+class ClickDeleteItemList extends MainEvent {
+  final int index;
+
+  ClickDeleteItemList(this.index);
+}

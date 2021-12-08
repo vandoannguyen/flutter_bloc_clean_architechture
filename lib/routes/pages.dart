@@ -1,5 +1,4 @@
 import 'package:baese_flutter_bloc/module/presenstation/page/main/main_view.dart';
-import 'package:baese_flutter_bloc/module/presenstation/page/main2/main2_view.dart';
 import 'package:baese_flutter_bloc/routes/routes.dart';
 import 'package:flutter/material.dart';
 
@@ -8,10 +7,6 @@ class CommonPage {
     RouteModel(
       CommonRoutes.INIT,
       const MainView(),
-    ),
-    RouteModel(
-      CommonRoutes.MAIN2,
-      const Main2View(),
     ),
   ];
 }

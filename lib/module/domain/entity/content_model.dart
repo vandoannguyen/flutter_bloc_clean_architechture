@@ -1,5 +1,7 @@
-class ContentModel {
-  String? name;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  ContentModel(this.name);
+part 'content_model.freezed.dart';
+@freezed
+class ContentModel with _$ContentModel {
+factory ContentModel({String? a, String? b}) = _ContentModel;
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:baese_flutter_bloc/module/domain/entity/content_model.dart';
 import 'package:baese_flutter_bloc/module/domain/usecase/content_usecase.dart';
 import 'package:baese_flutter_bloc/module/presenstation/bloc/main/main_view_sate.dart';
 import 'package:baese_flutter_bloc/routes/routes.dart';
@@ -24,11 +25,24 @@ class MainBloc extends BaseCubit<MainState> {
   }
 
   void testTap() {
-    if (state.count! > 3) {
-      emit(state.copyWith(count: 0));
-      toName.sink.add(CommonRoutes.MAIN2);
-    } else {
-      emit(state.copyWith(count: (state.count ?? 0) + 1));
+    ContentModel? user = state.user?.copyWith();
+    if(user== null){
+      user = ContentModel(
+          a: "a${DateTime.now().millisecondsSinceEpoch}",
+          b: "b${DateTime.now().millisecondsSinceEpoch}");
     }
+    else{
+    user = user.copyWith(
+        a: "a${DateTime.now().millisecondsSinceEpoch}",
+        b: "b${DateTime.now().millisecondsSinceEpoch}");
+    }
+    print(user.toString());
+    emit(state.copyWith(user: user));
+    // if (state.count! > 3) {
+    //   emit(state.copyWith(count: 0));
+    //   toName.sink.add(CommonRoutes.MAIN2);
+    // } else {
+    //   emit(state.copyWith(count: (state.count ?? 0) + 1));
+    // }
   }
 }

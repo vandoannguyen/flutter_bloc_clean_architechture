@@ -31,11 +31,9 @@ class _MainViewState extends BaseViewCubit<MainBloc, MainView> {
                     builder: (context, state) => Text("${state.count}")),
                 BlocBuilder<MainBloc, MainState>(
                     bloc: bloc,
-                    buildWhen: (stateIn, stateOut) =>
-                        stateIn.value != stateOut.value,
                     builder: (context, state) {
                       print("rebuild${state.count}");
-                      return Text(state.value);
+                      return Text("${state.user?.a}  ${state.user?.b}");
                     }),
               ],
             )),

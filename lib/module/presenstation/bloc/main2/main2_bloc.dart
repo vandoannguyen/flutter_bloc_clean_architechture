@@ -1,7 +1,6 @@
+import 'package:baese_flutter_bloc/common/utils/auth_utils.dart';
 import 'package:baese_flutter_bloc/module/domain/usecase/content_usecase.dart';
 import 'package:base_bloc_module/base/cubit/base_cubit.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
@@ -26,31 +25,14 @@ class Main2Bloc extends BaseCubit<Main2State> {
   }
 
   Future<void> loginGoogle() async {
-    try {
-      // Trigger the authentication flow
-      final googleUser = await GoogleSignIn().signIn();
-
-      // Obtain the auth details from the request
-      final googleAuth = await googleUser?.authentication;
-
-      if (googleAuth != null) {
-        // Create a new credential
-        final credential = GoogleAuthProvider.credential(
-          accessToken: googleAuth.accessToken,
-          idToken: googleAuth.idToken,
-        );
-
-        // Once signed in, return the UserCredential
-        await FirebaseAuth.instance.signInWithCredential(credential);
-      }
-    } on FirebaseAuthException catch (e) {
-      // setState(() {
-      //   error = '${e.message}';
-      // });
-    } finally {
-      // setIsLoading();
-    }
+    AuthUtils.instance.loginGoogle();
   }
 
-  void loginFacebook() {}
+  void loginFacebook() {
+    AuthUtils.instance.loginFacebook();
+  }
+
+  void loginApple() {
+    AuthUtils.instance.loginApple();
+  }
 }

@@ -38,6 +38,14 @@ class _Main2ViewState extends BaseViewCubit<Main2Bloc, Main2View> {
                   padding: EdgeInsets.all(10),
                   child: Text("Facebook"),
                 ),
+              ),
+              GestureDetector(
+                onTap: bloc?.loginApple,
+                excludeFromSemantics: true,
+                child: const Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Text("Apple"),
+                ),
               )
             ],
           ),

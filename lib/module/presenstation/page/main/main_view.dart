@@ -18,26 +18,31 @@ class _MainViewState extends BaseViewCubit<MainBloc, MainView> {
   @override
   Widget buildWidget(BuildContext context) {
     return Scaffold(
-      body: GestureDetector(
-        onTap: () {
-          bloc?.testTap();
-        },
-        child: Container(
-            color: Colors.red,
-            alignment: Alignment.center,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                BlocBuilder<MainBloc, MainState>(
-                    bloc: bloc,
-                    builder: (context, state) => Text("${state.count}")),
-                BlocBuilder<MainBloc, MainState>(
-                    bloc: bloc,
-                    builder: (context, state) {
-                      return Text("${state.user?.a}  ${state.user?.b}");
-                    }),
-              ],
-            )),
+      body: Container(
+        alignment: Alignment.center,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            GestureDetector(
+              onTap: () {
+                NavigateUtils.instance.pushNamed(CommonRoutes.MAIN2);
+              },
+              child: Container(
+                padding: EdgeInsets.all(10),
+                color: Colors.transparent,
+                child: Text("Click to Login"),
+              ),
+            ),
+            BlocBuilder<MainBloc, MainState>(
+                bloc: bloc,
+                builder: (context, state) => Text("${state.count}")),
+            BlocBuilder<MainBloc, MainState>(
+                bloc: bloc,
+                builder: (context, state) {
+                  return Text("${state.user?.a}  ${state.user?.b}");
+                }),
+          ],
+        ),
       ),
     );
   }

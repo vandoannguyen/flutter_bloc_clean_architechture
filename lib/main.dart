@@ -1,12 +1,14 @@
-import 'package:baese_flutter_bloc/common/utils/navigate_util.dart';
 import 'package:baese_flutter_bloc/routes/pages.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 import 'di/injection_container.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await configureDependencies();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 

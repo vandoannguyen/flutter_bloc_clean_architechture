@@ -17,8 +17,31 @@ class _Main2ViewState extends BaseViewCubit<Main2Bloc, Main2View> {
   Widget buildWidget(BuildContext context) {
     return BlocProvider<AppBloc>(
       create: (ctx) => getIt<AppBloc>(),
-      child: Container(
-        color: Colors.orange,
+      child: Scaffold(
+        body: Container(
+          alignment: Alignment.center,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              GestureDetector(
+                onTap: bloc?.loginGoogle,
+                excludeFromSemantics: true,
+                child: const Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Text("Google"),
+                ),
+              ),
+              GestureDetector(
+                onTap: bloc?.loginFacebook,
+                excludeFromSemantics: true,
+                child: const Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Text("Facebook"),
+                ),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }

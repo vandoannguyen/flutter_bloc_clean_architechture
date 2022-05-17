@@ -34,17 +34,17 @@ dependencies:
   get_it: ^7.2.0 # inject (DI)
   dio: ^4.0.6
   flutter_bloc: ^8.0.1
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.4
   overlay_support: ^1.2.1
   equatable: ^2.0.3
   bloc: ^8.0.3
   base_bloc_module:
     path: ./base_bloc_module
-  freezed_annotation: ^2.0.1
-
+  freezed_annotation: ^2.0.3
+#  firebase
+  firebase_auth: ^3.3.18
+  firebase_core: ^1.17.0
+  google_sign_in: ^5.3.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

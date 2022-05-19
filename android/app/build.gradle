@@ -1,17 +1,15 @@
 def localProperties = new Properties()
-//def keyProperties = new Properties()
+def keyProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
-//def keyPropertiesFile = rootProject.file('key.properties')
+def keyPropertiesFile = rootProject.file('key.properties')
 if (localPropertiesFile.exists()) {
     localPropertiesFile.withReader('UTF-8') { reader ->
         localProperties.load(reader)
     }
 }
-//if (keyPropertiesFile.exists()) {
-//    keyPropertiesFile.withReader('UTF-8') { reader ->
-//        keyProperties.load(reader)
-//    }
-//}
+if (keyPropertiesFile.exists()) {
+        keyProperties.load(new FileInputStream(keyPropertiesFile))
+}
 
 def flutterRoot = localProperties.getProperty('flutter.sdk')
 if (flutterRoot == null) {
@@ -55,13 +53,14 @@ android {
         targetSdkVersion 31
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        multiDexEnabled true
     }
-    signingConfig {
+    signingConfigs {
         debug {
-            storeFile file(localProperties["keystore"])
-            storePassword localProperties["storePassword"]
-            keyAlias localProperties["keyAlias"]
-            keyPassword localProperties["keyPassword"]
+            storePassword = keyProperties["key.storePassword"]
+            keyAlias = keyProperties["key.keyAlias"]
+            keyPassword = keyProperties["key.keyPassword"]
+            storeFile file(keyProperties["key.keystore"])
         }
     }
     buildTypes {
@@ -70,9 +69,9 @@ android {
             // Signing with the debug keys for now, so `flutter run --releas    e` works.
 //            signingConfig signingConfigs.release
         }
-//        debug {
-////            signingConfig signingConfigs.debug
-//        }
+        debug{
+            signingConfig signingConfigs.debug
+        }
     }
 }
 
@@ -82,4 +81,6 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+//    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
+    implementation("androidx.multidex:multidex:2.0.1")
 }

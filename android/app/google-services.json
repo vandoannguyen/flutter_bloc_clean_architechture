@@ -37,6 +37,13 @@
             {
               "client_id": "202259391088-d2krv4m951kmnm22igs1l20mn1niik56.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "202259391088-qkgkhqfjl8g9t8hucvrqdn8of30i5dp1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.baeseFlutterBloc"
+              }
             }
           ]
         }

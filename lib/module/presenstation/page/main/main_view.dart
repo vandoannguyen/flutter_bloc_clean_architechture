@@ -1,6 +1,8 @@
+import 'package:baese_flutter_bloc/common/utils/navigate_util.dart';
 import 'package:baese_flutter_bloc/di/injection_container.dart';
 import 'package:baese_flutter_bloc/module/presenstation/bloc/main/main_view_bloc.dart';
 import 'package:baese_flutter_bloc/module/presenstation/bloc/main/main_view_sate.dart';
+import 'package:baese_flutter_bloc/routes/routes.dart';
 import 'package:base_bloc_module/views/base_view_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,7 +34,6 @@ class _MainViewState extends BaseViewCubit<MainBloc, MainView> {
                 BlocBuilder<MainBloc, MainState>(
                     bloc: bloc,
                     builder: (context, state) {
-                      print("rebuild${state.count}");
                       return Text("${state.user?.a}  ${state.user?.b}");
                     }),
               ],
@@ -44,6 +45,9 @@ class _MainViewState extends BaseViewCubit<MainBloc, MainView> {
   @override
   void initEventViewModel() {
     super.initEventViewModel();
+    bloc?.toMain2.stream.listen((event) {
+      NavigateUtils.instance.pushNamed(CommonRoutes.MAIN2);
+    });
   }
 
   @override

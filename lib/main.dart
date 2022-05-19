@@ -1,3 +1,4 @@
+import 'package:baese_flutter_bloc/common/utils/navigate_util.dart';
 import 'package:baese_flutter_bloc/routes/pages.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
     return OverlaySupport.global(
       child: MaterialApp(
         title: 'Flutter Demo',
+        navigatorKey: NavigateUtils.instance.navigatorKey,
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),

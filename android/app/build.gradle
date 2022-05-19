@@ -1,9 +1,14 @@
 def localProperties = new Properties()
+def keyProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
+def keyPropertiesFile = rootProject.file('key.properties')
 if (localPropertiesFile.exists()) {
     localPropertiesFile.withReader('UTF-8') { reader ->
         localProperties.load(reader)
     }
+}
+if (keyPropertiesFile.exists()) {
+        keyProperties.load(new FileInputStream(keyPropertiesFile))
 }
 
 def flutterRoot = localProperties.getProperty('flutter.sdk')
@@ -48,12 +53,23 @@ android {
         targetSdkVersion 31
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        multiDexEnabled true
     }
-
+    signingConfigs {
+        debug {
+            storePassword = keyProperties["key.storePassword"]
+            keyAlias = keyProperties["key.keyAlias"]
+            keyPassword = keyProperties["key.keyPassword"]
+            storeFile file(keyProperties["key.keystore"])
+        }
+    }
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
+            // Signing with the debug keys for now, so `flutter run --releas    e` works.
+//            signingConfig signingConfigs.release
+        }
+        debug{
             signingConfig signingConfigs.debug
         }
     }
@@ -65,4 +81,5 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation("androidx.multidex:multidex:2.0.1")
 }

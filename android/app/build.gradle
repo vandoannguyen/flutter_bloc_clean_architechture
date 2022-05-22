@@ -1,14 +1,19 @@
 def localProperties = new Properties()
 def keyProperties = new Properties()
+def keyPropertiesProd = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
-def keyPropertiesFile = rootProject.file('key.properties')
+def keyPropertiesFile = rootProject.file('dev_key.properties')
+def keyPropertiesProdFile = rootProject.file('key.properties')
 if (localPropertiesFile.exists()) {
     localPropertiesFile.withReader('UTF-8') { reader ->
         localProperties.load(reader)
     }
 }
 if (keyPropertiesFile.exists()) {
-        keyProperties.load(new FileInputStream(keyPropertiesFile))
+    keyProperties.load(new FileInputStream(keyPropertiesFile))
+}
+if (keyPropertiesProdFile.exists()) {
+    keyPropertiesProd.load(new FileInputStream(keyPropertiesProdFile))
 }
 
 def flutterRoot = localProperties.getProperty('flutter.sdk')
@@ -28,11 +33,12 @@ if (flutterVersionName == null) {
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'com.google.gms.google-services'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
     compileSdkVersion 31
-
+    flavorDimensions "dev"
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -49,7 +55,7 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.example.baese_flutter_bloc"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 31
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -62,15 +68,36 @@ android {
             keyPassword = keyProperties["key.keyPassword"]
             storeFile file(keyProperties["key.keystore"])
         }
+        release {
+            storePassword = keyPropertiesProd["key.storePassword"]
+            keyAlias = keyPropertiesProd["key.keyAlias"]
+            keyPassword = keyPropertiesProd["key.keyPassword"]
+//            storeFile file(keyPropertiesProd["key.keystore"])
+        }
     }
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --releas    e` works.
-//            signingConfig signingConfigs.release
+            signingConfig signingConfigs.release
         }
-        debug{
+        debug {
             signingConfig signingConfigs.debug
+        }
+    }
+    productFlavors {
+        prod {
+            flavorDimensions "prod"
+//            applicationIdSuffix ".prod"
+            resValue "string", "app_name", "AppName_PROD"
+            versionCode 1
+            versionName "1.0"
+        }
+
+        dev {
+            flavorDimensions "dev"
+//            applicationIdSuffix ".dev"
+            resValue "string", "app_name", "AppName_DEV"
+            versionCode 1
+            versionName "1.0"
         }
     }
 }
@@ -81,6 +108,7 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-//    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
+    implementation platform('com.google.firebase:firebase-bom:30.0.1')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation("androidx.multidex:multidex:2.0.1")
 }

@@ -1,4 +1,4 @@
-import 'package:baese_flutter_bloc/common/utils/navigate_util.dart';
+import 'package:baese_flutter_bloc/common/utils/navigate_utils.dart';
 import 'package:baese_flutter_bloc/di/injection_container.dart';
 import 'package:baese_flutter_bloc/module/presenstation/bloc/main/main_view_bloc.dart';
 import 'package:baese_flutter_bloc/module/presenstation/bloc/main/main_view_sate.dart';

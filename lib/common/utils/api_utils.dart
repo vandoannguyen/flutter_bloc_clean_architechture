@@ -1,50 +1,39 @@
 import 'dart:async';
 import 'dart:collection';
+import 'dart:io';
 
-import 'package:dio/dio.dart';
-import 'package:dio/src/options.dart' as DioRequestOptions;
+import 'package:http/http.dart';
 
 class ApiUtils {
   ListQueue<ApiRequestModel> apiQueryQueue = ListQueue();
-  late Dio dio;
+  String host = "https://host";
   String authToken = "";
   String refreshToken = "";
-  final BaseOptions dioOptions = BaseOptions(
-    connectTimeout: 5000,
-    receiveTimeout: 3000,
-  );
+  late Client client;
   static final ApiUtils instance = ApiUtils._getInstance();
 
   bool isRequestingRefreshToken = false;
   bool isQueryingFirst = false;
 
-  ApiUtils._getInstance() {
-    dio = Dio(dioOptions);
-  }
+  ApiUtils._getInstance();
 
   void setBaseUrl(String url) {
-    dio.options.baseUrl = url;
+    host = url;
   }
 
   Future<Response> get(
     String path, {
     Map<String, dynamic>? queryParameters,
-    ApiUtilsOptions? options,
+    Map<String, String>? header,
   }) {
-    ApiUtilsOptions optionsRequest;
-    if (options != null) {
-      optionsRequest = options;
-    } else {
-      optionsRequest = _getBaseOptions();
-    }
-    optionsRequest.method = "get";
     Completer<Response> completer = Completer();
     _doQueue(
         apiRequestModel: ApiRequestModel(
       completer: completer,
       path: path,
-      options: optionsRequest,
+      header: header ?? _getBaseHeader(),
       queryParameters: queryParameters,
+      method: RequestMethod.GET,
     ));
     return completer.future;
   }
@@ -53,50 +42,19 @@ class ApiUtils {
     String path, {
     data,
     Map<String, dynamic>? queryParameters,
-    ApiUtilsOptions? options,
+    Map<String, String>? header,
   }) {
-    ApiUtilsOptions optionsRequest;
-    if (options != null) {
-      optionsRequest = options;
-    } else {
-      optionsRequest = _getBaseOptions();
-    }
-    optionsRequest.method = "post";
     Completer<Response> completer = Completer();
     _doQueue(
       apiRequestModel: ApiRequestModel(
         completer: completer,
         path: path,
-        options: optionsRequest,
+        header: header ?? _getBaseHeader(),
         data: data,
         queryParameters: queryParameters,
+        method: RequestMethod.POST,
       ),
     );
-    return completer.future;
-  }
-
-  Future<Response> put(
-    String path, {
-    data,
-    Map<String, dynamic>? queryParameters,
-    ApiUtilsOptions? options,
-  }) {
-    ApiUtilsOptions optionsRequest;
-    if (options != null) {
-      optionsRequest = options;
-    } else {
-      optionsRequest = _getBaseOptions();
-    }
-    optionsRequest.method = "put";
-    Completer<Response> completer = Completer();
-    _doQueue(
-        apiRequestModel: ApiRequestModel(
-      completer: completer,
-      path: path,
-      options: optionsRequest,
-      data: data,
-      queryParameters: queryParameters,
-    ));
     return completer.future;
   }
 
@@ -104,24 +62,36 @@ class ApiUtils {
     String path, {
     data,
     Map<String, dynamic>? queryParameters,
-    ApiUtilsOptions? options,
+    Map<String, String>? header,
   }) {
-    ApiUtilsOptions optionsRequest;
-    if (options != null) {
-      optionsRequest = options;
-    } else {
-      optionsRequest = _getBaseOptions();
-    }
-    optionsRequest.method = "put";
     Completer<Response> completer = Completer();
     _doQueue(
         apiRequestModel: ApiRequestModel(
       completer: completer,
       path: path,
-      options: optionsRequest,
+      header: header ?? _getBaseHeader(),
       data: data,
       queryParameters: queryParameters,
+      method: RequestMethod.DELETE,
     ));
+    return completer.future;
+  }
+
+  Future<Response> put(
+    String path, {
+    data,
+    Map<String, dynamic>? queryParameters,
+    Map<String, String>? header,
+  }) {
+    Completer<Response> completer = Completer();
+    _doQueue(
+        apiRequestModel: ApiRequestModel(
+            completer: completer,
+            path: path,
+            header: header ?? _getBaseHeader(),
+            data: data,
+            queryParameters: queryParameters,
+            method: RequestMethod.PUT));
     return completer.future;
   }
 
@@ -134,8 +104,9 @@ class ApiUtils {
         isQueryingFirst = true;
         var isNeedRequestNewToken = await _query(
           path: firstItem.path,
-          options: firstItem.options,
+          header: firstItem.header,
           completer: firstItem.completer,
+          method: firstItem.method,
         );
         if (isNeedRequestNewToken == true) {
           try {
@@ -156,10 +127,11 @@ class ApiUtils {
         var element = apiQueryQueue.removeFirst();
         _query(
           path: element.path,
-          options: element.options,
+          header: element.header,
           completer: element.completer,
           data: element.data,
           queryParameters: element.queryParameters,
+          method: element.method,
         );
       }
     }
@@ -169,28 +141,30 @@ class ApiUtils {
     required String path,
     Map<String, dynamic>? data,
     Map<String, dynamic>? queryParameters,
-    required ApiUtilsOptions options,
+    required Map<String, String> header,
     required Completer<Response> completer,
+    required RequestMethod method,
   }) async {
     Completer<bool?> completerQuery = Completer();
-    var header = options.headers;
-    header?[Headers.wwwAuthenticateHeader] = authToken;
-    options.headers = header;
+    header["Authorization"] = authToken;
     try {
-      print("=======================================");
-      print("[Method] : ${options.method}");
-      print("[Path] : $path");
-      print("[Header] : ${options.headers}");
-      var result = await dio.request(path, data: data, options: options);
-      print("[Status Code] ${result.statusCode}");
-      print("[Result] ${result.data}");
+      client = getClient();
+      Response result = await _callMethod(
+        path: path,
+        header: header,
+        completer: completer,
+        method: method,
+        data: data,
+        queryParameters: queryParameters,
+      );
+      if (result.statusCode == 401) throw (401);
       completer.complete(result);
       completerQuery.complete();
     } catch (err) {
       print("[Error] $err");
-      if (err is DioError) {
+      if (err == 401) {
         //check to refresh token
-        if (err.response?.statusCode == 401 && authToken.isNotEmpty) {
+        if (authToken.isNotEmpty) {
           print("need refresh token");
           completerQuery.complete(true);
         } else {
@@ -201,12 +175,14 @@ class ApiUtils {
         completer.completeError(err);
         completerQuery.complete();
       }
+    } finally {
+      client.close();
     }
     return completerQuery.future;
   }
 
-  ApiUtilsOptions _getBaseOptions() {
-    return ApiUtilsOptions();
+  Map<String, String> _getBaseHeader() {
+    return {};
   }
 
   Future<String> callRefreshToken() {
@@ -214,53 +190,72 @@ class ApiUtils {
       "token",
     );
   }
-}
 
-class ApiUtilsOptions extends DioRequestOptions.Options {
-  @override
-  List<Object?> get props => [
-        method,
-        sendTimeout,
-        receiveTimeout,
-        extra,
-        headers,
-        responseType,
-        contentType,
-        validateStatus,
-        receiveDataWhenStatusError,
-        followRedirects,
-        maxRedirects,
-        requestEncoder,
-        responseDecoder,
-        listFormat,
-      ];
-
-  @override
-  bool operator ==(Object other) {
-    if (other is ApiUtilsOptions && other.runtimeType == runtimeType) {
-      if (other.props.toString() == props.toString()) {
-        return true;
-      }
-    }
-    return false;
+  Client getClient() {
+    return Platform.environment.containsKey('FLUTTER_TEST') ? client : Client();
   }
 
-  @override
-  int get hashCode => props.toString().hashCode;
+  Future<Response> _callMethod({
+    required String path,
+    Map<String, dynamic>? data,
+    Map<String, dynamic>? queryParameters,
+    required Map<String, String> header,
+    required Completer<Response> completer,
+    required RequestMethod method,
+  }) async {
+    print("=======================================");
+    print("[Method] : $method");
+    print("[Path] : $path");
+    print("[Header] : $header");
+    late Response result;
+    switch (method) {
+      case RequestMethod.GET:
+        result = await client.get(Uri.parse("$host/$path"), headers: header);
+        break;
+      case RequestMethod.PUT:
+        result = await client.put(
+          Uri.parse("$host/$path"),
+          headers: header,
+          body: data,
+        );
+        break;
+      case RequestMethod.POST:
+        result = await client.post(
+          Uri.parse("$host/$path"),
+          headers: header,
+          body: data,
+        );
+        break;
+      case RequestMethod.DELETE:
+        result = await client.delete(
+          Uri.parse("$host/$path"),
+          headers: header,
+          body: data,
+        );
+        break;
+    }
+    print("[Status Code] ${result.statusCode}");
+    print("[Result] ${result.body}");
+    return result;
+  }
 }
 
 class ApiRequestModel {
   Completer<Response> completer;
   String path;
   Map<String, dynamic>? data;
-  ApiUtilsOptions options;
+  Map<String, String> header;
   Map<String, dynamic>? queryParameters;
+  RequestMethod method;
 
   ApiRequestModel({
     required this.completer,
     required this.path,
     this.data,
     this.queryParameters,
-    required this.options,
+    required this.header,
+    required this.method,
   });
 }
+
+enum RequestMethod { GET, PUT, POST, DELETE }

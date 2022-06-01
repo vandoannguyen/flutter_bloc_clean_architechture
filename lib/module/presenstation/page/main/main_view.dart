@@ -33,6 +33,16 @@ class _MainViewState extends BaseViewCubit<MainBloc, MainView> {
                 child: Text("Click to Login"),
               ),
             ),
+            GestureDetector(
+              onTap: () {
+                bloc?.click();
+              },
+              child: Container(
+                padding: EdgeInsets.all(10),
+                color: Colors.transparent,
+                child: Text("Click"),
+              ),
+            ),
             BlocBuilder<MainBloc, MainState>(
                 bloc: bloc,
                 builder: (context, state) => Text("${state.count}")),

@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'content_model.dart';
 
@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ContentModel {
-  String? get   a => throw _privateConstructorUsedError;
+  String? get a => throw _privateConstructorUsedError;
   String? get b => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -28,67 +28,71 @@ mixin _$ContentModel {
 abstract class $ContentModelCopyWith<$Res> {
   factory $ContentModelCopyWith(
           ContentModel value, $Res Function(ContentModel) then) =
-      _$ContentModelCopyWithImpl<$Res>;
+      _$ContentModelCopyWithImpl<$Res, ContentModel>;
+  @useResult
   $Res call({String? a, String? b});
 }
 
 /// @nodoc
-class _$ContentModelCopyWithImpl<$Res> implements $ContentModelCopyWith<$Res> {
+class _$ContentModelCopyWithImpl<$Res, $Val extends ContentModel>
+    implements $ContentModelCopyWith<$Res> {
   _$ContentModelCopyWithImpl(this._value, this._then);
 
-  final ContentModel _value;
   // ignore: unused_field
-  final $Res Function(ContentModel) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? a = freezed,
     Object? b = freezed,
   }) {
     return _then(_value.copyWith(
-      a: a == freezed
+      a: freezed == a
           ? _value.a
           : a // ignore: cast_nullable_to_non_nullable
               as String?,
-      b: b == freezed
+      b: freezed == b
           ? _value.b
           : b // ignore: cast_nullable_to_non_nullable
               as String?,
-    ));
+    ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$ContentModelCopyWith<$Res>
+abstract class _$$_ContentModelCopyWith<$Res>
     implements $ContentModelCopyWith<$Res> {
-  factory _$ContentModelCopyWith(
-          _ContentModel value, $Res Function(_ContentModel) then) =
-      __$ContentModelCopyWithImpl<$Res>;
+  factory _$$_ContentModelCopyWith(
+          _$_ContentModel value, $Res Function(_$_ContentModel) then) =
+      __$$_ContentModelCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({String? a, String? b});
 }
 
 /// @nodoc
-class __$ContentModelCopyWithImpl<$Res> extends _$ContentModelCopyWithImpl<$Res>
-    implements _$ContentModelCopyWith<$Res> {
-  __$ContentModelCopyWithImpl(
-      _ContentModel _value, $Res Function(_ContentModel) _then)
-      : super(_value, (v) => _then(v as _ContentModel));
+class __$$_ContentModelCopyWithImpl<$Res>
+    extends _$ContentModelCopyWithImpl<$Res, _$_ContentModel>
+    implements _$$_ContentModelCopyWith<$Res> {
+  __$$_ContentModelCopyWithImpl(
+      _$_ContentModel _value, $Res Function(_$_ContentModel) _then)
+      : super(_value, _then);
 
-  @override
-  _ContentModel get _value => super._value as _ContentModel;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? a = freezed,
     Object? b = freezed,
   }) {
-    return _then(_ContentModel(
-      a: a == freezed
+    return _then(_$_ContentModel(
+      a: freezed == a
           ? _value.a
           : a // ignore: cast_nullable_to_non_nullable
               as String?,
-      b: b == freezed
+      b: freezed == b
           ? _value.b
           : b // ignore: cast_nullable_to_non_nullable
               as String?,
@@ -115,32 +119,30 @@ class _$_ContentModel implements _ContentModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _ContentModel &&
-            const DeepCollectionEquality().equals(other.a, a) &&
-            const DeepCollectionEquality().equals(other.b, b));
+            other is _$_ContentModel &&
+            (identical(other.a, a) || other.a == a) &&
+            (identical(other.b, b) || other.b == b));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(a),
-      const DeepCollectionEquality().hash(b));
+  int get hashCode => Object.hash(runtimeType, a, b);
 
   @JsonKey(ignore: true)
   @override
-  _$ContentModelCopyWith<_ContentModel> get copyWith =>
-      __$ContentModelCopyWithImpl<_ContentModel>(this, _$identity);
+  @pragma('vm:prefer-inline')
+  _$$_ContentModelCopyWith<_$_ContentModel> get copyWith =>
+      __$$_ContentModelCopyWithImpl<_$_ContentModel>(this, _$identity);
 }
 
 abstract class _ContentModel implements ContentModel {
   factory _ContentModel({final String? a, final String? b}) = _$_ContentModel;
 
   @override
-  String? get a => throw _privateConstructorUsedError;
+  String? get a;
   @override
-  String? get b => throw _privateConstructorUsedError;
+  String? get b;
   @override
   @JsonKey(ignore: true)
-  _$ContentModelCopyWith<_ContentModel> get copyWith =>
+  _$$_ContentModelCopyWith<_$_ContentModel> get copyWith =>
       throw _privateConstructorUsedError;
 }

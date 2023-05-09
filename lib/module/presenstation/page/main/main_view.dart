@@ -7,14 +7,7 @@ import 'package:base_bloc_module/views/base_view_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class MainView extends StatefulWidget {
-  const MainView({Key? key}) : super(key: key);
-
-  @override
-  _MainViewState createState() => _MainViewState();
-}
-
-class _MainViewState extends BaseViewCubit<MainBloc, MainView> {
+class MainView extends BaseViewCubit<MainBloc> {
   @override
   Widget buildWidget(BuildContext context) {
     return Scaffold(
@@ -33,6 +26,9 @@ class _MainViewState extends BaseViewCubit<MainBloc, MainView> {
                 child: Text("Click to Login"),
               ),
             ),
+            BlocListener<MainBloc, MainState>(listener: (ctx, state) {
+
+            }),
             BlocBuilder<MainBloc, MainState>(
                 bloc: bloc,
                 builder: (context, state) => Text("${state.count}")),
@@ -48,11 +44,10 @@ class _MainViewState extends BaseViewCubit<MainBloc, MainView> {
   }
 
   @override
-  void initEventViewModel() {
-    super.initEventViewModel();
-    bloc?.toMain2.stream.listen((event) {
+  void initEventViewModel(state) {
+    if(state is NavigateMainState) {
       NavigateUtils.instance.pushNamed(CommonRoutes.MAIN2);
-    });
+    }
   }
 
   @override

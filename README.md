@@ -16,3 +16,22 @@ For help getting started with Flutter, view our
 samples, guidance on mobile development, and a full API reference.
 ### Gennerrate file in project
 flutter packages pub run build_runner build --delete-conflicting-outputs
+
+## Upload dSYMs
+./ios/Pods/FirebaseCrashlytics/upload-symbols -gsp ios/GoogleService-Info.plist -p ios ~
+/Desktop/dsym/v1.0.8_dSYMs
+
+## debug with flavor
+dev  flutter run --flavor dev -t lib/main_dev.dart
+product  flutter run --flavor prod -t lib/main.dart
+uat  flutter run --flavor uat -t lib/main_uat.dart
+
+## build apk with flavor
+dev  flutter build apk --flavor dev -t lib/main_dev.dart
+product  flutter build apk --flavor prod -t lib/main.dart
+uat  flutter build apk --flavor uat -t lib/main_uat.dart
+
+## release with flavor
+dev  flutter build appbundle --flavor dev -t lib/main_dev.dart
+product  flutter build appbundle --flavor prod -t lib/main.dart
+uat  flutter build appbundle --flavor uat -t lib/main_uat.dart

@@ -1,3 +1,4 @@
+import 'package:baese_flutter_bloc/common/utils/approute_tracking.dart';
 import 'package:baese_flutter_bloc/routes/pages.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
@@ -10,12 +11,13 @@ class MyApp extends StatelessWidget {
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   static FirebaseAnalyticsObserver observer =
       FirebaseAnalyticsObserver(analytics: analytics);
+
   @override
   Widget build(BuildContext context) {
     return OverlaySupport.global(
       child: MaterialApp(
         title: 'Flutter Demo',
-        navigatorObservers: [observer],
+        navigatorObservers: [observer, AppRouteTracking()],
         navigatorKey: NavigateUtils.instance.navigatorKey,
         theme: ThemeData(
           primarySwatch: Colors.blue,

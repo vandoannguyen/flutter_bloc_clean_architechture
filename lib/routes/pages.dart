@@ -7,11 +7,11 @@ class CommonPage {
   static List pages = [
     RouteModel(
       CommonRoutes.INIT,
-      const MainView(),
+      MainView(),
     ),
     RouteModel(
       CommonRoutes.MAIN2,
-      const Main2View(),
+      Main2View(),
     ),
   ];
 }

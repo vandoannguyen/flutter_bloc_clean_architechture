@@ -5,14 +5,7 @@ import 'package:base_bloc_module/views/base_view_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class Main2View extends StatefulWidget {
-  const Main2View({Key? key}) : super(key: key);
-
-  @override
-  _Main2ViewState createState() => _Main2ViewState();
-}
-
-class _Main2ViewState extends BaseViewCubit<Main2Bloc, Main2View> {
+class Main2View extends BaseViewCubit<Main2Bloc> {
   @override
   Widget buildWidget(BuildContext context) {
     return BlocProvider<AppBloc>(
@@ -55,7 +48,9 @@ class _Main2ViewState extends BaseViewCubit<Main2Bloc, Main2View> {
   }
 
   @override
-  void initEventViewModel() {}
+  void initEventViewModel(Object? state) {
+
+  }
 
   @override
   Main2Bloc initBloc() {

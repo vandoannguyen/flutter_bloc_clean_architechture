@@ -33,7 +33,7 @@ class FunctionUtils {
     /**
          * The background color for notification, default to [ThemeData.colorScheme.secondary].
          */
-    Color? background: Colors.transparent,
+    Color? background = Colors.transparent,
     /**
          * See more [ListTileTheme.textColor],[ListTileTheme.iconColor].
          */
@@ -60,13 +60,11 @@ class FunctionUtils {
     /**
          * The direction in which the notification can be dismissed.
          */
-    DismissDirection? slideDismissDirection: DismissDirection.up,
+    DismissDirection? slideDismissDirection = DismissDirection.up,
   }) {
-    final dismissDirection = slideDismissDirection != null
-        ? slideDismissDirection
-        : slideDismiss
+    final dismissDirection = slideDismissDirection ?? (slideDismiss
             ? DismissDirection.horizontal
-            : DismissDirection.none;
+            : DismissDirection.none);
     final entry = showOverlayNotification(
       (context) {
         return SlideDismissible(
@@ -85,17 +83,20 @@ class FunctionUtils {
                 title: content,
                 subtitle: subtitle,
                 trailing: trailing,
-                contentPadding: contentPadding ?? EdgeInsets.all(0),
+                contentPadding: contentPadding ?? const EdgeInsets.all(0),
               ),
             ),
           ),
         );
       },
-      duration: autoDismiss ? duration : Duration(seconds: 3),
+      duration: autoDismiss ? duration : const Duration(seconds: 3),
       key: key,
       position: position,
       context: context,
     );
     return entry;
+  }
+  void logoutLocal(){
+
   }
 }

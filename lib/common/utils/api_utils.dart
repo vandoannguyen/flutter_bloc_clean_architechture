@@ -10,8 +10,8 @@ class ApiUtils {
   String authToken = "";
   String refreshToken = "";
   final BaseOptions dioOptions = BaseOptions(
-    connectTimeout: 5000,
-    receiveTimeout: 3000,
+    connectTimeout: const Duration(milliseconds: 5000),
+    receiveTimeout: const Duration(milliseconds: 3000),
   );
   static final ApiUtils instance = ApiUtils._getInstance();
 

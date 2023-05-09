@@ -72,5 +72,9 @@
 	<string>68f59cb95ffb3e86104fca7d855ecb80</string>
 	<key>FacebookDisplayName</key>
 	<string>Facebook Auth</string>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 </dict>
 </plist>

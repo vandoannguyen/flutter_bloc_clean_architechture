@@ -85,4 +85,12 @@ class NavigateUtils {
       return null;
     }
   }
+
+  void showNoInternetErrorDialog() {}
+
+  void showUserDeletedDialog(String string) {}
+
+  void showGeneralErrorDialog() {}
+
+  void showSuccessMessage(BuildContext context, message) {}
 }

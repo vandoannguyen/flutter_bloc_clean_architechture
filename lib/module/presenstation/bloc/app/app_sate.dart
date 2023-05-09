@@ -1,7 +1,5 @@
-import 'package:base_bloc_module/base/cubit/base_state_cubit.dart';
-
 // ignore: must_be_immutable
-class AppState extends BaseStateCubit {
+class AppState {
   int? count = 0;
   String value = "value";
 

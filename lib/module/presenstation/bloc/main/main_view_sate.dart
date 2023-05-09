@@ -5,7 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'main_view_sate.freezed.dart';
 
 @freezed
-class MainState with _$MainState {
+class MainState extends MainEventState with _$MainState {
   // int? count = 0;
   // String value = "value";
   // ContentModel? user;
@@ -14,17 +14,13 @@ class MainState with _$MainState {
       {@Default(0) int? count,
       @Default("value") String value,
       ContentModel? user}) = _MainState;
-// MainState({this.count = 0, this.value = "value", this.user});
-//
-//   @override
-//   List<Object?> equal() {
-//     return [count, value, user];
-//   }
+}
+class MainEventState{
 
-// MainState copyWith({count = 0, value, user}) {
-//   return MainState(
-//       count: count ?? this.count,
-//       value: value ?? this.value,
-//       user: user ?? this.user);
-// }
+}
+class ShowDialogState extends MainEventState{
+
+}
+class NavigateMainState extends MainEventState{
+
 }

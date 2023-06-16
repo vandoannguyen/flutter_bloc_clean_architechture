@@ -1,11 +1,12 @@
 import 'package:baese_flutter_bloc/common/utils/navigate_util.dart';
 import 'package:baese_flutter_bloc/di/injection_container.dart';
-import 'package:baese_flutter_bloc/module/presenstation/bloc/main/main_view_bloc.dart';
-import 'package:baese_flutter_bloc/module/presenstation/bloc/main/main_view_sate.dart';
 import 'package:baese_flutter_bloc/routes/routes.dart';
 import 'package:base_bloc_module/views/base_view_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../bloc/main/main_view_bloc.dart';
+import '../../bloc/main/main_view_sate.dart';
 
 class MainView extends StatefulWidget {
   const MainView({Key? key}) : super(key: key);

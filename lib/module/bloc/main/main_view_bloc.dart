@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:baese_flutter_bloc/module/domain/entity/content_model.dart';
+import 'package:baese_flutter_bloc/module/domain/entity/content/content_model.dart';
 import 'package:baese_flutter_bloc/module/domain/usecase/content_usecase.dart';
 import 'package:baese_flutter_bloc/module/presenstation/bloc/main/main_view_sate.dart';
 import 'package:base_bloc_module/base/cubit/base_cubit.dart';

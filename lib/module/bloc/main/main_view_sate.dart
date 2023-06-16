@@ -1,4 +1,4 @@
-import 'package:baese_flutter_bloc/module/domain/entity/content_model.dart';
+import 'package:baese_flutter_bloc/module/domain/entity/content/content_model.dart';
 import 'package:base_bloc_module/base/cubit/base_state_cubit.dart';
 import 'package:equatable/equatable.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

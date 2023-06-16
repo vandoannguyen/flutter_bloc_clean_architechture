@@ -1,0 +1,1 @@
+class CropperNotReadyException implements Exception {}

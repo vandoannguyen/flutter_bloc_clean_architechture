@@ -12,7 +12,7 @@ class CommonPage {
     ),
     RouteModel(
       CommonRoutes.MAIN2,
-      const Main2View(),
+      const MainView2(),
     ),
   ];
 }

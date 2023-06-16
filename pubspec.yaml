@@ -29,24 +29,28 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_lints: ^1.0.4
-  injectable: ^1.5.3 # inject (DI)
+  flutter_lints: ^2.0.1
+  injectable: ^2.1.2 # inject (DI)
   get_it: ^7.2.0 # inject (DI)
-  dio: ^4.0.6
+  dio: ^5.2.1+1
   flutter_bloc: ^8.0.1
   cupertino_icons: ^1.0.4
-  overlay_support: ^1.2.1
+  overlay_support: ^2.1.0
   equatable: ^2.0.3
   bloc: ^8.0.3
   base_bloc_module:
     path: ./base_bloc_module
   freezed_annotation: ^2.0.3
 #  firebase
-  firebase_auth: ^3.3.18
-  firebase_core: ^1.17.0
-  google_sign_in: ^5.3.1
+  firebase_auth: ^4.6.3
+  firebase_core: ^2.14.0
+  google_sign_in: ^6.1.4
   the_apple_sign_in: ^1.1.1
-  flutter_facebook_auth: ^4.3.4
+  flutter_facebook_auth: ^6.0.0
+  # package info
+  package_info_plus: ^4.0.2
+  device_info_plus: ^9.0.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -56,7 +60,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  injectable_generator: ^1.5.3
+  injectable_generator: ^2.1.2
   build_runner: ^2.1.10
   freezed: ^2.0.2
 # For information on the generic Dart part of this file, see the

@@ -4,16 +4,16 @@ import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-
-import '../../common/utils/navigate_utils.dart';
 import '../../exception/BusinessException.dart';
 import '../../exception/NetworkException.dart';
 import '../../exception/ServerException.dart';
+import '../model/entity/error/business_error.dart';
 import '../model/entity/token/token_info.dart';
-import '../model/network/multipart_file_extended.dart';
+import '../utils/navigate_utils.dart';
+import 'multipart_file_extended.dart';
 
-const int CONNECT_TIMEOUT = 30000;
-const int RECEIVE_TIMEOUT = 30000;
+const int _connectTimeout = 30000;
+const int _receiveTimeout = 30000;
 Future<TokenInfo>? refreshFuture;
 
 class DioClient {
@@ -43,7 +43,7 @@ class DioClient {
   }
 
   void _onErrorInterceptor(
-    DioError error,
+    DioException error,
     ErrorInterceptorHandler handler,
     Dio dio,
     bool shouldHandleException,
@@ -100,7 +100,7 @@ class DioClient {
         return;
       }
     }
-    if (error.type == DioErrorType.response) {
+    if (error.type == DioExceptionType.badResponse) {
       if (error.requestOptions.path == '/authentication/refresh-token' &&
           error.response?.statusCode == 400) {
         await _doExpire();
@@ -137,20 +137,20 @@ class DioClient {
           } catch (err) {
             log('Get newTokenInfo catch: $err');
             refreshFuture = null;
-            if (err is DioError &&
+            if (err is DioException &&
                 err.requestOptions.path == '/authentication/refresh-token' &&
                 (err.response?.statusCode == 400)) {
               _doExpire();
             }
-            handler.next(err is DioError ? err : error);
+            handler.next(err is DioException ? err : error);
           }
         }
       } else {
-        log("Response errr intercept: ${error.response!.data} --> ${error.requestOptions.path}");
+        log("Response errr intercept: "
+            "${error.response!.data}"
+            " --> ${error.requestOptions.path}");
         if (error.response == null) {
           handler.next(error);
-        } else if (error.response!.statusCode == 429) {
-          NavigatorUtils.showRateLimitErrorDialog();
         } else if (error.response!.statusCode! > 401) {
           if (shouldHandleException) {
             NavigatorUtils.showGeneralErrorDialog();
@@ -167,20 +167,6 @@ class DioClient {
           }
         } else {
           log('Case business exception');
-          /*
-            Xử lý chung phục vụ trong trường hợp
-            User bị xóa nhưng vẫn muốn hiển thị trong màn userpage
-            Hiển thị dialog [showUserDeletedDialog]
-          */
-          if (error.response != null) {
-            if (error.response!.data["error_data"] is String &&
-                error.response!.data["error_code"] == "user-was-deleted") {
-              NavigatorUtils.showUserDeletedDialog(
-                error.response!.data["error_data"].toString(),
-              );
-            }
-          }
-
           handler.next(
             BusinessException(
               businessError: BusinessError.fromJson(error.response!.data),
@@ -199,7 +185,9 @@ class DioClient {
   void _onResponseInterceptor(
       Response response, ResponseInterceptorHandler handler) {
     log(
-      "Response: ${response.requestOptions.method} : ${response.requestOptions.baseUrl}${response.requestOptions.path} --> ${response.requestOptions.data}",
+      "Response: ${response.requestOptions.method} :\n"
+      " ${response.requestOptions.baseUrl}${response.requestOptions.path} "
+      "\n--> ${response.requestOptions.data}",
     );
     // log("Response interceptor: " +
     //         "Base Url: " +
@@ -229,7 +217,10 @@ class DioClient {
   void _onRequestInterceptor(
       RequestOptions request, RequestInterceptorHandler handler) async {
     log(
-      "${request.method} : ${request.baseUrl}${request.path} --> ${request.queryParameters} --> ${request.data}",
+      "${request.method} : "
+      "${request.baseUrl}${request.path} "
+      "--> ${request.queryParameters} "
+      "--> ${request.data}",
     );
     final apiVersion = GlobalConfiguration().getValue("api_version");
     /*
@@ -303,7 +294,7 @@ class DioClient {
   InterceptorsWrapper getDefaultInterceptor(Dio dio,
       {required bool shouldHandleException}) {
     return InterceptorsWrapper(
-      onError: (DioError error, ErrorInterceptorHandler handler) =>
+      onError: (DioException error, ErrorInterceptorHandler handler) =>
           _onErrorInterceptor(error, handler, dio, shouldHandleException),
       onResponse: _onResponseInterceptor,
       onRequest: _onRequestInterceptor,
@@ -317,8 +308,8 @@ class DioClient {
   }) async {
     String apiUrl = GlobalConfiguration().getValue("api_server_url");
     Dio dio = Dio();
-    dio.options.connectTimeout = CONNECT_TIMEOUT as Duration?;
-    dio.options.receiveTimeout = RECEIVE_TIMEOUT as Duration?;
+    dio.options.connectTimeout = _connectTimeout as Duration?;
+    dio.options.receiveTimeout = _receiveTimeout as Duration?;
     dio.options.baseUrl = apiUrl;
     if (useDefaultHeader) {
       dio.options.headers = await _getDefaultHeader();

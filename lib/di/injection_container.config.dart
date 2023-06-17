@@ -12,17 +12,17 @@
 import 'package:baese_flutter_bloc/bloc/app/app_bloc.dart' as _i3;
 import 'package:baese_flutter_bloc/bloc/main/main_view_bloc.dart' as _i11;
 import 'package:baese_flutter_bloc/bloc/main2/main2_bloc.dart' as _i10;
-import 'package:baese_flutter_bloc/module/model/local/content/content_local.dart'
+import 'package:baese_flutter_bloc/model/local/content/content_local.dart'
     as _i4;
-import 'package:baese_flutter_bloc/module/model/local/content/content_local_impl.dart'
+import 'package:baese_flutter_bloc/model/local/content/content_local_impl.dart'
     as _i5;
-import 'package:baese_flutter_bloc/module/model/network/content/content_network.dart'
+import 'package:baese_flutter_bloc/model/network/content/content_network.dart'
     as _i6;
-import 'package:baese_flutter_bloc/module/model/network/content/content_network_impl.dart'
+import 'package:baese_flutter_bloc/model/network/content/content_network_impl.dart'
     as _i7;
-import 'package:baese_flutter_bloc/module/model/repository/content/content_repository.dart'
+import 'package:baese_flutter_bloc/model/repository/content/content_repository.dart'
     as _i8;
-import 'package:baese_flutter_bloc/module/model/repository/content/content_repository_impl.dart'
+import 'package:baese_flutter_bloc/model/repository/content/content_repository_impl.dart'
     as _i9;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;

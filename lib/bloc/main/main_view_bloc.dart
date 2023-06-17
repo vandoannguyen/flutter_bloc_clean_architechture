@@ -1,30 +1,23 @@
 import 'dart:async';
-import 'package:baese_flutter_bloc/module/model/repository/content/content_repository.dart';
 import 'package:base_bloc_module/base/cubit/base_cubit.dart';
+import 'package:base_bloc_module/base/cubit/base_cubit_event.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../model/entity/content/content_model.dart';
+import '../../model/repository/content/content_repository.dart';
+import '../../routes/routes.dart';
 import 'main_view_sate.dart';
 
 @injectable
 class MainBloc extends BaseCubit<MainState> {
   ContentRepository contentUseCase;
   int couter = 0;
-  final StreamController<void> toMain2 = StreamController();
 
   @factoryMethod
   MainBloc(this.contentUseCase) : super(MainState());
 
-  @override
-  void initEventState() {}
-
-  @override
-  void closeStream() {
-    toMain2.close();
-  }
-
   void testTap() {
-    ContentModel? user = state.user?.copyWith();
+    ContentModel? user = dataState.user?.copyWith();
     if (user == null) {
       user = ContentModel(
           a: "a${DateTime.now().millisecondsSinceEpoch}",
@@ -34,12 +27,16 @@ class MainBloc extends BaseCubit<MainState> {
           a: "a${DateTime.now().millisecondsSinceEpoch}",
           b: "b${DateTime.now().millisecondsSinceEpoch}");
     }
-    emit(state.copyWith(user: user));
-    if (state.count! > 3) {
-      emit(state.copyWith(count: 0));
-      toMain2.sink.add(null);
+    emit(dataState.copyWith(user: user));
+    if (dataState.count! > 3) {
+      emit(dataState.copyWith(count: 0));
+      clickToLogin();
     } else {
-      emit(state.copyWith(count: (state.count ?? 0) + 1));
+      emit(dataState.copyWith(count: (dataState.count ?? 0) + 1));
     }
+  }
+
+  void clickToLogin() {
+    emit(OnChangeScreenEvent(CommonRoutes.MAIN2));
   }
 }

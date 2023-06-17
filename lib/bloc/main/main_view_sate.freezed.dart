@@ -31,6 +31,8 @@ abstract class $MainStateCopyWith<$Res> {
       _$MainStateCopyWithImpl<$Res, MainState>;
   @useResult
   $Res call({int? count, String value, ContentModel? user});
+
+  $ContentModelCopyWith<$Res>? get user;
 }
 
 /// @nodoc
@@ -65,6 +67,18 @@ class _$MainStateCopyWithImpl<$Res, $Val extends MainState>
               as ContentModel?,
     ) as $Val);
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ContentModelCopyWith<$Res>? get user {
+    if (_value.user == null) {
+      return null;
+    }
+
+    return $ContentModelCopyWith<$Res>(_value.user!, (value) {
+      return _then(_value.copyWith(user: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -75,6 +89,9 @@ abstract class _$$_MainStateCopyWith<$Res> implements $MainStateCopyWith<$Res> {
   @override
   @useResult
   $Res call({int? count, String value, ContentModel? user});
+
+  @override
+  $ContentModelCopyWith<$Res>? get user;
 }
 
 /// @nodoc
@@ -135,12 +152,11 @@ class _$_MainState implements _MainState {
             other is _$_MainState &&
             (identical(other.count, count) || other.count == count) &&
             (identical(other.value, value) || other.value == value) &&
-            const DeepCollectionEquality().equals(other.user, user));
+            (identical(other.user, user) || other.user == user));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, count, value, const DeepCollectionEquality().hash(user));
+  int get hashCode => Object.hash(runtimeType, count, value, user);
 
   @JsonKey(ignore: true)
   @override

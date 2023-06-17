@@ -1,17 +1,17 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'token_info.freezed.dart';
+part 'token_info.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class TokenInfo {
   @JsonKey(name: 'access_token')
-  String accessToken;
+  String? accessToken;
   @JsonKey(name: 'refresh_token')
-  String refreshToken;
+  String? refreshToken;
   @JsonKey(name: 'expire_at')
-  int expireAt;
+  int? expireAt;
   @JsonKey(name: 'token_type')
-  String tokenType;
+  String? tokenType;
 
   TokenInfo({
     required this.accessToken,

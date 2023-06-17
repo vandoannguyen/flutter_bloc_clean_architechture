@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:baese_flutter_bloc/routes/pages.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +11,7 @@ import 'utils/navigate_utils.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await dotenv.load(fileName: "env/.env_prod");
+  await dotenv.load(fileName: "env/.env_dev");
   await configureDependencies();
   runApp(const MyApp());
 }

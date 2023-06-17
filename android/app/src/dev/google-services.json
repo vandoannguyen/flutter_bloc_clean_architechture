@@ -22,6 +22,50 @@
           }
         },
         {
+          "client_id": "202259391088-f3ndu8s95659fbtlosroq9a125ct961c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.baese_flutter_bloc",
+            "certificate_hash": "a6167254c18622e3c9c253f1f12e1f79cb2ce023"
+          }
+        },
+        {
+          "client_id": "202259391088-d2krv4m951kmnm22igs1l20mn1niik56.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBw3oZA1GOwGMUD_kTeHpIng4uvLX4KznM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "202259391088-d2krv4m951kmnm22igs1l20mn1niik56.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "202259391088-qkgkhqfjl8g9t8hucvrqdn8of30i5dp1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.baeseFlutterBloc"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:202259391088:android:138e891fd40a8da0c7cab5",
+        "android_client_info": {
+          "package_name": "com.example.baese_flutter_bloc.dev"
+        }
+      },
+      "oauth_client": [
+        {
           "client_id": "202259391088-d2krv4m951kmnm22igs1l20mn1niik56.apps.googleusercontent.com",
           "client_type": 3
         }

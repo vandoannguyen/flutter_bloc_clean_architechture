@@ -26,6 +26,8 @@
 
 import 'package:dio/dio.dart';
 
+import '../model/entity/error/business_error.dart';
+
 class BusinessException extends DioError {
   BusinessError businessError;
   RequestOptions requestOptions;

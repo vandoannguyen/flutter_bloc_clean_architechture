@@ -1,1 +1,3 @@
-class UrlConfig {}
+class UrlConfig {
+
+}

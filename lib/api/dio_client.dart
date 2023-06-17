@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../../exception/BusinessException.dart';
 import '../../exception/NetworkException.dart';
@@ -10,6 +11,7 @@ import '../../exception/ServerException.dart';
 import '../model/entity/error/business_error.dart';
 import '../model/entity/token/token_info.dart';
 import '../utils/navigate_utils.dart';
+import '../utils/share_preference_utils.dart';
 import 'multipart_file_extended.dart';
 
 const int _connectTimeout = 30000;
@@ -38,7 +40,7 @@ class DioClient {
     // refreshFuture ??= AuthClient.refreshToken(currentTokenInfo.refreshToken);
     final newTokenInfo = await refreshFuture;
     log('New Token Info: ${newTokenInfo!.toJson()}');
-    // await SharedPreferenceUtil.setTokenInfo(newTokenInfo);
+    await SharedPreferenceUtil.setTokenInfo(newTokenInfo);
     refreshFuture = null;
   }
 
@@ -222,7 +224,7 @@ class DioClient {
       "--> ${request.queryParameters} "
       "--> ${request.data}",
     );
-    final apiVersion = GlobalConfiguration().getValue("api_version");
+    // final apiVersion = GlobalConfiguration().getValue("api_version");
     /*
       Update gửi thêm version cho ứng dụng vào header
     */
@@ -231,7 +233,7 @@ class DioClient {
       packageInfo = data;
     }
 
-    appBuildVersion ??= GlobalConfiguration().getValue("appBuildVersion");
+    appBuildVersion ??= int.tryParse(dotenv.get("appBuildVersion"));
 
     if (packageInfo != null) {
       request.headers["APP_VERSION"] = packageInfo!.version;
@@ -241,29 +243,29 @@ class DioClient {
       request.headers["APP_VERSION_CODE"] = appBuildVersion;
     }
 
-    final deviceInfo = DeviceInfoPlugin();
-    if (Platform.isIOS && iosInfo == null) {
-      iosInfo = await deviceInfo.iosInfo;
-      if (iosInfo != null) {
-        deviceUuid = iosInfo!.identifierForVendor;
-      }
-    }
+    // final deviceInfo = DeviceInfoPlugin();
+    // if (Platform.isIOS && iosInfo == null) {
+    //   iosInfo = await deviceInfo.iosInfo;
+    //   if (iosInfo != null) {
+    //     deviceUuid = iosInfo!.identifierForVendor;
+    //   }
+    // }
 
-    if (Platform.isAndroid && androidInfo == null) {
-      androidInfo = await deviceInfo.androidInfo;
-      if (androidInfo != null) {
-        // deviceUuid = androidInfo!.androidId;
-        deviceUuid = "";
-      }
-    }
+    // if (Platform.isAndroid && androidInfo == null) {
+    //   androidInfo = await deviceInfo.androidInfo;
+    //   if (androidInfo != null) {
+    //     // deviceUuid = androidInfo!.androidId;
+    //     deviceUuid = "";
+    //   }
+    // }
 
     /*
       Update gửi thêm device id cho ứng dụng vào header
     */
-    if (deviceUuid != null) {
-      request.headers["APP_UUID"] = deviceUuid;
-    }
-    request.headers["X-API-VERSION"] = apiVersion;
+    // if (deviceUuid != null) {
+    //   request.headers["APP_UUID"] = deviceUuid;
+    // }
+    // request.headers["X-API-VERSION"] = apiVersion;
     request.headers["X-APP-PLATFORM"] = Platform.isIOS
         ? "ios"
         : Platform.isAndroid
@@ -306,7 +308,7 @@ class DioClient {
     bool useDefaultInterceptor = true,
     bool shouldHandleException = true,
   }) async {
-    String apiUrl = GlobalConfiguration().getValue("api_server_url");
+    String apiUrl = dotenv.get("api_server_url");
     Dio dio = Dio();
     dio.options.connectTimeout = _connectTimeout as Duration?;
     dio.options.receiveTimeout = _receiveTimeout as Duration?;

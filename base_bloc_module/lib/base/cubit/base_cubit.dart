@@ -1,29 +1,41 @@
 import 'dart:async';
 
+import 'package:base_bloc_module/base/cubit/base_cubit_event.dart';
+import 'package:base_bloc_module/base/cubit/base_data_state_cubit.dart';
 import 'package:base_bloc_module/models/message_model.dart';
 import 'package:bloc/bloc.dart';
 
-abstract class BaseCubit<STATE> extends Cubit<STATE> {
-  BaseCubit(STATE initialState) : super(initialState);
+import 'base_state_cubit.dart';
 
-  final StreamController<bool> dialogLoading = StreamController();
-  final StreamController<MessageModel> showMessage = StreamController();
-  final StreamController<String> toName = StreamController();
-  final StreamController<dynamic> back = StreamController();
+abstract class BaseCubit<STATE extends BaseStateCubit>
+    extends Cubit<BaseStateCubit> {
+  late STATE dataState;
 
-  @override
-  Future<void> close() {
-    _parentCloseStream();
-    return super.close();
+  BaseCubit(STATE initialState) : super(initialState) {
+    this.dataState = initialState;
   }
 
-  void closeStream();
+  void showLoading() {
+    emit(OnLoadingEvent(true));
+  }
 
-  void _parentCloseStream() {
-    closeStream();
-    dialogLoading.close();
-    showMessage.close();
-    toName.close();
-    back.close();
+  void hideLoading() {
+    emit(OnLoadingEvent(false));
+  }
+
+  void changeScreen(String routeName, dynamic data) {
+    emit(OnChangeScreenEvent(routeName, data: data));
+  }
+
+  void showMessage(String message, {bool isError = false}) {
+    emit(OnMessageEvent(message, isError: isError));
+  }
+
+  @override
+  void onChange(Change<BaseStateCubit> change) {
+    if (change.nextState is STATE) {
+      dataState = change.nextState as STATE;
+    }
+    super.onChange(change);
   }
 }

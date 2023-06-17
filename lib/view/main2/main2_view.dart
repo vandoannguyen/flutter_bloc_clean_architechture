@@ -10,6 +10,8 @@ class MainView2 extends StatefulWidget {
 class _MainView2State extends State<MainView2> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(),
+    );
   }
 }

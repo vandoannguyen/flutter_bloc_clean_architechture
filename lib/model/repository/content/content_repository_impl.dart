@@ -1,7 +1,7 @@
-import 'package:baese_flutter_bloc/module/model/local/content/content_local.dart';
-import 'package:baese_flutter_bloc/module/model/network/content/content_network.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../local/content/content_local.dart';
+import '../../network/content/content_network.dart';
 import 'content_repository.dart';
 
 @Injectable(as: ContentRepository)

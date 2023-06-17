@@ -1,60 +1,75 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:base_bloc_module/base/cubit/base_cubit.dart';
-import 'package:base_bloc_module/views/widgets/loading_widget.dart';
+import 'package:base_bloc_module/base/cubit/base_cubit_event.dart';
+import 'package:base_bloc_module/base/cubit/base_data_state_cubit.dart';
+import 'package:base_bloc_module/base/cubit/base_state_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-// ignore: must_be_immutable
-abstract class BaseViewCubit<CUBIT extends BaseCubit,
-    STATE extends StatefulWidget> extends State<STATE> {
-  CUBIT? bloc;
-  late BuildContext contextScreen;
+abstract class BaseViewCubit<CUBIT extends BaseCubit<STATE>,
+    STATE extends BaseStateCubit> extends StatelessWidget {
+  CUBIT? _bloc;
+
+  BaseViewCubit({Key? key}) : super(key: key);
 
   Widget buildWidget(BuildContext context);
 
   @override
-  void initState() {
-    super.initState();
-    bloc ??= initBloc();
-    initEventViewModel();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    contextScreen = context;
+    _bloc ??= initBloc();
     return BlocProvider<CUBIT>(
-      create: (context) => bloc!,
-      child: buildWidget(context),
+      create: (context) => _bloc!,
+      child: BlocListener<CUBIT, BaseStateCubit>(
+        listener: (ctx, state) {
+          if (state is OnLoadingEvent) {
+            _showLoading(context, state);
+            return;
+          }
+          if (state is OnMessageEvent) {
+            _showMessage(context, state);
+            return;
+          }
+          if (state is OnChangeScreenEvent) {
+            onChangeScreen(context, state);
+            return;
+          }
+          initEventViewModel(context, state);
+        },
+        listenWhen: (old, newState) => newState is BaseCubitEvent,
+        child: buildWidget(context),
+      ),
     );
   }
 
-  @override
-  void dispose() {
-    bloc?.close();
-    super.dispose();
-  }
+  initEventViewModel(BuildContext context, BaseStateCubit state);
 
   /// getBloc
   CUBIT initBloc();
 
-  /// function allow handle listen which broadcast from bloc
-  void initEventViewModel() {
-    bloc?.dialogLoading.stream.listen((event) {
-      if (event == true) {
-        showDialog(
-          context: contextScreen,
-          builder: (ctx) => const LoadingWidget(),
-        );
-      } else {
-        Navigator.of(contextScreen).pop();
-      }
-    });
-    bloc?.showMessage.stream.listen((event) {});
-    bloc?.toName.stream.listen((event) {
-      Navigator.pushNamed(contextScreen, event);
-    });
-    bloc?.back.stream.listen((event) {
-      Navigator.pop(contextScreen, event);
-    });
-  }
+  CUBIT get bloc => _bloc!;
+
+  void _showLoading(BuildContext context, OnLoadingEvent state) {}
+
+  void _showMessage(BuildContext context, OnMessageEvent state) {}
+
+  void onChangeScreen(BuildContext context, OnChangeScreenEvent state);
+}
+
+class BlocBuilderDataState<B extends StateStreamable<BaseStateCubit>,
+    S extends BaseStateCubit> extends BlocBuilder<B, BaseStateCubit> {
+  BlocBuilderDataState(
+      {Key? key, B? bloc, required BlocWidgetBuilder<S> builder})
+      : super(
+            key: key,
+            bloc: bloc,
+            builder: (ctx, state) => (state is BaseDataStateCubit)
+                ? builder(ctx, state as S)
+                : Container());
+
+  @override
+  BlocBuilderCondition? get buildWhen => (previous, current) {
+        return current is BaseDataStateCubit;
+      };
 }

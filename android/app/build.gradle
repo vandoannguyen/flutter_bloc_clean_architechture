@@ -8,7 +8,7 @@ if (localPropertiesFile.exists()) {
     }
 }
 if (keyPropertiesFile.exists()) {
-        keyProperties.load(new FileInputStream(keyPropertiesFile))
+    keyProperties.load(new FileInputStream(keyPropertiesFile))
 }
 
 def flutterRoot = localProperties.getProperty('flutter.sdk')
@@ -31,7 +31,7 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -47,10 +47,9 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.example.baese_flutter_bloc"
-        minSdkVersion 16
-        targetSdkVersion 31
+        minSdkVersion 21
+        targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
@@ -60,7 +59,20 @@ android {
             storePassword = keyProperties["key.storePassword"]
             keyAlias = keyProperties["key.keyAlias"]
             keyPassword = keyProperties["key.keyPassword"]
-            storeFile file(keyProperties["key.keystore"])
+            storeFile file("keystore.jks")
+        }
+    }
+    flavorDimensions "dimentions"
+    productFlavors{
+        dev {
+            applicationIdSuffix '.dev'
+            versionNameSuffix 'Dev'
+        }
+        uat {
+            applicationIdSuffix '.uat'
+            versionNameSuffix 'Uat'
+        }
+        prod {
         }
     }
     buildTypes {
@@ -69,7 +81,7 @@ android {
             // Signing with the debug keys for now, so `flutter run --releas    e` works.
 //            signingConfig signingConfigs.release
         }
-        debug{
+        debug {
             signingConfig signingConfigs.debug
         }
     }

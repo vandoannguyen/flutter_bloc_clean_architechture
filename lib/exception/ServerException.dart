@@ -1,23 +1,15 @@
-import 'package:i_nhan_dao_2/models/business_error.dart';
 import 'package:dio/dio.dart';
-// class ServerException implements Exception {
-//   BusinessError response;
-//   ServerException(this.response);
-// }
+import '../model/entity/error/business_error.dart';
 
-class ServerException extends DioError {
+class ServerException extends DioException {
   BusinessError businessError;
-  RequestOptions requestOptions;
-  Response? response;
-  DioExceptionType type;
-  dynamic error;
 
   ServerException({
     required this.businessError,
-    required this.requestOptions,
-    this.response,
-    this.type = DioExceptionType.unknown,
-    this.error,
+    required RequestOptions requestOptions,
+    Response? response,
+    DioExceptionType type = DioExceptionType.unknown,
+    dynamic error,
   }) : super(
           requestOptions: requestOptions,
           response: response,

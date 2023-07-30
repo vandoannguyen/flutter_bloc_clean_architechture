@@ -17,7 +17,6 @@ abstract class BaseView<BLOC extends BaseBloc, STATE extends StatefulWidget>
   void initState() {
     super.initState();
     bloc ??= initBloc();
-    initEventViewModel();
   }
 
   @override
@@ -25,7 +24,25 @@ abstract class BaseView<BLOC extends BaseBloc, STATE extends StatefulWidget>
     contextScreen = context;
     return BlocProvider<BLOC>(
       create: (context) => bloc!,
-      child: buildWidget(context),
+      child: BlocListener<CUBIT, BaseCubitEvent>(
+        listener: (ctx, state) {
+          if (state is OnLoadingEvent) {
+            _showLoading(context, state);
+            return;
+          }
+          if (state is OnMessageEvent) {
+            _showMessage(context, state);
+            return;
+          }
+          if (state is OnChangeScreenEvent) {
+            onChangeScreen(context, state);
+            return;
+          }
+          initEventViewModel(context, state);
+        },
+        listenWhen: (old, newState) => newState is BaseCubitEvent,
+        child: buildWidget(context),
+      ),
     );
   }
 
@@ -39,23 +56,11 @@ abstract class BaseView<BLOC extends BaseBloc, STATE extends StatefulWidget>
   BLOC initBloc();
 
   /// function allow handle listen which broadcast from bloc
-  void initEventViewModel() {
-    bloc?.dialogLoading.stream.listen((event) {
-      if (event == true) {
-        showDialog(
-          context: contextScreen,
-          builder: (ctx) => const LoadingWidget(),
-        );
-      } else {
-        Navigator.of(contextScreen).pop();
-      }
-    });
-    bloc?.showMessage.stream.listen((event) {});
-    bloc?.toName.stream.listen((event) {
-      Navigator.pushNamed(contextScreen, event);
-    });
-    bloc?.back.stream.listen((event) {
-      Navigator.pop(contextScreen, event);
-    });
-  }
+  void initEventViewModel(BuildContext context, BaseStateCubit state);
+
+  void _showLoading(BuildContext context, OnLoadingEvent state) {}
+
+  void _showMessage(BuildContext context, OnMessageEvent state) {}
+
+  void onChangeScreen(BuildContext context, OnChangeScreenEvent state);
 }

@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 abstract class BaseViewCubit<CUBIT extends BaseCubit<STATE>,
-    STATE extends BaseStateCubit> extends StatelessWidget {
+STATE extends BaseStateCubit> extends StatelessWidget {
   CUBIT? _bloc;
 
   BaseViewCubit({Key? key}) : super(key: key);
@@ -21,7 +21,7 @@ abstract class BaseViewCubit<CUBIT extends BaseCubit<STATE>,
     _bloc ??= initBloc();
     return BlocProvider<CUBIT>(
       create: (context) => _bloc!,
-      child: BlocListener<CUBIT, BaseStateCubit>(
+      child: BlocListener<CUBIT, BaseCubitEvent>(
         listener: (ctx, state) {
           if (state is OnLoadingEvent) {
             _showLoading(context, state);
@@ -55,21 +55,4 @@ abstract class BaseViewCubit<CUBIT extends BaseCubit<STATE>,
   void _showMessage(BuildContext context, OnMessageEvent state) {}
 
   void onChangeScreen(BuildContext context, OnChangeScreenEvent state);
-}
-
-class BlocBuilderDataState<B extends StateStreamable<BaseStateCubit>,
-    S extends BaseStateCubit> extends BlocBuilder<B, BaseStateCubit> {
-  BlocBuilderDataState(
-      {Key? key, B? bloc, required BlocWidgetBuilder<S> builder})
-      : super(
-            key: key,
-            bloc: bloc,
-            builder: (ctx, state) => (state is BaseDataStateCubit)
-                ? builder(ctx, state as S)
-                : Container());
-
-  @override
-  BlocBuilderCondition? get buildWhen => (previous, current) {
-        return current is BaseDataStateCubit;
-      };
 }

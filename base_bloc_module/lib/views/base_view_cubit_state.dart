@@ -7,19 +7,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:overlay_support/overlay_support.dart';
-
 import 'base_view_cubit_method.dart';
 import 'widgets/loading_widget.dart';
 
-abstract class BaseViewCubit<CUBIT extends BaseCubit<STATE>,
-STATE extends BaseStateCubit> extends StatelessWidget
-    with BaseViewCubitMethod<CUBIT> {
-  BaseViewCubit({Key? key}) : super(key: key);
+abstract class BaseViewCubitState<CUBIT extends BaseCubit<STATE>,
+        STATE extends BaseStateCubit, VIEW extends StatefulWidget>
+    extends State<VIEW> with BaseViewCubitMethod<CUBIT> {
+  @override
+  void initState() {
+    super.initState();
+    bloc ??= initBloc();
+    initData();
+  }
 
   @override
   Widget build(BuildContext context) {
-    bloc ??= initBloc();
-    initData();
     return BlocProvider<CUBIT>(
       create: (context) => bloc!,
       child: BlocListener<CUBIT, BaseStateCubit>(
@@ -49,7 +51,6 @@ STATE extends BaseStateCubit> extends StatelessWidget
     if (state.isLoading == true) {
       showDialog(
         context: context,
-        barrierDismissible: false,
         builder: (ctx) => const LoadingWidget(backgroundColor: Colors.black12),
       );
     } else {

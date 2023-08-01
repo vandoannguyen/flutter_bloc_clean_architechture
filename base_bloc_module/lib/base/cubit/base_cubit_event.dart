@@ -1,5 +1,3 @@
-import 'package:base_bloc_module/base/bloc/base_state.dart';
-
 import 'base_state_cubit.dart';
 
 class BaseCubitEvent extends BaseStateCubit {}

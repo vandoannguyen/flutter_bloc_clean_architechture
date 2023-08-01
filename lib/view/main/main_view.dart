@@ -1,5 +1,6 @@
 import 'package:baese_flutter_bloc/di/injection_container.dart';
 import 'package:baese_flutter_bloc/routes/routes.dart';
+import 'package:base_bloc_module/base/bloc_builder/bloc_builder_data_state.dart';
 import 'package:base_bloc_module/base/cubit/base_cubit_event.dart';
 import 'package:base_bloc_module/base/cubit/base_state_cubit.dart';
 import 'package:base_bloc_module/views/base_view_cubit.dart';
@@ -22,7 +23,7 @@ class MainView extends BaseViewCubit<MainBloc, MainState> {
           mainAxisSize: MainAxisSize.min,
           children: [
             GestureDetector(
-              onTap: () => bloc.testTap(),
+              onTap: () => bloc?.testTap(),
               child: Container(
                 padding: const EdgeInsets.all(10),
                 color: Colors.transparent,
@@ -61,4 +62,7 @@ class MainView extends BaseViewCubit<MainBloc, MainState> {
 
   @override
   initEventViewModel(BuildContext context, BaseStateCubit state) {}
+
+  @override
+  void initData() {}
 }

@@ -41,7 +41,7 @@ dependencies:
   base_bloc_module:
     path: ./base_bloc_module
   freezed_annotation: ^2.0.3
-#  firebase
+  #  firebase
   firebase_auth: ^4.6.3
   firebase_core: ^2.14.0
   google_sign_in: ^6.1.4
@@ -54,6 +54,8 @@ dependencies:
   flutter_dotenv: ^5.1.0
   #json anotation
   json_annotation: ^4.8.1
+  #mutiple_language
+  easy_localization: ^3.0.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

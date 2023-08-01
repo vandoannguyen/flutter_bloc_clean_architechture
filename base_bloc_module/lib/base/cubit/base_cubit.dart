@@ -27,8 +27,12 @@ abstract class BaseCubit<STATE extends BaseStateCubit>
     emit(OnChangeScreenEvent(routeName, data: data));
   }
 
-  void showMessage(String message, {bool isError = false}) {
-    emit(OnMessageEvent(message, isError: isError));
+  void showMessage(String message, {MessageType type = MessageType.success}) {
+    emit(
+      OnMessageEvent(
+        MessageModel(mess: message, messageType: type),
+      ),
+    );
   }
 
   @override

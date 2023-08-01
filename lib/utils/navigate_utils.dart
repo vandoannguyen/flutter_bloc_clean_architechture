@@ -88,9 +88,5 @@ class NavigatorUtils {
 
   static void showNoInternetErrorDialog() {}
 
-  static void showRateLimitErrorDialog() {}
-
   static void showGeneralErrorDialog() {}
-
-  static void showUserDeletedDialog(String string) {}
 }

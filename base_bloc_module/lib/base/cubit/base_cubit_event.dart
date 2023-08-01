@@ -1,3 +1,4 @@
+import '../../models/message_model.dart';
 import 'base_state_cubit.dart';
 
 class BaseCubitEvent extends BaseStateCubit {}
@@ -9,10 +10,8 @@ class OnLoadingEvent extends BaseStateCubit {
 }
 
 class OnMessageEvent extends BaseCubitEvent {
-  String message;
-  bool isError;
-
-  OnMessageEvent(this.message, {this.isError = false});
+  final MessageModel message;
+  OnMessageEvent(this.message);
 }
 
 class OnChangeScreenEvent extends BaseCubitEvent {

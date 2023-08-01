@@ -1,6 +1,6 @@
 class MessageModel {
-  String? mess;
-  MessageType? messageType;
+  String mess;
+  MessageType messageType;
 
   MessageModel({
     required this.mess,
@@ -8,4 +8,8 @@ class MessageModel {
   });
 }
 
-enum MessageType { error, success }
+enum MessageType {
+  error,
+  success,
+  waring,
+}

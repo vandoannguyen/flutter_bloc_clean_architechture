@@ -1,6 +1,8 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:baese_flutter_bloc/api/url_config.dart';
+import 'package:baese_flutter_bloc/common/logger/logger.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -28,10 +30,6 @@ class DioClient {
   Future<void> _doExpire() async {
     log('Actual expire, return login screen');
     refreshFuture = null;
-
-    ///todo
-    // handle logout local
-    // CommonFunctions.logoutLocal();
   }
 
   Future<void> _issueNewToken(TokenInfo currentTokenInfo) async {
@@ -39,7 +37,7 @@ class DioClient {
     ///refresh token
     // refreshFuture ??= AuthClient.refreshToken(currentTokenInfo.refreshToken);
     final newTokenInfo = await refreshFuture;
-    log('New Token Info: ${newTokenInfo!.toJson()}');
+    LogUtils.d('New Token Info: ${newTokenInfo!.toJson()}');
     await SharedPreferenceUtil.setTokenInfo(newTokenInfo);
     refreshFuture = null;
   }
@@ -50,31 +48,18 @@ class DioClient {
     Dio dio,
     bool shouldHandleException,
   ) async {
-    // log("Error interceptor: " +
-    //     "Base url: " +
-    //     error.requestOptions.baseUrl +
-    //     " -> " +
-    //     "Path: " +
-    //     error.requestOptions.path +
-    //     " -> " +
-    //     "Request Header: " +
-    //     error.requestOptions.headers.toString() +
-    //     " -> " +
-    //     "Query paramms: " +
-    //     error.requestOptions.queryParameters.toString() +
-    //     " -> " +
-    //     "Request Data: " +
-    //     error.requestOptions.data.toString() +
-    //     " -> " +
-    //     "Error Data: " +
-    //     (error.response?.data.toString() ?? "") +
-    //     " -> " +
-    //     "Error Status Code: : " +
-    //     (error.response?.statusCode.toString() ?? ""));
+    LogUtils.e("Error interceptor: "
+        "\nBase url: ${error.requestOptions.baseUrl} "
+        "\n-> Path: ${error.requestOptions.path} "
+        "\n-> Request Header: ${error.requestOptions.headers} "
+        "\n-> Query paramms: ${error.requestOptions.queryParameters} "
+        "\n-> Request Data: ${error.requestOptions.data}"
+        "\n-> Error Data: ${error.response?.data.toString() ?? ""} "
+        "\n-> Error Status Code: : ${error.response?.statusCode.toString() ?? ""}");
     if (error.type == DioExceptionType.connectionTimeout ||
         error.type == DioExceptionType.receiveTimeout ||
         error.type == DioExceptionType.sendTimeout) {
-      log('Request Timeout: ${error.requestOptions.path}');
+      LogUtils.d('Request Timeout: ${error.requestOptions.path}');
       if (shouldHandleException) {
         NavigatorUtils.showNoInternetErrorDialog();
       } else {
@@ -88,7 +73,7 @@ class DioClient {
         return;
       }
     } else if (error.type == DioExceptionType.unknown) {
-      log('Other Network Issue: ${error.requestOptions.path}');
+      LogUtils.e('Other Network Issue: ${error.requestOptions.path}');
       if (shouldHandleException) {
         NavigatorUtils.showNoInternetErrorDialog();
       } else {
@@ -103,13 +88,13 @@ class DioClient {
       }
     }
     if (error.type == DioExceptionType.badResponse) {
-      if (error.requestOptions.path == '/authentication/refresh-token' &&
+      if (error.requestOptions.path == UrlConfig.refreshToken &&
           error.response?.statusCode == 400) {
         await _doExpire();
         handler.next(error);
       } else if (error.response?.statusCode == 401) {
         final tokenInfo = await SharedPreferenceUtil.getTokenInfo();
-        log("Case 401 tokenInfoStr: ${tokenInfo?.toString() ?? ""}");
+        LogUtils.e("Case 401 tokenInfoStr: \n${tokenInfo?.toString() ?? ""}");
         if (tokenInfo == null) {
           handler.next(error);
         } else {
@@ -137,10 +122,10 @@ class DioClient {
             final repeatedResponse = await dio.fetch(requestOptions);
             handler.resolve(repeatedResponse);
           } catch (err) {
-            log('Get newTokenInfo catch: $err');
+            LogUtils.e('Get newTokenInfo catch: \n$err');
             refreshFuture = null;
             if (err is DioException &&
-                err.requestOptions.path == '/authentication/refresh-token' &&
+                err.requestOptions.path == UrlConfig.refreshToken &&
                 (err.response?.statusCode == 400)) {
               _doExpire();
             }
@@ -148,9 +133,9 @@ class DioClient {
           }
         }
       } else {
-        log("Response errr intercept: "
-            "${error.response!.data}"
-            " --> ${error.requestOptions.path}");
+        LogUtils.e("Response err intercept: "
+            "\n${error.response!.data}"
+            "\n--> ${error.requestOptions.path}");
         if (error.response == null) {
           handler.next(error);
         } else if (error.response!.statusCode! > 401) {
@@ -168,7 +153,7 @@ class DioClient {
             return;
           }
         } else {
-          log('Case business exception');
+          LogUtils.e('Case business exception');
           handler.next(
             BusinessException(
               businessError: BusinessError.fromJson(error.response!.data),
@@ -186,48 +171,31 @@ class DioClient {
 
   void _onResponseInterceptor(
       Response response, ResponseInterceptorHandler handler) {
-    log(
-      "Response: ${response.requestOptions.method} :\n"
-      " ${response.requestOptions.baseUrl}${response.requestOptions.path} "
+    LogUtils.d(
+      "Response: \n${response.requestOptions.method} :"
+      "\n${response.requestOptions.baseUrl}${response.requestOptions.path} "
       "\n--> ${response.requestOptions.data}",
     );
-    // log("Response interceptor: " +
-    //         "Base Url: " +
-    //         response.requestOptions.baseUrl +
-    //         " -> " +
-    //         "Path: " +
-    //         response.requestOptions.path
-    // " -> " +
-    // "Request Header: " +
-    // response.requestOptions.headers.toString() +
-    // " -> " +
-    // "Query Params: " +
-    // response.requestOptions.queryParameters.toString() +
-    // " -> " +
-    // "Request Data: " +
-    // response.requestOptions.data.toString() +
-    // " -> " +
-    // "Status Code: " +
-    // response.statusCode.toString() +
-    // " -> " +
-    // "Response Data: " +
-    // response.data.toString(),
-    // );
+    LogUtils.i(
+      "Response interceptor: Base Url: ${response.requestOptions.baseUrl} "
+      "\n-> Path: ${response.requestOptions.path} "
+      "\n-> Request Header: ${response.requestOptions.headers} "
+      "\n-> Query Params: ${response.requestOptions.queryParameters} "
+      "\n-> Request Data: ${response.requestOptions.data} "
+      "\n-> Status Code: ${response.statusCode} "
+      "\n-> Response Data: ${response.data}",
+    );
     handler.next(response);
   }
 
   void _onRequestInterceptor(
       RequestOptions request, RequestInterceptorHandler handler) async {
-    log(
-      "${request.method} : "
-      "${request.baseUrl}${request.path} "
-      "--> ${request.queryParameters} "
-      "--> ${request.data}",
+    LogUtils.i(
+      "[${request.method}] : "
+      "\n${request.baseUrl}${request.path} "
+      "\n--> ${request.queryParameters} "
+      "\n--> ${request.data}",
     );
-    // final apiVersion = GlobalConfiguration().getValue("api_version");
-    /*
-      Update gửi thêm version cho ứng dụng vào header
-    */
     if (packageInfo == null) {
       PackageInfo data = await PackageInfo.fromPlatform();
       packageInfo = data;
@@ -242,35 +210,6 @@ class DioClient {
     if (appBuildVersion != null) {
       request.headers["APP_VERSION_CODE"] = appBuildVersion;
     }
-
-    // final deviceInfo = DeviceInfoPlugin();
-    // if (Platform.isIOS && iosInfo == null) {
-    //   iosInfo = await deviceInfo.iosInfo;
-    //   if (iosInfo != null) {
-    //     deviceUuid = iosInfo!.identifierForVendor;
-    //   }
-    // }
-
-    // if (Platform.isAndroid && androidInfo == null) {
-    //   androidInfo = await deviceInfo.androidInfo;
-    //   if (androidInfo != null) {
-    //     // deviceUuid = androidInfo!.androidId;
-    //     deviceUuid = "";
-    //   }
-    // }
-
-    /*
-      Update gửi thêm device id cho ứng dụng vào header
-    */
-    // if (deviceUuid != null) {
-    //   request.headers["APP_UUID"] = deviceUuid;
-    // }
-    // request.headers["X-API-VERSION"] = apiVersion;
-    request.headers["X-APP-PLATFORM"] = Platform.isIOS
-        ? "ios"
-        : Platform.isAndroid
-            ? "android"
-            : "";
     handler.next(request);
   }
 

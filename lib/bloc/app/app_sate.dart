@@ -1,18 +1,12 @@
-import 'package:base_bloc_module/base/cubit/base_state_cubit.dart';
+import 'package:base_bloc_module/base/cubit/base_data_state_cubit.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-// ignore: must_be_immutable
-class AppState extends BaseStateCubit {
-  int? count = 0;
-  String value = "value";
+part 'app_sate.freezed.dart';
 
-  AppState({this.count = 0, this.value = "value"});
-
-  @override
-  List<Object?> equal() {
-    return [count];
-  }
-
-  AppState copyWith({count = 0, value}) {
-    return AppState(count: count ?? this.count, value: value ?? this.value);
-  }
+@Freezed(equal: true)
+class AppState extends BaseDataStateCubit  with _$AppState {
+  factory AppState({
+    @Default(0) int? count,
+    @Default("value") String value,
+  }) = _AppState;
 }

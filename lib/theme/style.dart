@@ -1,10 +1,10 @@
-import 'package:baese_flutter_bloc/theme/size_config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class StyleUtils {
-  static const style = TextStyle();
+  static const style = TextStyle(fontFamily: "Roboto");
   static final style14 = style.copyWith(
-    fontSize: SizeConfig.size14,
+    fontSize: 14.sp,
   );
   static final style12W700 = style.copyWith(
     fontWeight: FontWeight.w700,

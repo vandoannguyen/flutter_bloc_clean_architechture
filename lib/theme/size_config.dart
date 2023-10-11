@@ -1,3 +1,5 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 class SizeConfig {
-  static const size14 = 14.0;
+  static final size14 = 14.h;
 }

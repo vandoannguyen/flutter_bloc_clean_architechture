@@ -19,10 +19,12 @@ abstract class BaseViewCubit<CUBIT extends BaseCubit<STATE>,
 
   @override
   Widget build(BuildContext context) {
-    bloc ??= initBloc();
-    initData();
     return BlocProvider<CUBIT>(
-      create: (context) => bloc!,
+      create: (context) {
+        bloc = initBloc();
+        initData();
+        return bloc!;
+      },
       child: BlocListener<CUBIT, BaseStateCubit>(
         listener: (ctx, state) {
           if (state is OnLoadingEvent) {

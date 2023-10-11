@@ -37,6 +37,6 @@ class MainBloc extends BaseCubit<MainState> {
   }
 
   void clickToLogin() {
-    emit(OnChangeScreenEvent(CommonRoutes.MAIN2));
+    emit(OnChangeScreenEvent(AppRoutes.MAIN2));
   }
 }

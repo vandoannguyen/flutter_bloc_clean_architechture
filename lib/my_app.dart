@@ -27,9 +27,9 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          initialRoute: CommonRoutes.INIT,
+          initialRoute: AppRoutes.INIT,
           routes: {
-            for (RouteModel e in CommonPage.pages) e.name: (context) => e.page
+            for (RouteModel e in AppPage.pages) e.name: (context) => e.page
           },
           navigatorObservers: [AppRouteTracking()],
         ),

@@ -1,14 +1,10 @@
 import 'package:dio/dio.dart';
 
-class NetworkException extends DioError {
-  RequestOptions requestOptions;
-  Response? response;
-  DioExceptionType type;
-
+class NetworkException extends DioException {
   NetworkException({
-    required this.requestOptions,
-    this.response,
-    this.type = DioExceptionType.unknown,
+    required RequestOptions requestOptions,
+    Response? response,
+    DioExceptionType type = DioExceptionType.unknown,
   }) : super(
           requestOptions: requestOptions,
           response: response,

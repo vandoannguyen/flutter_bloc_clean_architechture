@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import '../view/main/main_view.dart';
 import '../view/main2/main2_view.dart';
 
-class CommonPage {
+class AppPage {
   static List pages = [
     RouteModel(
-      CommonRoutes.INIT,
+      AppRoutes.INIT,
       MainView(),
     ),
     RouteModel(
-      CommonRoutes.MAIN2,
+      AppRoutes.MAIN2,
       const MainView2(),
     ),
   ];

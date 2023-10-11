@@ -64,5 +64,6 @@ class MainView extends BaseViewCubit<MainBloc, MainState> {
   initEventViewModel(BuildContext context, BaseStateCubit state) {}
 
   @override
-  void initData() {}
+  void initData() {
+  }
 }

@@ -3,7 +3,7 @@ import 'base_state_cubit.dart';
 
 class BaseCubitEvent extends BaseStateCubit {}
 
-class OnLoadingEvent extends BaseStateCubit {
+class OnLoadingEvent extends BaseCubitEvent {
   bool isLoading;
 
   OnLoadingEvent(this.isLoading);
@@ -11,6 +11,7 @@ class OnLoadingEvent extends BaseStateCubit {
 
 class OnMessageEvent extends BaseCubitEvent {
   final MessageModel message;
+
   OnMessageEvent(this.message);
 }
 

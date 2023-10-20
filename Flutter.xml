@@ -1,0 +1,48 @@
+<templateSet group="Flutter">
+  <template name="stlb" value="import 'package:base_bloc_module/index.dart';&#10;import 'package:flutter/material.dart';&#10;class $Name$Screen extends BaseViewCubit&lt;$Name$Bloc, $Name$State&gt; {&#10;  $Name$Screen({Key? key}) : super(key: key);&#10;&#10;  @override&#10;  Widget buildWidget(BuildContext context) {&#10;    return Scaffold();&#10;  }&#10;&#10;  @override&#10;  $Name$Bloc initBloc() {&#10;    return getIt&lt;$Name$Bloc&gt;();&#10;  }&#10;  &#10;  @override&#10;  initEventViewModel(BuildContext context, BaseStateCubit state) {}&#10;&#10;  @override&#10;  void initData() {&#10;  }&#10;}&#10;" description="Gen base cubit screen" toReformat="true" toShortenFQNames="true">
+    <variable name="Name" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="DART" value="true" />
+    </context>
+  </template>
+  <template name="stfb" value="&#10;import 'package:base_bloc_module/index.dart';&#10;import 'package:flutter/material.dart';&#10;&#10;class $Name$Screen extends StatefulWidget {&#10;  const $Name$Screen ({Key? key}) : super(key: key);&#10;&#10;  @override&#10;  State&lt;$Name$Screen&gt; createState() =&gt; _$Name$ScreenState();&#10;}&#10;&#10;class _$Name$ScreenState&#10;    extends BaseViewCubitState&lt;$Name$Bloc, $Name$State, $Name$Screen&gt; {&#10;  @override&#10;  Widget buildWidget(BuildContext context) {&#10;    return Scaffold();&#10;  }&#10;&#10;  @override&#10;  $Name$Bloc initBloc() {&#10;    return getIt&lt;$Name$Bloc&gt;();&#10;  }&#10;&#10;  @override&#10;  void initData() {&#10;  }&#10;&#10;  @override&#10;  void initEventViewModel(BuildContext context, BaseCubitEvent state) {&#10;  }&#10;}" description="Gen Base Statefull screen" toReformat="false" toShortenFQNames="true">
+    <variable name="Name" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="DART" value="true" />
+    </context>
+  </template>
+  <template name="be" value="import 'package:freezed_annotation/freezed_annotation.dart';&#10;import 'package:base_bloc_module/base/cubit/base_cubit_event.dart';&#10;&#10;part '$path$.freezed.dart';&#10;&#10;@freezed&#10;class $name$Event extends BaseCubitEvent with _$$$name$Event {&#10;  const factory $name$Event.getData() = GetData;&#10;}&#10;" description="Gen base state event" toReformat="false" toShortenFQNames="true">
+    <variable name="path" expression="fileNameWithoutExtension()" defaultValue="" alwaysStopAt="false" />
+    <variable name="name" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="DART" value="true" />
+    </context>
+  </template>
+  <template name="bs" value="import 'package:base_bloc_module/index.dart';&#10;import 'package:freezed_annotation/freezed_annotation.dart';&#10;&#10;part '$path$.freezed.dart';&#10;&#10;@Freezed(equal: true)&#10;class $name$State extends BaseDataStateCubit with _$$$name$State {&#10;  factory $name$State() = _$name$State;&#10;}&#10;" description="Gen base state data" toReformat="true" toShortenFQNames="true">
+    <variable name="path" expression="fileNameWithoutExtension()" defaultValue="" alwaysStopAt="false" />
+    <variable name="name" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="DART" value="true" />
+    </context>
+  </template>
+  <template name="bb" value="import 'package:base_bloc_module/index.dart';&#10;import 'package:injectable/injectable.dart';&#10;&#10;@injectable&#10;class $Main$Bloc extends BaseCubit&lt;$Main$State&gt; {&#10;  @factoryMethod&#10;  $Main$Bloc() : super($Main$State());&#10;}&#10;" description="Gen base bloc" toReformat="false" toShortenFQNames="true">
+    <variable name="Main" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="DART" value="true" />
+    </context>
+  </template>
+  <template name="bds" value="BlocBuilderDataState&lt;$name$Bloc, $name$State&gt;(&#10;    builder: (BuildContext context, $name$State state) {&#10;      return $Widget$;&#10;    },&#10;)," description="BlocBuilderDataState" toReformat="false" toShortenFQNames="true">
+    <variable name="name" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="Widget" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="DART" value="true" />
+    </context>
+  </template>
+  <template name="model" value="import 'package:json_annotation/json_annotation.dart';&#10;&#10;part '$path$.g.dart';&#10;&#10;@JsonSerializable(explicitToJson: true)&#10;class $name$ {&#10;  String? id;&#10;  ConnectableDevice({&#10;    this.id,&#10;  });&#10;&#10;  factory $name$.fromJson(Map&lt;String, Object?&gt; json) =&gt;&#10;      _$$$name$FromJson(json);&#10;&#10;  Map&lt;String, dynamic&gt; toJson() =&gt; _$$$name$ToJson(this);&#10;}&#10;" description="gen default model" toReformat="false" toShortenFQNames="true">
+    <variable name="path" expression="fileNameWithoutExtension()" defaultValue="" alwaysStopAt="false" />
+    <variable name="name" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="DART" value="true" />
+    </context>
+  </template>
+</templateSet>

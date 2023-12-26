@@ -1,11 +1,13 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:baese_flutter_bloc/api/url_config.dart';
-import 'package:baese_flutter_bloc/common/logger/logger.dart';
+import 'package:base_flutter_bloc/api/url_config.dart';
+import 'package:base_flutter_bloc/common/logger/logger.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:injectable/injectable.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../../exception/BusinessException.dart';
 import '../../exception/NetworkException.dart';
@@ -18,7 +20,6 @@ import 'multipart_file_extended.dart';
 
 const int _connectTimeout = 30000;
 const int _receiveTimeout = 30000;
-Future<TokenInfo>? refreshFuture;
 
 class DioClient {
   PackageInfo? packageInfo;
@@ -26,20 +27,39 @@ class DioClient {
   AndroidDeviceInfo? androidInfo;
   IosDeviceInfo? iosInfo;
   String? deviceUuid;
+  Dio? _dio;
+  bool _isRefreshingToken = false;
+  final Map<ErrorInterceptorHandler, RequestOptions> _mappingQueueRequest = {};
 
   Future<void> _doExpire() async {
     log('Actual expire, return login screen');
-    refreshFuture = null;
+    SharedPreferenceUtil.setTokenInfo(null);
+  }
+
+  Future<TokenInfo?> refreshFuture(String? refreshToken) async {
+    if (refreshToken != null) {
+      var response = await _dio!.post(
+        UrlConfig.refreshToken,
+        data: {"refreshToken": refreshToken},
+      );
+      LogUtils.i(response.data["token"]);
+      TokenInfo tokenInfo = TokenInfo(
+          accessToken: response.data["token"],
+          refreshToken: response.data["refreshToken"]);
+      return tokenInfo;
+    }
+    return null;
   }
 
   Future<void> _issueNewToken(TokenInfo currentTokenInfo) async {
-    ///todo
-    ///refresh token
-    // refreshFuture ??= AuthClient.refreshToken(currentTokenInfo.refreshToken);
-    final newTokenInfo = await refreshFuture;
-    LogUtils.d('New Token Info: ${newTokenInfo!.toJson()}');
-    await SharedPreferenceUtil.setTokenInfo(newTokenInfo);
-    refreshFuture = null;
+    try {
+      _isRefreshingToken = true;
+      final newTokenInfo = await refreshFuture(currentTokenInfo.refreshToken);
+      LogUtils.d('New Token Info: ${newTokenInfo?.toJson()}');
+      await SharedPreferenceUtil.setTokenInfo(newTokenInfo);
+    } finally {
+      _isRefreshingToken = false;
+    }
   }
 
   void _onErrorInterceptor(
@@ -91,44 +111,26 @@ class DioClient {
       if (error.requestOptions.path == UrlConfig.refreshToken &&
           error.response?.statusCode == 400) {
         await _doExpire();
+        _mappingQueueRequest.clear();
         handler.next(error);
       } else if (error.response?.statusCode == 401) {
         final tokenInfo = await SharedPreferenceUtil.getTokenInfo();
-        LogUtils.e("Case 401 tokenInfoStr: \n${tokenInfo?.toString() ?? ""}");
+        LogUtils.e("Case 401 tokenInfoStr: \n${jsonEncode(tokenInfo) ?? ""}");
         if (tokenInfo == null) {
           handler.next(error);
         } else {
           try {
-            await _issueNewToken(tokenInfo);
-            // Repeat the request
-            RequestOptions requestOptions = error.requestOptions;
-            requestOptions.headers = await _getDefaultHeader();
-            if (requestOptions.data is FormData) {
-              FormData formData = FormData();
-              formData.fields.addAll(requestOptions.data.fields);
-              for (MapEntry mapFile in requestOptions.data.files) {
-                formData.files.add(
-                  MapEntry(
-                    mapFile.key,
-                    MultipartFileExtended.fromFileSync(
-                      mapFile.value.filePath,
-                      filename: mapFile.value.filename,
-                    ),
-                  ),
-                );
+            ///add current request to queue
+            _addRequestToQueue(handler, error.requestOptions);
+            if (!_isRefreshingToken) {
+              {
+                await _issueNewToken(tokenInfo);
+                await _repeatResponse();
+                _mappingQueueRequest.clear();
               }
-              requestOptions.data = formData;
             }
-            final repeatedResponse = await dio.fetch(requestOptions);
-            handler.resolve(repeatedResponse);
           } catch (err) {
             LogUtils.e('Get newTokenInfo catch: \n$err');
-            refreshFuture = null;
-            if (err is DioException &&
-                err.requestOptions.path == UrlConfig.refreshToken &&
-                (err.response?.statusCode == 400)) {
-              _doExpire();
-            }
             handler.next(err is DioException ? err : error);
           }
         }
@@ -185,6 +187,15 @@ class DioClient {
       "\n-> Status Code: ${response.statusCode} "
       "\n-> Response Data: ${response.data}",
     );
+    if (response.requestOptions.path == UrlConfig.login &&
+        response.data["status"] == "Logged in") {
+      SharedPreferenceUtil.setTokenInfo(
+        TokenInfo(
+          accessToken: response.data["token"],
+          refreshToken: response.data["refreshToken"],
+        ),
+      );
+    }
     handler.next(response);
   }
 
@@ -201,15 +212,8 @@ class DioClient {
       packageInfo = data;
     }
 
-    appBuildVersion ??= int.tryParse(dotenv.get("appBuildVersion"));
-
-    if (packageInfo != null) {
-      request.headers["APP_VERSION"] = packageInfo!.version;
-    }
-
-    if (appBuildVersion != null) {
-      request.headers["APP_VERSION_CODE"] = appBuildVersion;
-    }
+    var header = await _getDefaultHeader();
+    request.headers = header;
     handler.next(request);
   }
 
@@ -221,10 +225,13 @@ class DioClient {
           "Content-type": "application/json",
         };
       }
-      return {
-        "Content-type": "application/json",
-        "Authorization": "Bearer ${tokenInfo.accessToken}"
-      };
+      if (tokenInfo.accessToken?.isNotEmpty == true) {
+        return {
+          "Content-type": "application/json",
+          "Authorization": "Bearer ${tokenInfo.accessToken}"
+        };
+      }
+      throw ("token not found");
     } catch (err) {
       return {
         "Content-type": "application/json",
@@ -232,7 +239,7 @@ class DioClient {
     }
   }
 
-  InterceptorsWrapper getDefaultInterceptor(Dio dio,
+  InterceptorsWrapper _getDefaultInterceptor(Dio dio,
       {required bool shouldHandleException}) {
     return InterceptorsWrapper(
       onError: (DioException error, ErrorInterceptorHandler handler) =>
@@ -242,25 +249,51 @@ class DioClient {
     );
   }
 
-  Future<Dio> getDefaultInstance({
-    bool useDefaultHeader = true,
-    bool useDefaultInterceptor = true,
-    bool shouldHandleException = true,
-  }) async {
+  Dio getDefaultInstance() {
     String apiUrl = dotenv.get("api_server_url");
-    Dio dio = Dio();
-    dio.options.connectTimeout = _connectTimeout as Duration?;
-    dio.options.receiveTimeout = _receiveTimeout as Duration?;
-    dio.options.baseUrl = apiUrl;
-    if (useDefaultHeader) {
-      dio.options.headers = await _getDefaultHeader();
+    _dio ??= Dio();
+    _dio!.options.connectTimeout = const Duration(seconds: _connectTimeout);
+    _dio!.options.receiveTimeout = const Duration(seconds: _receiveTimeout);
+    _dio!.options.baseUrl = apiUrl;
+    _dio!.interceptors.add(_getDefaultInterceptor(
+      _dio!,
+      shouldHandleException: true,
+    ));
+    return _dio!;
+  }
+
+  Future<void> _addRequestToQueue(
+      ErrorInterceptorHandler handler, RequestOptions requestOptions) async {
+    requestOptions.headers = await _getDefaultHeader();
+    if (requestOptions.data is FormData) {
+      FormData formData = FormData();
+      formData.fields.addAll(requestOptions.data.fields);
+      for (MapEntry mapFile in requestOptions.data.files) {
+        formData.files.add(
+          MapEntry(
+            mapFile.key,
+            MultipartFileExtended.fromFileSync(
+              mapFile.value.filePath,
+              filename: mapFile.value.filename,
+            ),
+          ),
+        );
+      }
+      requestOptions.data = formData;
     }
-    if (useDefaultInterceptor) {
-      dio.interceptors.add(getDefaultInterceptor(
-        dio,
-        shouldHandleException: shouldHandleException,
-      ));
-    }
-    return dio;
+    _mappingQueueRequest[handler] = requestOptions;
+  }
+
+  Future _repeatResponse() {
+    return Future.wait(_mappingQueueRequest.entries
+        .toList()
+        .map((e) => _handleRepeatResponse(e))
+        .toList());
+  }
+
+  Future<void> _handleRepeatResponse(
+      MapEntry<ErrorInterceptorHandler, RequestOptions> data) async {
+    final repeatedResponse = await _dio!.fetch(data.value);
+    return data.key.resolve(repeatedResponse);
   }
 }

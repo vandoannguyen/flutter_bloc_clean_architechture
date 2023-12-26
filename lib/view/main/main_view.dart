@@ -1,5 +1,5 @@
-import 'package:baese_flutter_bloc/di/injection_container.dart';
-import 'package:baese_flutter_bloc/routes/routes.dart';
+import 'package:base_flutter_bloc/di/injection_container.dart';
+import 'package:base_flutter_bloc/routes/routes.dart';
 import 'package:base_bloc_module/base/bloc_builder/bloc_builder_data_state.dart';
 import 'package:base_bloc_module/base/cubit/base_cubit_event.dart';
 import 'package:base_bloc_module/base/cubit/base_state_cubit.dart';
@@ -23,24 +23,32 @@ class MainView extends BaseViewCubit<MainBloc, MainState> {
           mainAxisSize: MainAxisSize.min,
           children: [
             GestureDetector(
-              onTap: () => bloc?.testTap(),
+              onTap: () => bloc?.login(),
               child: Container(
                 padding: const EdgeInsets.all(10),
-                color: Colors.transparent,
+                color: Colors.red,
                 child: const Text("Click to Login"),
               ),
             ),
-            BlocBuilderDataState<MainBloc, MainState>(
-              bloc: bloc,
-              builder: (context, state) => Text(
-                "${state.count}",
+            GestureDetector(
+              onTap: () => bloc?.getUser(),
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                color: Colors.blue,
+                child: const Text("Click Get User"),
               ),
             ),
             BlocBuilderDataState<MainBloc, MainState>(
               bloc: bloc,
               builder: (context, state) {
-                return Text(
-                  "${state.user?.a}  ${state.user?.b}",
+                return Column(
+                  children: state.users
+                      .map(
+                        (e) => Text(
+                          e,
+                        ),
+                      )
+                      .toList(),
                 );
               },
             ),
@@ -64,6 +72,5 @@ class MainView extends BaseViewCubit<MainBloc, MainState> {
   initEventViewModel(BuildContext context, BaseStateCubit state) {}
 
   @override
-  void initData() {
-  }
+  void initData() {}
 }

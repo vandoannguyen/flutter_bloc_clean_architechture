@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'package:base_flutter_bloc/bloc/main/main_view_event.dart';
 import 'package:base_bloc_module/base/cubit/base_cubit.dart';
 import 'package:base_bloc_module/base/cubit/base_cubit_event.dart';
+import 'package:base_flutter_bloc/model/request/login_request.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../model/entity/content/content_model.dart';
@@ -16,27 +18,25 @@ class MainBloc extends BaseCubit<MainState> {
   @factoryMethod
   MainBloc(this.contentUseCase) : super(MainState());
 
-  void testTap() {
-    ContentModel? user = dataState.user?.copyWith();
-    if (user == null) {
-      user = ContentModel(
-          a: "a${DateTime.now().millisecondsSinceEpoch}",
-          b: "b${DateTime.now().millisecondsSinceEpoch}");
-    } else {
-      user = user.copyWith(
-          a: "a${DateTime.now().millisecondsSinceEpoch}",
-          b: "b${DateTime.now().millisecondsSinceEpoch}");
-    }
-    emit(dataState.copyWith(user: user));
-    if (dataState.count! > 3) {
-      emit(dataState.copyWith(count: 0));
-      clickToLogin();
-    } else {
-      emit(dataState.copyWith(count: (dataState.count ?? 0) + 1));
-    }
-  }
+  void testTap() {}
 
   void clickToLogin() {
     emit(OnChangeScreenEvent(AppRoutes.MAIN2));
+  }
+
+  Future<void> login() async {
+    contentUseCase
+        .login(LoginRequest("anonystick.com", "anonystick.com"))
+        .then((value) {
+      print(value);
+    });
+    return;
+  }
+
+  Future getUser() async {
+    for (int i = 0; i < 3; i++) {
+      contentUseCase.getData();
+    }
+    return;
   }
 }

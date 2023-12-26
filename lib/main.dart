@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'di/injection_container.dart';
 import 'my_app.dart';
+import 'firebase_options.dart';
 
 String envConfig(String flavor) {
   switch (flavor) {
@@ -22,7 +23,6 @@ String envConfig(String flavor) {
 void main() async {
   const flavor = String.fromEnvironment('flavor', defaultValue: 'dev');
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
   BaseBlocConfig.instance.configLoadingWidget(() {
     return const Center(
       child: CircularProgressIndicator(),
@@ -42,5 +42,6 @@ void main() async {
   });
   await dotenv.load(fileName: envConfig(flavor));
   await configureDependencies();
+  Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform());
   runApp(const MyApp());
 }

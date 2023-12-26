@@ -15,13 +15,14 @@ import 'widgets/loading_widget.dart';
 abstract class BaseViewCubit<CUBIT extends BaseCubit<STATE>,
         STATE extends BaseStateCubit> extends StatelessWidget
     with BaseViewCubitMethod<CUBIT> {
-  BaseViewCubit({Key? key}) : super(key: key);
+  BaseViewCubit({Key? key}) : super(key: key) {
+    bloc = initBloc();
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<CUBIT>(
       create: (context) {
-        bloc = initBloc();
         initData();
         return bloc!;
       },

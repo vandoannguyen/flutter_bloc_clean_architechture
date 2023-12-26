@@ -63,22 +63,22 @@ class _$Main2StateCopyWithImpl<$Res, $Val extends Main2State>
 }
 
 /// @nodoc
-abstract class _$$_Main2StateCopyWith<$Res>
+abstract class _$$Main2StateImplCopyWith<$Res>
     implements $Main2StateCopyWith<$Res> {
-  factory _$$_Main2StateCopyWith(
-          _$_Main2State value, $Res Function(_$_Main2State) then) =
-      __$$_Main2StateCopyWithImpl<$Res>;
+  factory _$$Main2StateImplCopyWith(
+          _$Main2StateImpl value, $Res Function(_$Main2StateImpl) then) =
+      __$$Main2StateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int? count, String value});
 }
 
 /// @nodoc
-class __$$_Main2StateCopyWithImpl<$Res>
-    extends _$Main2StateCopyWithImpl<$Res, _$_Main2State>
-    implements _$$_Main2StateCopyWith<$Res> {
-  __$$_Main2StateCopyWithImpl(
-      _$_Main2State _value, $Res Function(_$_Main2State) _then)
+class __$$Main2StateImplCopyWithImpl<$Res>
+    extends _$Main2StateCopyWithImpl<$Res, _$Main2StateImpl>
+    implements _$$Main2StateImplCopyWith<$Res> {
+  __$$Main2StateImplCopyWithImpl(
+      _$Main2StateImpl _value, $Res Function(_$Main2StateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -87,7 +87,7 @@ class __$$_Main2StateCopyWithImpl<$Res>
     Object? count = freezed,
     Object? value = null,
   }) {
-    return _then(_$_Main2State(
+    return _then(_$Main2StateImpl(
       count: freezed == count
           ? _value.count
           : count // ignore: cast_nullable_to_non_nullable
@@ -102,8 +102,8 @@ class __$$_Main2StateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Main2State implements _Main2State {
-  _$_Main2State({this.count = 0, this.value = "value"});
+class _$Main2StateImpl implements _Main2State {
+  _$Main2StateImpl({this.count = 0, this.value = "value"});
 
   @override
   @JsonKey()
@@ -118,10 +118,10 @@ class _$_Main2State implements _Main2State {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Main2State &&
+            other is _$Main2StateImpl &&
             (identical(other.count, count) || other.count == count) &&
             (identical(other.value, value) || other.value == value));
   }
@@ -132,12 +132,13 @@ class _$_Main2State implements _Main2State {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_Main2StateCopyWith<_$_Main2State> get copyWith =>
-      __$$_Main2StateCopyWithImpl<_$_Main2State>(this, _$identity);
+  _$$Main2StateImplCopyWith<_$Main2StateImpl> get copyWith =>
+      __$$Main2StateImplCopyWithImpl<_$Main2StateImpl>(this, _$identity);
 }
 
 abstract class _Main2State implements Main2State {
-  factory _Main2State({final int? count, final String value}) = _$_Main2State;
+  factory _Main2State({final int? count, final String value}) =
+      _$Main2StateImpl;
 
   @override
   int? get count;
@@ -145,6 +146,6 @@ abstract class _Main2State implements Main2State {
   String get value;
   @override
   @JsonKey(ignore: true)
-  _$$_Main2StateCopyWith<_$_Main2State> get copyWith =>
+  _$$Main2StateImplCopyWith<_$Main2StateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

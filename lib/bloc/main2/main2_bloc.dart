@@ -1,4 +1,4 @@
-import 'package:baese_flutter_bloc/bloc/main2/main2_state.dart';
+import 'package:base_flutter_bloc/bloc/main2/main2_state.dart';
 import 'package:base_bloc_module/base/cubit/base_cubit.dart';
 import 'package:injectable/injectable.dart';
 import '../../model/repository/content/content_repository.dart';

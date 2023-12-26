@@ -1,3 +1,5 @@
+import 'package:base_flutter_bloc/model/request/login_request.dart';
+import 'package:base_flutter_bloc/model/request/refresh_token_request.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../local/content/content_local.dart';
@@ -14,7 +16,17 @@ class ContentRepositoryImpl extends ContentRepository {
 
   @override
   Future getData() {
-    // TODO: implement getData
+    return _contentNetwork.getData();
+  }
+
+  @override
+  Future login(LoginRequest body) {
+    return _contentNetwork.login(body);
+  }
+
+  @override
+  Future token(RefreshTokenRequest token) {
+    // TODO: implement token
     throw UnimplementedError();
   }
 }

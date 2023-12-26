@@ -74,17 +74,6 @@ class AuthUtils {
             await FirebaseAuth.instance.signInWithCredential(credential);
         completer.complete(userCredential);
         break;
-      // final firebaseUser = userCredential.user!;
-      // if (scopes.contains(Scope.fullName)) {
-      //   final fullName = appleIdCredential.fullName;
-      //   if (fullName != null &&
-      //       fullName.givenName != null &&
-      //       fullName.familyName != null) {
-      //     final displayName = '${fullName.givenName} ${fullName.familyName}';
-      //     await firebaseUser.updateDisplayName(displayName);
-      //   }
-      // }
-      // return firebaseUser;
       case AuthorizationStatus.error:
         completer.completeError(result.error!);
         break;

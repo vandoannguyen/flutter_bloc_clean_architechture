@@ -75,23 +75,25 @@ class _$MainViewEventCopyWithImpl<$Res, $Val extends MainViewEvent>
 }
 
 /// @nodoc
-abstract class _$$GetDataCopyWith<$Res> {
-  factory _$$GetDataCopyWith(_$GetData value, $Res Function(_$GetData) then) =
-      __$$GetDataCopyWithImpl<$Res>;
+abstract class _$$GetDataImplCopyWith<$Res> {
+  factory _$$GetDataImplCopyWith(
+          _$GetDataImpl value, $Res Function(_$GetDataImpl) then) =
+      __$$GetDataImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$GetDataCopyWithImpl<$Res>
-    extends _$MainViewEventCopyWithImpl<$Res, _$GetData>
-    implements _$$GetDataCopyWith<$Res> {
-  __$$GetDataCopyWithImpl(_$GetData _value, $Res Function(_$GetData) _then)
+class __$$GetDataImplCopyWithImpl<$Res>
+    extends _$MainViewEventCopyWithImpl<$Res, _$GetDataImpl>
+    implements _$$GetDataImplCopyWith<$Res> {
+  __$$GetDataImplCopyWithImpl(
+      _$GetDataImpl _value, $Res Function(_$GetDataImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$GetData implements GetData {
-  const _$GetData();
+class _$GetDataImpl implements GetData {
+  const _$GetDataImpl();
 
   @override
   String toString() {
@@ -99,9 +101,9 @@ class _$GetData implements GetData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$GetData);
+        (other.runtimeType == runtimeType && other is _$GetDataImpl);
   }
 
   @override
@@ -171,29 +173,29 @@ class _$GetData implements GetData {
 }
 
 abstract class GetData implements MainViewEvent {
-  const factory GetData() = _$GetData;
+  const factory GetData() = _$GetDataImpl;
 }
 
 /// @nodoc
-abstract class _$$ShowMessageCopyWith<$Res> {
-  factory _$$ShowMessageCopyWith(
-          _$ShowMessage value, $Res Function(_$ShowMessage) then) =
-      __$$ShowMessageCopyWithImpl<$Res>;
+abstract class _$$ShowMessageImplCopyWith<$Res> {
+  factory _$$ShowMessageImplCopyWith(
+          _$ShowMessageImpl value, $Res Function(_$ShowMessageImpl) then) =
+      __$$ShowMessageImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$ShowMessageCopyWithImpl<$Res>
-    extends _$MainViewEventCopyWithImpl<$Res, _$ShowMessage>
-    implements _$$ShowMessageCopyWith<$Res> {
-  __$$ShowMessageCopyWithImpl(
-      _$ShowMessage _value, $Res Function(_$ShowMessage) _then)
+class __$$ShowMessageImplCopyWithImpl<$Res>
+    extends _$MainViewEventCopyWithImpl<$Res, _$ShowMessageImpl>
+    implements _$$ShowMessageImplCopyWith<$Res> {
+  __$$ShowMessageImplCopyWithImpl(
+      _$ShowMessageImpl _value, $Res Function(_$ShowMessageImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$ShowMessage implements ShowMessage {
-  const _$ShowMessage();
+class _$ShowMessageImpl implements ShowMessage {
+  const _$ShowMessageImpl();
 
   @override
   String toString() {
@@ -201,9 +203,9 @@ class _$ShowMessage implements ShowMessage {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$ShowMessage);
+        (other.runtimeType == runtimeType && other is _$ShowMessageImpl);
   }
 
   @override
@@ -273,5 +275,5 @@ class _$ShowMessage implements ShowMessage {
 }
 
 abstract class ShowMessage implements MainViewEvent {
-  const factory ShowMessage() = _$ShowMessage;
+  const factory ShowMessage() = _$ShowMessageImpl;
 }

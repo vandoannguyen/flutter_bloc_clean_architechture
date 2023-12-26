@@ -68,6 +68,13 @@ class NavigatorUtils {
     }
   }
 
+  void pop<T extends Object?>([T? result]) {
+    if (Navigator.of(_navigatorKey.currentContext!).canPop()) {
+      return Navigator.of(_navigatorKey.currentContext!).pop(result);
+    }
+    return;
+  }
+
   bool checkKey() {
     if (_navigatorKey.currentContext != null) {
       return true;
@@ -86,7 +93,11 @@ class NavigatorUtils {
     }
   }
 
-  static void showNoInternetErrorDialog() {}
+  static void showNoInternetErrorDialog() {
 
-  static void showGeneralErrorDialog() {}
+  }
+
+  static void showGeneralErrorDialog() {
+
+  }
 }

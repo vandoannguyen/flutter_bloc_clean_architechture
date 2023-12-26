@@ -63,22 +63,22 @@ class _$ContentModelCopyWithImpl<$Res, $Val extends ContentModel>
 }
 
 /// @nodoc
-abstract class _$$_ContentModelCopyWith<$Res>
+abstract class _$$ContentModelImplCopyWith<$Res>
     implements $ContentModelCopyWith<$Res> {
-  factory _$$_ContentModelCopyWith(
-          _$_ContentModel value, $Res Function(_$_ContentModel) then) =
-      __$$_ContentModelCopyWithImpl<$Res>;
+  factory _$$ContentModelImplCopyWith(
+          _$ContentModelImpl value, $Res Function(_$ContentModelImpl) then) =
+      __$$ContentModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String? a, String? b});
 }
 
 /// @nodoc
-class __$$_ContentModelCopyWithImpl<$Res>
-    extends _$ContentModelCopyWithImpl<$Res, _$_ContentModel>
-    implements _$$_ContentModelCopyWith<$Res> {
-  __$$_ContentModelCopyWithImpl(
-      _$_ContentModel _value, $Res Function(_$_ContentModel) _then)
+class __$$ContentModelImplCopyWithImpl<$Res>
+    extends _$ContentModelCopyWithImpl<$Res, _$ContentModelImpl>
+    implements _$$ContentModelImplCopyWith<$Res> {
+  __$$ContentModelImplCopyWithImpl(
+      _$ContentModelImpl _value, $Res Function(_$ContentModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -87,7 +87,7 @@ class __$$_ContentModelCopyWithImpl<$Res>
     Object? a = freezed,
     Object? b = freezed,
   }) {
-    return _then(_$_ContentModel(
+    return _then(_$ContentModelImpl(
       a: freezed == a
           ? _value.a
           : a // ignore: cast_nullable_to_non_nullable
@@ -103,8 +103,8 @@ class __$$_ContentModelCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _$_ContentModel implements _ContentModel {
-  _$_ContentModel({this.a, this.b});
+class _$ContentModelImpl implements _ContentModel {
+  _$ContentModelImpl({this.a, this.b});
 
   @override
   final String? a;
@@ -117,10 +117,10 @@ class _$_ContentModel implements _ContentModel {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ContentModel &&
+            other is _$ContentModelImpl &&
             (identical(other.a, a) || other.a == a) &&
             (identical(other.b, b) || other.b == b));
   }
@@ -131,12 +131,13 @@ class _$_ContentModel implements _ContentModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ContentModelCopyWith<_$_ContentModel> get copyWith =>
-      __$$_ContentModelCopyWithImpl<_$_ContentModel>(this, _$identity);
+  _$$ContentModelImplCopyWith<_$ContentModelImpl> get copyWith =>
+      __$$ContentModelImplCopyWithImpl<_$ContentModelImpl>(this, _$identity);
 }
 
 abstract class _ContentModel implements ContentModel {
-  factory _ContentModel({final String? a, final String? b}) = _$_ContentModel;
+  factory _ContentModel({final String? a, final String? b}) =
+      _$ContentModelImpl;
 
   @override
   String? get a;
@@ -144,6 +145,6 @@ abstract class _ContentModel implements ContentModel {
   String? get b;
   @override
   @JsonKey(ignore: true)
-  _$$_ContentModelCopyWith<_$_ContentModel> get copyWith =>
+  _$$ContentModelImplCopyWith<_$ContentModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

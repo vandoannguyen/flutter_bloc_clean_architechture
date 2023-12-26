@@ -1,7 +1,7 @@
-import 'package:baese_flutter_bloc/bloc/main2/main2_bloc.dart';
-import 'package:baese_flutter_bloc/bloc/main2/main2_event.dart';
-import 'package:baese_flutter_bloc/bloc/main2/main2_state.dart';
-import 'package:baese_flutter_bloc/di/injection_container.dart';
+import 'package:base_flutter_bloc/bloc/main2/main2_bloc.dart';
+import 'package:base_flutter_bloc/bloc/main2/main2_event.dart';
+import 'package:base_flutter_bloc/bloc/main2/main2_state.dart';
+import 'package:base_flutter_bloc/di/injection_container.dart';
 import 'package:base_bloc_module/index.dart';
 import 'package:flutter/material.dart';
 

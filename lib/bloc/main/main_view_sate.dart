@@ -8,8 +8,10 @@ part 'main_view_sate.freezed.dart';
 
 @freezed
 class MainState extends BaseDataStateCubit with _$MainState {
-  factory MainState(
-      {@Default(0) int? count,
-      @Default("value") String value,
-      ContentModel? user}) = _MainState;
+  factory MainState({
+    @Default(0) int? count,
+    @Default("value") String value,
+    @Default([]) List<String> users,
+    ContentModel? user,
+  }) = _MainState;
 }

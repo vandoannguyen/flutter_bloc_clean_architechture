@@ -1,8 +1,9 @@
-import 'package:baese_flutter_bloc/routes/pages.dart';
-import 'package:baese_flutter_bloc/utils/app_route_tracking.dart';
-import 'package:baese_flutter_bloc/utils/navigate_utils.dart';
+import 'package:base_flutter_bloc/routes/pages.dart';
+import 'package:base_flutter_bloc/utils/app_route_tracking.dart';
+import 'package:base_flutter_bloc/utils/navigate_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 import 'bloc/app/app_bloc.dart';
@@ -23,6 +24,15 @@ class MyApp extends StatelessWidget {
         ],
         child: MaterialApp(
           title: 'Flutter Demo',
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('en'),
+            Locale('vi'),
+          ],
           navigatorKey: NavigatorUtils.instance.navigatorKey,
           theme: ThemeData(
             primarySwatch: Colors.blue,

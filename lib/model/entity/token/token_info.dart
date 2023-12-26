@@ -16,8 +16,8 @@ class TokenInfo {
   TokenInfo({
     required this.accessToken,
     required this.refreshToken,
-    required this.expireAt,
-    required this.tokenType,
+    this.expireAt,
+    this.tokenType,
   });
 
   factory TokenInfo.fromJson(Map<String, dynamic> json) =>

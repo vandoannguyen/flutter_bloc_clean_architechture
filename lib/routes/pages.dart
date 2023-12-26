@@ -1,4 +1,4 @@
-import 'package:baese_flutter_bloc/routes/routes.dart';
+import 'package:base_flutter_bloc/routes/routes.dart';
 import 'package:flutter/material.dart';
 
 import '../view/main/main_view.dart';

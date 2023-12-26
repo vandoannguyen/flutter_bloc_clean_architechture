@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$MainState {
   int? get count => throw _privateConstructorUsedError;
   String get value => throw _privateConstructorUsedError;
+  List<String> get users => throw _privateConstructorUsedError;
   ContentModel? get user => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -30,7 +31,7 @@ abstract class $MainStateCopyWith<$Res> {
   factory $MainStateCopyWith(MainState value, $Res Function(MainState) then) =
       _$MainStateCopyWithImpl<$Res, MainState>;
   @useResult
-  $Res call({int? count, String value, ContentModel? user});
+  $Res call({int? count, String value, List<String> users, ContentModel? user});
 
   $ContentModelCopyWith<$Res>? get user;
 }
@@ -50,6 +51,7 @@ class _$MainStateCopyWithImpl<$Res, $Val extends MainState>
   $Res call({
     Object? count = freezed,
     Object? value = null,
+    Object? users = null,
     Object? user = freezed,
   }) {
     return _then(_value.copyWith(
@@ -61,6 +63,10 @@ class _$MainStateCopyWithImpl<$Res, $Val extends MainState>
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
               as String,
+      users: null == users
+          ? _value.users
+          : users // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
@@ -82,24 +88,25 @@ class _$MainStateCopyWithImpl<$Res, $Val extends MainState>
 }
 
 /// @nodoc
-abstract class _$$_MainStateCopyWith<$Res> implements $MainStateCopyWith<$Res> {
-  factory _$$_MainStateCopyWith(
-          _$_MainState value, $Res Function(_$_MainState) then) =
-      __$$_MainStateCopyWithImpl<$Res>;
+abstract class _$$MainStateImplCopyWith<$Res>
+    implements $MainStateCopyWith<$Res> {
+  factory _$$MainStateImplCopyWith(
+          _$MainStateImpl value, $Res Function(_$MainStateImpl) then) =
+      __$$MainStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int? count, String value, ContentModel? user});
+  $Res call({int? count, String value, List<String> users, ContentModel? user});
 
   @override
   $ContentModelCopyWith<$Res>? get user;
 }
 
 /// @nodoc
-class __$$_MainStateCopyWithImpl<$Res>
-    extends _$MainStateCopyWithImpl<$Res, _$_MainState>
-    implements _$$_MainStateCopyWith<$Res> {
-  __$$_MainStateCopyWithImpl(
-      _$_MainState _value, $Res Function(_$_MainState) _then)
+class __$$MainStateImplCopyWithImpl<$Res>
+    extends _$MainStateCopyWithImpl<$Res, _$MainStateImpl>
+    implements _$$MainStateImplCopyWith<$Res> {
+  __$$MainStateImplCopyWithImpl(
+      _$MainStateImpl _value, $Res Function(_$MainStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -107,9 +114,10 @@ class __$$_MainStateCopyWithImpl<$Res>
   $Res call({
     Object? count = freezed,
     Object? value = null,
+    Object? users = null,
     Object? user = freezed,
   }) {
-    return _then(_$_MainState(
+    return _then(_$MainStateImpl(
       count: freezed == count
           ? _value.count
           : count // ignore: cast_nullable_to_non_nullable
@@ -118,6 +126,10 @@ class __$$_MainStateCopyWithImpl<$Res>
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
               as String,
+      users: null == users
+          ? _value._users
+          : users // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
@@ -128,8 +140,13 @@ class __$$_MainStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_MainState implements _MainState {
-  _$_MainState({this.count = 0, this.value = "value", this.user});
+class _$MainStateImpl implements _MainState {
+  _$MainStateImpl(
+      {this.count = 0,
+      this.value = "value",
+      final List<String> users = const [],
+      this.user})
+      : _users = users;
 
   @override
   @JsonKey()
@@ -137,48 +154,62 @@ class _$_MainState implements _MainState {
   @override
   @JsonKey()
   final String value;
+  final List<String> _users;
+  @override
+  @JsonKey()
+  List<String> get users {
+    if (_users is EqualUnmodifiableListView) return _users;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_users);
+  }
+
   @override
   final ContentModel? user;
 
   @override
   String toString() {
-    return 'MainState(count: $count, value: $value, user: $user)';
+    return 'MainState(count: $count, value: $value, users: $users, user: $user)';
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MainState &&
+            other is _$MainStateImpl &&
             (identical(other.count, count) || other.count == count) &&
             (identical(other.value, value) || other.value == value) &&
+            const DeepCollectionEquality().equals(other._users, _users) &&
             (identical(other.user, user) || other.user == user));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, count, value, user);
+  int get hashCode => Object.hash(runtimeType, count, value,
+      const DeepCollectionEquality().hash(_users), user);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MainStateCopyWith<_$_MainState> get copyWith =>
-      __$$_MainStateCopyWithImpl<_$_MainState>(this, _$identity);
+  _$$MainStateImplCopyWith<_$MainStateImpl> get copyWith =>
+      __$$MainStateImplCopyWithImpl<_$MainStateImpl>(this, _$identity);
 }
 
 abstract class _MainState implements MainState {
   factory _MainState(
       {final int? count,
       final String value,
-      final ContentModel? user}) = _$_MainState;
+      final List<String> users,
+      final ContentModel? user}) = _$MainStateImpl;
 
   @override
   int? get count;
   @override
   String get value;
   @override
+  List<String> get users;
+  @override
   ContentModel? get user;
   @override
   @JsonKey(ignore: true)
-  _$$_MainStateCopyWith<_$_MainState> get copyWith =>
+  _$$MainStateImplCopyWith<_$MainStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

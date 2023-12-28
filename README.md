@@ -27,7 +27,7 @@
 │
 └───bloc // contains bloc
 │    
-└───common // contains enum, extendsion, common functions...
+└───common // contains enum, extension, common functions...
 │   
 └───di 
 │   
@@ -43,15 +43,21 @@
 │   
 └───routes // config route name and page
 │   
-└───theme // contains text style, common size
+└───theme // contains text style, common size, theme data
+│   
+└───translations // mutiple language
 │   
 └───utils
 │   
 └───view
 │   
+└───gen // gen access file
+│   
 └───widgets // Contains common widget
 │   
 └───main.dart
+│   
+└───firebase_options.dart // config firebase
 
 ```
 

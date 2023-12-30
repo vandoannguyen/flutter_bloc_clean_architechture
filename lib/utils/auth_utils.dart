@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
+// import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:the_apple_sign_in/the_apple_sign_in.dart';
 
 class AuthUtils {
@@ -11,68 +13,53 @@ class AuthUtils {
 
   AuthUtils._getInstance();
 
-  Future<UserCredential> loginGoogle() async {
-    Completer<UserCredential> completer = Completer();
+  Future<AuthUtilsCredential> loginGoogle() async {
+    Completer<AuthUtilsCredential> completer = Completer();
     try {
-      // Trigger the authentication flow
       final googleUser = await GoogleSignIn().signIn();
-      // Obtain the auth details from the request
       final googleAuth = await googleUser?.authentication;
       if (googleAuth != null) {
-        // Create a new credential
-        final credential = GoogleAuthProvider.credential(
-          accessToken: googleAuth.accessToken,
-          idToken: googleAuth.idToken,
+        completer.complete(
+          AuthUtilsCredential(
+              accessToken: googleAuth.accessToken, idToken: googleAuth.idToken),
         );
-        // Once signed in, return the UserCredential
-        var userCredential =
-            await FirebaseAuth.instance.signInWithCredential(credential);
-        completer.complete(userCredential);
+      } else {
+        throw "googleAuth null";
       }
     } on Exception catch (e) {
       completer.completeError(e);
-      print("error$e");
     }
     return completer.future;
   }
 
-  Future<UserCredential> loginFacebook() async {
-    Completer<UserCredential> completer = Completer();
+  Future<AuthUtilsCredential> loginFacebook() async {
+    Completer<AuthUtilsCredential> completer = Completer();
     try {
       LoginResult loginResult = await FacebookAuth.instance.login();
-      final userData = await FacebookAuth.instance.getUserData();
-      final credential =
-          FacebookAuthProvider.credential(loginResult.accessToken!.token);
-      // Once signed in, return the UserCredential
-      var userCredential =
-          await FirebaseAuth.instance.signInWithCredential(credential);
-      completer.complete(userCredential);
+      completer.complete(
+        AuthUtilsCredential(accessToken: loginResult.accessToken!.token),
+      );
     } on Exception catch (e) {
       completer.completeError(e);
-      print("error$e");
     }
     return completer.future;
   }
 
-  Future<UserCredential> loginApple() async {
-    List<Scope> scopes = [];
-    Completer<UserCredential> completer = Completer();
-    // 1. perform the sign-in request
-    final result = await TheAppleSignIn.performRequests(
-        [AppleIdRequest(requestedScopes: scopes)]);
-    // 2. check the result
+  Future<AuthUtilsCredential> loginApple() async {
+    Completer<AuthUtilsCredential> completer = Completer();
+    final result = await TheAppleSignIn.performRequests([
+      const AppleIdRequest(requestedScopes: [Scope.email, Scope.fullName])
+    ]);
     switch (result.status) {
       case AuthorizationStatus.authorized:
         final appleIdCredential = result.credential!;
-        final oAuthProvider = OAuthProvider('apple.com');
-        final credential = oAuthProvider.credential(
-          idToken: String.fromCharCodes(appleIdCredential.identityToken!),
-          accessToken:
-              String.fromCharCodes(appleIdCredential.authorizationCode!),
+        completer.complete(
+          AuthUtilsCredential(
+            accessToken:
+            String.fromCharCodes(appleIdCredential.authorizationCode!),
+            idToken: String.fromCharCodes(appleIdCredential.identityToken!),
+          ),
         );
-        final userCredential =
-            await FirebaseAuth.instance.signInWithCredential(credential);
-        completer.complete(userCredential);
         break;
       case AuthorizationStatus.error:
         completer.completeError(result.error!);
@@ -87,4 +74,61 @@ class AuthUtils {
     }
     return completer.future;
   }
+
+  Future<UserCredential> firebaseLoginGoogle() async {
+    Completer<UserCredential> completer = Completer();
+    try {
+      var authUtilsCredential = await loginGoogle();
+      final credential = GoogleAuthProvider.credential(
+        accessToken: authUtilsCredential.accessToken,
+        idToken: authUtilsCredential.idToken,
+      );
+      var userCredential =
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      completer.complete(userCredential);
+    } catch (e) {
+      completer.completeError(e);
+    }
+    return completer.future;
+  }
+
+  Future<UserCredential> firebaseLoginFacebook() async {
+    Completer<UserCredential> completer = Completer();
+    try {
+      var authUtilsCredential = await loginFacebook();
+      final credential =
+      FacebookAuthProvider.credential(authUtilsCredential.accessToken!);
+      var userCredential =
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      completer.complete(userCredential);
+    } catch (e) {
+      completer.completeError(e);
+    }
+    return completer.future;
+  }
+
+  Future<UserCredential> firebaseLoginApple() async {
+    Completer<UserCredential> completer = Completer();
+    try {
+      var authUtilsCredential = await loginApple();
+      final oAuthProvider = OAuthProvider('apple.com');
+      final credential = oAuthProvider.credential(
+        idToken: authUtilsCredential.idToken,
+        accessToken: authUtilsCredential.accessToken,
+      );
+      final userCredential =
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      completer.complete(userCredential);
+    } catch (err) {
+      completer.completeError(err);
+    }
+    return completer.future;
+  }
+}
+
+class AuthUtilsCredential {
+  String? idToken;
+  String? accessToken;
+
+  AuthUtilsCredential({this.idToken, this.accessToken});
 }

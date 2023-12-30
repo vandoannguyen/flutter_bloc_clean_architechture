@@ -68,3 +68,8 @@ flutter:
     - family: Roboto
       fonts:
         - asset: fonts/Roboto-Regular.ttf
+flutter_intl:
+  enabled: true
+  class_name: Languages
+  arb_dir: lib/translations
+  output_dir: lib/gen

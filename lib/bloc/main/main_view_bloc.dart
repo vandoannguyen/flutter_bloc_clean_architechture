@@ -21,7 +21,7 @@ class MainBloc extends BaseCubit<MainState> {
   void testTap() {}
 
   void clickToLogin() {
-    emit(OnChangeScreenEvent(AppRoutes.MAIN2));
+    emit(OnChangeScreenEvent(AppRoutes.MAIN2.routeName));
   }
 
   Future<void> login() async {

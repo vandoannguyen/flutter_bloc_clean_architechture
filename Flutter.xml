@@ -38,7 +38,7 @@
       <option name="DART" value="true" />
     </context>
   </template>
-  <template name="model" value="import 'package:json_annotation/json_annotation.dart';&#10;&#10;part '$path$.g.dart';&#10;&#10;@JsonSerializable(explicitToJson: true)&#10;class $name$ {&#10;  String? id;&#10;  ConnectableDevice({&#10;    this.id,&#10;  });&#10;&#10;  factory $name$.fromJson(Map&lt;String, Object?&gt; json) =&gt;&#10;      _$$$name$FromJson(json);&#10;&#10;  Map&lt;String, dynamic&gt; toJson() =&gt; _$$$name$ToJson(this);&#10;}&#10;" description="gen default model" toReformat="false" toShortenFQNames="true">
+  <template name="model" value="import 'package:json_annotation/json_annotation.dart';&#10;&#10;part '$path$.g.dart';&#10;&#10;@JsonSerializable(explicitToJson: true)&#10;class $name$ {&#10;  String? id;&#10;  $name$({&#10;    this.id,&#10;  });&#10;&#10;  factory $name$.fromJson(Map&lt;String, Object?&gt; json) =&gt;&#10;      _$$$name$FromJson(json);&#10;&#10;  Map&lt;String, dynamic&gt; toJson() =&gt; _$$$name$ToJson(this);&#10;}&#10;" description="gen default model" toReformat="false" toShortenFQNames="true">
     <variable name="path" expression="fileNameWithoutExtension()" defaultValue="" alwaysStopAt="false" />
     <variable name="name" expression="" defaultValue="" alwaysStopAt="true" />
     <context>

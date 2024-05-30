@@ -1,3 +1,9 @@
+plugins {
+    id "com.android.application"
+    id "com.google.gms.google-services"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+}
 def localProperties = new Properties()
 def keyProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
@@ -25,17 +31,9 @@ def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
-
-apply plugin: 'com.android.application'
-// START: FlutterFire Configuration
-apply plugin: 'com.google.gms.google-services'
-// END: FlutterFire Configuration
-apply plugin: 'kotlin-android'
-apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
-
 android {
-    compileSdkVersion 33
-
+    compileSdkVersion 34
+    namespace "com.example.base_flutter_bloc"
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -66,7 +64,7 @@ android {
         }
     }
     flavorDimensions "dimentions"
-    productFlavors{
+    productFlavors {
         dev {
             applicationIdSuffix '.dev'
             versionNameSuffix 'Dev'
@@ -81,7 +79,7 @@ android {
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --releas    e` works.
+            // Signing with the debug keys for now, so `flutter run --release` works.
 //            signingConfig signingConfigs.release
         }
         debug {

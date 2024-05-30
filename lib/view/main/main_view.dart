@@ -23,15 +23,24 @@ class MainView extends BaseViewCubit<MainBloc, MainState> {
           mainAxisSize: MainAxisSize.min,
           children: [
             GestureDetector(
-              onTap: () => bloc?.login(),
+              onTap: () async {
+                NavigatorUtils.instance.pushNamed(AppRoutes.MAIN2.routeName);
+                await Future.delayed(Duration(seconds: 2));
+                bloc?.handleShowDialog();
+              },
               child: Container(
                 padding: const EdgeInsets.all(10),
                 color: Colors.red,
                 child: const Text("Click to Login"),
               ),
             ),
+            BlocBuilderDataState<MainBloc, MainState>(
+              builder: (BuildContext context, MainState state) {
+                return Text(state.value ?? "null");
+              },
+            ),
             GestureDetector(
-              onTap: () => bloc?.getUser(),
+              onTap: () {},
               child: Container(
                 padding: const EdgeInsets.all(10),
                 color: Colors.blue,

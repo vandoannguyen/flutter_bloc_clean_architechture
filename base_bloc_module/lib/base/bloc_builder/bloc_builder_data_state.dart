@@ -14,8 +14,9 @@ class BlocBuilderDataState<B extends StateStreamable<BaseStateCubit>,
           bloc: bloc,
           buildWhen: (previous, current) =>
               current is S && _checkBuildWhen(previous, current, buildWhen),
-          builder: (ctx, state) =>
-              (state is S) ? builder(ctx, state) : Container(),
+          builder: (ctx, state) => (state is S)
+              ? builder(ctx, state)
+              : builder(ctx, ctx.read<B>().state as S),
         );
 
   static bool _checkBuildWhen<S extends BaseStateCubit>(

@@ -20,10 +20,10 @@ class _ContentNetwork implements ContentNetwork {
 
   @override
   Future<dynamic> getData() async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch(_setStreamType<dynamic>(Options(
       method: 'GET',
       headers: _headers,
@@ -46,7 +46,7 @@ class _ContentNetwork implements ContentNetwork {
 
   @override
   Future<dynamic> login(LoginRequest body) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -73,7 +73,7 @@ class _ContentNetwork implements ContentNetwork {
 
   @override
   Future<dynamic> token(RefreshTokenRequest token) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = token;

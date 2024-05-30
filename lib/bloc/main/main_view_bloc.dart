@@ -39,4 +39,10 @@ class MainBloc extends BaseCubit<MainState> {
     }
     return;
   }
+
+  void handleShowDialog() {
+    showLoading();
+    Future.delayed(Duration(seconds: 2));
+    hideLoading();
+  }
 }

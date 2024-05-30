@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
             initialRoute: AppRoutes.INIT.routeName,
             routes: {
               for (AppRoutes e in AppRoutes.values)
-                e.name: (context) => e.getPage(context)
+                e.routeName: (context) => e.getPage(context)
             },
             navigatorObservers: [AppRouteTracking()],
           ),

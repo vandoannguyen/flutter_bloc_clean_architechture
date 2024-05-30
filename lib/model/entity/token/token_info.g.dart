@@ -9,7 +9,7 @@ part of 'token_info.dart';
 TokenInfo _$TokenInfoFromJson(Map<String, dynamic> json) => TokenInfo(
       accessToken: json['access_token'] as String?,
       refreshToken: json['refresh_token'] as String?,
-      expireAt: json['expire_at'] as int?,
+      expireAt: (json['expire_at'] as num?)?.toInt(),
       tokenType: json['token_type'] as String?,
     );
 

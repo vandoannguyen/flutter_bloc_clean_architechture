@@ -11,11 +11,11 @@
 
 ### Generate file
 
-- flutter packages pub run build_runner build --delete-conflicting-outputs
+- flutter packages pub run build_runner watch --delete-conflicting-outputs
 
 ### Release apk
 
-- flutter build apk --flavor dev -t lib/main_dev.dart
+- flutter build apk --flavor dev -t lib/main.dart
 
 ## Base project support:
 

@@ -75,9 +75,9 @@ class FunctionUtils {
             elevation: elevation,
             child: ListTileTheme(
               textColor:
-                  foreground ?? Theme.of(context).textTheme.headline6?.color,
+                  foreground ?? Theme.of(context).textTheme.headlineLarge?.color,
               iconColor:
-                  foreground ?? Theme.of(context).textTheme.headline6?.color,
+                  foreground ?? Theme.of(context).textTheme.headlineLarge?.color,
               child: ListTile(
                 leading: leading,
                 title: content,

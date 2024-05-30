@@ -8,7 +8,7 @@ part of 'business_error.dart';
 
 BusinessError _$BusinessErrorFromJson(Map<String, dynamic> json) =>
     BusinessError(
-      code: json['code'] as int?,
+      code: (json['code'] as num?)?.toInt(),
       errorCode: json['error_code'] as String?,
       errorData: json['error_data'],
       errorMessage: json['error_message'] as String?,

@@ -1,3 +1,4 @@
+import 'package:base_flutter_bloc/bloc/app/app_bloc.dart';
 import 'package:base_flutter_bloc/di/injection_container.dart';
 import 'package:base_flutter_bloc/routes/routes.dart';
 import 'package:base_bloc_module/base/bloc_builder/bloc_builder_data_state.dart';
@@ -24,9 +25,10 @@ class MainView extends BaseViewCubit<MainBloc, MainState> {
           children: [
             GestureDetector(
               onTap: () async {
-                NavigatorUtils.instance.pushNamed(AppRoutes.MAIN2.routeName);
-                await Future.delayed(Duration(seconds: 2));
-                bloc?.handleShowDialog();
+                context.read<AppBloc>().handleLoading();
+                NavigatorUtils.instance.pushNamed(
+                  AppRoutes.MAIN2.routeName,
+                );
               },
               child: Container(
                 padding: const EdgeInsets.all(10),
@@ -70,11 +72,6 @@ class MainView extends BaseViewCubit<MainBloc, MainState> {
   @override
   MainBloc initBloc() {
     return getIt<MainBloc>();
-  }
-
-  @override
-  void onChangeScreen(BuildContext context, OnChangeScreenEvent state) {
-    NavigatorUtils.instance.pushNamed(state.route);
   }
 
   @override

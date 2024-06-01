@@ -1,3 +1,7 @@
+import 'package:base_flutter_bloc/bloc/app/app_bloc.dart';
+import 'package:base_flutter_bloc/bloc/app/app_sate.dart';
+import 'package:base_flutter_bloc/bloc/main/main_view_bloc.dart';
+import 'package:base_flutter_bloc/bloc/main/main_view_sate.dart';
 import 'package:base_flutter_bloc/bloc/main2/main2_bloc.dart';
 import 'package:base_flutter_bloc/bloc/main2/main2_event.dart';
 import 'package:base_flutter_bloc/bloc/main2/main2_state.dart';
@@ -20,7 +24,11 @@ class _MainView2State
       body: Container(
         child: BlocBuilderDataState<Main2Bloc, Main2State>(
           builder: (BuildContext context, Main2State state) {
-            return Container();
+            return BlocBuilderDataState<AppBloc, AppState>(
+                builder: (BuildContext context, AppState state) {
+                  return Text(state.value);
+                },
+            );
           },
         ),
       ),

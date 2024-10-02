@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
-            initialRoute: AppRoutes.INIT.routeName,
+            initialRoute: AppRoutes.login.routeName,
             routes: {
               for (AppRoutes e in AppRoutes.values)
                 e.routeName: (context) => e.getPage(context)

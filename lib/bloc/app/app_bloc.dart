@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:base_bloc_module/base/cubit/base_cubit.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 import 'app_sate.dart';

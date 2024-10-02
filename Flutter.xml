@@ -5,7 +5,7 @@
       <option name="DART" value="true" />
     </context>
   </template>
-  <template name="stfb" value="&#10;import 'package:base_bloc_module/index.dart';&#10;import 'package:flutter/material.dart';&#10;&#10;class $Name$Screen extends StatefulWidget {&#10;  const $Name$Screen ({Key? key}) : super(key: key);&#10;&#10;  @override&#10;  State&lt;$Name$Screen&gt; createState() =&gt; _$Name$ScreenState();&#10;}&#10;&#10;class _$Name$ScreenState&#10;    extends BaseViewCubitState&lt;$Name$Bloc, $Name$State, $Name$Screen&gt; {&#10;  @override&#10;  Widget buildWidget(BuildContext context) {&#10;    return Scaffold();&#10;  }&#10;&#10;  @override&#10;  $Name$Bloc initBloc() {&#10;    return getIt&lt;$Name$Bloc&gt;();&#10;  }&#10;&#10;  @override&#10;  void initData() {&#10;  }&#10;&#10;  @override&#10;  void initEventViewModel(BuildContext context, BaseCubitEvent state) {&#10;  }&#10;}" description="Gen Base Statefull screen" toReformat="false" toShortenFQNames="true">
+  <template name="stfb" value="&#10;import 'package:base_bloc_module/index.dart';&#10;import 'package:flutter/material.dart';&#10;&#10;class $Name$Screen extends StatefulWidget {&#10;  const $Name$Screen ({super.key});&#10;&#10;  @override&#10;  State&lt;$Name$Screen&gt; createState() =&gt; _$Name$ScreenState();&#10;}&#10;&#10;class _$Name$ScreenState&#10;    extends BaseViewCubitState&lt;$Name$Bloc, $Name$State,$Name$Event, $Name$Screen&gt; {&#10;  @override&#10;  Widget buildWidget(BuildContext context) {&#10;    return Scaffold();&#10;  }&#10;&#10;  @override&#10;  $Name$Bloc initBloc() {&#10;    return getIt&lt;$Name$Bloc&gt;();&#10;  }&#10;&#10;  @override&#10;  void initData() {&#10;  }&#10;&#10;  @override&#10;  void initEventViewModel(BuildContext context, $Name$Event state) {&#10;  }&#10;}" description="Gen Base Statefull screen" toReformat="false" toShortenFQNames="true">
     <variable name="Name" expression="" defaultValue="" alwaysStopAt="true" />
     <context>
       <option name="DART" value="true" />
@@ -18,7 +18,7 @@
       <option name="DART" value="true" />
     </context>
   </template>
-  <template name="bs" value="import 'package:base_bloc_module/index.dart';&#10;import 'package:freezed_annotation/freezed_annotation.dart';&#10;&#10;part '$path$.freezed.dart';&#10;&#10;@Freezed(equal: true)&#10;class $name$State extends BaseDataStateCubit with _$$$name$State {&#10;  factory $name$State() = _$name$State;&#10;}&#10;" description="Gen base state data" toReformat="true" toShortenFQNames="true">
+  <template name="bs" value="import 'package:base_bloc_module/index.dart';&#10;import 'package:freezed_annotation/freezed_annotation.dart';&#10;&#10;part '$path$.freezed.dart';&#10;&#10;@Freezed(equal: true)&#10;class $name$State extends BaseDataStateCubit with _$$$name$State {&#10;  factory $name$State() = _$name$State;&#10;}&#10;@freezed&#10;class $name$Event extends BaseCubitEvent with _$$$name$Event {&#10;  const factory $name$Event.getData() = GetData;&#10;}&#10;" description="Gen base state data" toReformat="true" toShortenFQNames="true">
     <variable name="path" expression="fileNameWithoutExtension()" defaultValue="" alwaysStopAt="false" />
     <variable name="name" expression="" defaultValue="" alwaysStopAt="true" />
     <context>

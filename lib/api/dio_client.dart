@@ -1,13 +1,11 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:base_flutter_bloc/api/url_config.dart';
 import 'package:base_flutter_bloc/common/logger/logger.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:injectable/injectable.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../../exception/BusinessException.dart';
 import '../../exception/NetworkException.dart';
@@ -115,7 +113,7 @@ class DioClient {
         handler.next(error);
       } else if (error.response?.statusCode == 401) {
         final tokenInfo = await SharedPreferenceUtil.getTokenInfo();
-        LogUtils.e("Case 401 tokenInfoStr: \n${jsonEncode(tokenInfo) ?? ""}");
+        LogUtils.e("Case 401 tokenInfoStr: \n${jsonEncode(tokenInfo)}");
         if (tokenInfo == null) {
           handler.next(error);
         } else {

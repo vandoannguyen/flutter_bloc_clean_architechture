@@ -15,21 +15,12 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$AppState {
-  int? get count => throw _privateConstructorUsedError;
-  String get value => throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $AppStateCopyWith<AppState> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+mixin _$AppState {}
 
 /// @nodoc
 abstract class $AppStateCopyWith<$Res> {
   factory $AppStateCopyWith(AppState value, $Res Function(AppState) then) =
       _$AppStateCopyWithImpl<$Res, AppState>;
-  @useResult
-  $Res call({int? count, String value});
 }
 
 /// @nodoc
@@ -41,35 +32,13 @@ class _$AppStateCopyWithImpl<$Res, $Val extends AppState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? count = freezed,
-    Object? value = null,
-  }) {
-    return _then(_value.copyWith(
-      count: freezed == count
-          ? _value.count
-          : count // ignore: cast_nullable_to_non_nullable
-              as int?,
-      value: null == value
-          ? _value.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
-  }
 }
 
 /// @nodoc
-abstract class _$$AppStateImplCopyWith<$Res>
-    implements $AppStateCopyWith<$Res> {
+abstract class _$$AppStateImplCopyWith<$Res> {
   factory _$$AppStateImplCopyWith(
           _$AppStateImpl value, $Res Function(_$AppStateImpl) then) =
       __$$AppStateImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({int? count, String value});
 }
 
 /// @nodoc
@@ -79,71 +48,177 @@ class __$$AppStateImplCopyWithImpl<$Res>
   __$$AppStateImplCopyWithImpl(
       _$AppStateImpl _value, $Res Function(_$AppStateImpl) _then)
       : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? count = freezed,
-    Object? value = null,
-  }) {
-    return _then(_$AppStateImpl(
-      count: freezed == count
-          ? _value.count
-          : count // ignore: cast_nullable_to_non_nullable
-              as int?,
-      value: null == value
-          ? _value.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
 }
 
 /// @nodoc
 
 class _$AppStateImpl implements _AppState {
-  _$AppStateImpl({this.count = 0, this.value = "value"});
-
-  @override
-  @JsonKey()
-  final int? count;
-  @override
-  @JsonKey()
-  final String value;
+  _$AppStateImpl();
 
   @override
   String toString() {
-    return 'AppState(count: $count, value: $value)';
+    return 'AppState()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$AppStateImpl &&
-            (identical(other.count, count) || other.count == count) &&
-            (identical(other.value, value) || other.value == value));
+        (other.runtimeType == runtimeType && other is _$AppStateImpl);
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, count, value);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$AppStateImplCopyWith<_$AppStateImpl> get copyWith =>
-      __$$AppStateImplCopyWithImpl<_$AppStateImpl>(this, _$identity);
+  int get hashCode => runtimeType.hashCode;
 }
 
 abstract class _AppState implements AppState {
-  factory _AppState({final int? count, final String value}) = _$AppStateImpl;
+  factory _AppState() = _$AppStateImpl;
+}
+
+/// @nodoc
+mixin _$AppEvent {
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() getData,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? getData,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? getData,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(GetData value) getData,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(GetData value)? getData,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(GetData value)? getData,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AppEventCopyWith<$Res> {
+  factory $AppEventCopyWith(AppEvent value, $Res Function(AppEvent) then) =
+      _$AppEventCopyWithImpl<$Res, AppEvent>;
+}
+
+/// @nodoc
+class _$AppEventCopyWithImpl<$Res, $Val extends AppEvent>
+    implements $AppEventCopyWith<$Res> {
+  _$AppEventCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$GetDataImplCopyWith<$Res> {
+  factory _$$GetDataImplCopyWith(
+          _$GetDataImpl value, $Res Function(_$GetDataImpl) then) =
+      __$$GetDataImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$GetDataImplCopyWithImpl<$Res>
+    extends _$AppEventCopyWithImpl<$Res, _$GetDataImpl>
+    implements _$$GetDataImplCopyWith<$Res> {
+  __$$GetDataImplCopyWithImpl(
+      _$GetDataImpl _value, $Res Function(_$GetDataImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$GetDataImpl implements GetData {
+  _$GetDataImpl();
 
   @override
-  int? get count;
+  String toString() {
+    return 'AppEvent.getData()';
+  }
+
   @override
-  String get value;
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$GetDataImpl);
+  }
+
   @override
-  @JsonKey(ignore: true)
-  _$$AppStateImplCopyWith<_$AppStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() getData,
+  }) {
+    return getData();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? getData,
+  }) {
+    return getData?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? getData,
+    required TResult orElse(),
+  }) {
+    if (getData != null) {
+      return getData();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(GetData value) getData,
+  }) {
+    return getData(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(GetData value)? getData,
+  }) {
+    return getData?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(GetData value)? getData,
+    required TResult orElse(),
+  }) {
+    if (getData != null) {
+      return getData(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class GetData implements AppEvent {
+  factory GetData() = _$GetDataImpl;
 }

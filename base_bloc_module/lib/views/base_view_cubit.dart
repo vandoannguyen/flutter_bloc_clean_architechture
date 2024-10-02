@@ -3,18 +3,15 @@
 import 'package:base_bloc_module/base/cubit/base_cubit.dart';
 import 'package:base_bloc_module/base/cubit/base_cubit_event.dart';
 import 'package:base_bloc_module/base/cubit/base_state_cubit.dart';
-import 'package:base_bloc_module/models/message_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:overlay_support/overlay_support.dart';
 
 import 'base_view_cubit_method.dart';
-import 'widgets/loading_widget.dart';
 
 abstract class BaseViewCubit<CUBIT extends BaseCubit<STATE>,
-        STATE extends BaseStateCubit> extends StatelessWidget
-    with BaseViewCubitMethod<CUBIT> {
+STATE extends BaseStateCubit, EVENT extends BaseCubitEvent>
+    extends StatelessWidget with BaseViewCubitMethod<CUBIT, EVENT> {
   BaseViewCubit({Key? key}) : super(key: key) {
     bloc = initBloc();
   }
@@ -40,7 +37,7 @@ abstract class BaseViewCubit<CUBIT extends BaseCubit<STATE>,
             onChangeScreen(context, state);
             return;
           }
-          initEventViewModel(context, state as BaseCubitEvent);
+          if (state is EVENT) initEventViewModel(context, state);
         },
         listenWhen: (old, newState) => newState is BaseCubitEvent,
         child: buildWidget(context),

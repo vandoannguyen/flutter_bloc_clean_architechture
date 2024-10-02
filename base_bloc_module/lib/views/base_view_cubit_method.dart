@@ -8,7 +8,8 @@ import '../common/base_bloc_config.dart';
 import '../models/message_model.dart';
 import 'widgets/loading_widget.dart';
 
-abstract class BaseViewCubitMethod<CUBIT extends BaseCubit> {
+abstract class BaseViewCubitMethod<CUBIT extends BaseCubit,
+    EVENT extends BaseCubitEvent> {
   CUBIT? bloc;
 
   void showMessage(BuildContext context, OnMessageEvent state) {
@@ -44,7 +45,7 @@ abstract class BaseViewCubitMethod<CUBIT extends BaseCubit> {
     Navigator.of(context).pushNamed(state.route, arguments: state.data);
   }
 
-  void initEventViewModel(BuildContext context, BaseCubitEvent state);
+  void initEventViewModel(BuildContext context, EVENT state);
 
   Widget buildWidget(BuildContext context);
 

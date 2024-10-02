@@ -8,9 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'base_view_cubit_method.dart';
 
-abstract class BaseViewCubitState<CUBIT extends BaseCubit<STATE>,
-        STATE extends BaseStateCubit, VIEW extends StatefulWidget>
-    extends State<VIEW> with BaseViewCubitMethod<CUBIT> {
+abstract class BaseViewCubitState<
+CUBIT extends BaseCubit<STATE>,
+STATE extends BaseStateCubit,
+EVENT extends BaseCubitEvent,
+VIEW extends StatefulWidget> extends State<VIEW>
+    with BaseViewCubitMethod<CUBIT, EVENT> {
   @override
   void initState() {
     super.initState();
@@ -36,7 +39,9 @@ abstract class BaseViewCubitState<CUBIT extends BaseCubit<STATE>,
             onChangeScreen(context, state);
             return;
           }
-          initEventViewModel(context, state as BaseCubitEvent);
+          if (state is EVENT) {
+            initEventViewModel(context, state);
+          }
         },
         listenWhen: (old, newState) => newState is BaseCubitEvent,
         child: buildWidget(context),

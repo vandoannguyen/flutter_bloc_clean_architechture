@@ -7,6 +7,22 @@
 // ignore_for_file: type=lint
 // ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal,deprecated_member_use
 
+class $EnvGen {
+  const $EnvGen();
+
+  /// File path: env/.env_dev
+  String get aEnvDev => 'env/.env_dev';
+
+  /// File path: env/.env_prod
+  String get aEnvProd => 'env/.env_prod';
+
+  /// File path: env/.env_uat
+  String get aEnvUat => 'env/.env_uat';
+
+  /// List of all assets
+  List<String> get values => [aEnvDev, aEnvProd, aEnvUat];
+}
+
 class $FontsGen {
   const $FontsGen();
 
@@ -20,5 +36,6 @@ class $FontsGen {
 class Assets {
   Assets._();
 
+  static const $EnvGen env = $EnvGen();
   static const $FontsGen fonts = $FontsGen();
 }

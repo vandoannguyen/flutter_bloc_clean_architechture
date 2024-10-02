@@ -1,0 +1,146 @@
+{
+	"Gen base cubit screen": {
+		"prefix": "stlb",
+		"body": [
+			"import 'package:base_bloc_module/index.dart';",
+			"import 'package:flutter/material.dart';",
+			"class ${1:Name}Screen extends BaseViewCubit<${1:Name}Bloc, ${1:Name}State> {",
+			"  ${1:Name}Screen({Key? key}) : super(key: key);",
+			"",
+			"  @override",
+			"  Widget buildWidget(BuildContext context) {",
+			"    return Scaffold();",
+			"  }",
+			"",
+			"  @override",
+			"  ${1:Name}Bloc initBloc() {",
+			"    return getIt<${1:Name}Bloc>();",
+			"  }",
+			"",
+			"  @override",
+			"  initEventViewModel(BuildContext context, BaseStateCubit state) {}",
+			"",
+			"  @override",
+			"  void initData() {",
+			"  }",
+			"}"
+		],
+		"description": "Gen base cubit screen"
+	},
+	"Gen Base Stateful screen": {
+		"prefix": "stfb",
+		"body": [
+			"import 'package:base_bloc_module/index.dart';",
+			"import 'package:flutter/material.dart';",
+			"",
+			"class ${1:Name}Screen extends StatefulWidget {",
+			"  const ${1:Name}Screen ({super.key});",
+			"",
+			"  @override",
+			"  State<${1:Name}Screen> createState() => _${1:Name}ScreenState();",
+			"}",
+			"",
+			"class _${1:Name}ScreenState extends BaseViewCubitState<${1:Name}Bloc, ${1:Name}State, ${1:Name}Event, ${1:Name}Screen> {",
+			"  @override",
+			"  Widget buildWidget(BuildContext context) {",
+			"    return Scaffold();",
+			"  }",
+			"",
+			"  @override",
+			"  ${1:Name}Bloc initBloc() {",
+			"    return getIt<${1:Name}Bloc>();",
+			"  }",
+			"",
+			"  @override",
+			"  void initData() {",
+			"  }",
+			"",
+			"  @override",
+			"  void initEventViewModel(BuildContext context, ${1:Name}Event state) {",
+			"  }",
+			"}"
+		],
+		"description": "Gen Base Stateful screen"
+	},
+	"Gen base state event": {
+		"prefix": "be",
+		"body": [
+			"import 'package:freezed_annotation/freezed_annotation.dart';",
+			"import 'package:base_bloc_module/base/cubit/base_cubit_event.dart';",
+			"",
+			"part '$TM_FILENAME_BASE.freezed.dart';",
+			"",
+			"@freezed",
+			"class ${2:name}Event extends BaseCubitEvent with _$${2:name}Event {",
+			"  const factory ${2:name}Event.getData() = GetData;",
+			"}"
+		],
+		"description": "Gen base state event"
+	},
+	"Gen base state data": {
+		"prefix": "bs",
+		"body": [
+			"import 'package:base_bloc_module/index.dart';",
+			"import 'package:freezed_annotation/freezed_annotation.dart';",
+			"",
+			"part '$TM_FILENAME_BASE.freezed.dart';",
+			"",
+			"@Freezed(equal: true)",
+			"class ${2:name}State extends BaseDataStateCubit with _$${2:name}State {",
+			"  factory ${2:name}State() = _${2:name}State;",
+			"}",
+			"",
+			"@freezed",
+			"class ${2:name}Event extends BaseCubitEvent with _$${2:name}Event {",
+			"  const factory ${2:name}Event.getData() = GetData;",
+			"}"
+		],
+		"description": "Gen base state data"
+	},
+	"Gen base bloc": {
+		"prefix": "bb",
+		"body": [
+			"import 'package:base_bloc_module/index.dart';",
+			"import 'package:injectable/injectable.dart';",
+			"",
+			"@injectable",
+			"class ${1:Main}Bloc extends BaseCubit<${1:Main}State> {",
+			"  @factoryMethod",
+			"  ${1:Main}Bloc() : super(${1:Main}State());",
+			"}"
+		],
+		"description": "Gen base bloc"
+	},
+	"BlocBuilderDataState": {
+		"prefix": "bds",
+		"body": [
+			"BlocBuilderDataState<${1:name}Bloc, ${1:name}State>(",
+			"  builder: (BuildContext context, ${1:name}State state) {",
+			"    return ${2:Widget};",
+			"  },",
+			")"
+		],
+		"description": "BlocBuilderDataState"
+	},
+	"Gen default model": {
+		"prefix": "model",
+		"body": [
+			"import 'package:json_annotation/json_annotation.dart';",
+			"",
+			"part '$TM_FILENAME_BASE.g.dart';",
+			"",
+			"@JsonSerializable(explicitToJson: true)",
+			"class ${2:name} {",
+			"  String? id;",
+			"  ${2:name}({",
+			"    this.id,",
+			"  });",
+			"",
+			"  factory ${2:name}.fromJson(Map<String, Object?> json) => _$${2:name}FromJson(json);",
+			"",
+			"  Map<String, dynamic> toJson() => _$${2:name}ToJson(this);",
+			"}"
+		],
+		"description": "Gen default model"
+	}
+}

@@ -42,6 +42,6 @@ void main() async {
   });
   await dotenv.load(fileName: envConfig(flavor));
   await configureDependencies();
-  Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform());
+  // Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform());
   runApp(const MyApp());
 }

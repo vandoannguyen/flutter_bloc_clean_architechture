@@ -1,17 +1,17 @@
-import 'package:base_flutter_bloc/view/main/main_view.dart';
-import 'package:base_flutter_bloc/view/main2/main2_view.dart';
+import 'package:base_flutter_bloc/view/home/home_screen.dart';
+import 'package:base_flutter_bloc/view/login/login_screen.dart';
 import 'package:flutter/material.dart';
 
 enum AppRoutes {
-  INIT,
-  MAIN2;
+  login,
+  home;
 
   Widget getPage(BuildContext context) {
     switch (this) {
-      case AppRoutes.INIT:
-        return MainView();
-      case AppRoutes.MAIN2:
-        return const MainView2();
+      case AppRoutes.login:
+        return const LoginScreen();
+      case AppRoutes.home:
+        return const HomeScreen();
     }
   }
 

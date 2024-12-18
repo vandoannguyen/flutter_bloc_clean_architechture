@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 
@@ -8,7 +7,7 @@ import '../common/base_bloc_config.dart';
 import '../models/message_model.dart';
 import 'widgets/loading_widget.dart';
 
-abstract class BaseViewCubitMethod<CUBIT extends BaseCubit,
+mixin BaseViewCubitMethod<CUBIT extends BaseCubit,
     EVENT extends BaseCubitEvent> {
   CUBIT? bloc;
 

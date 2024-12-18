@@ -37,7 +37,7 @@ class AuthUtils {
     try {
       LoginResult loginResult = await FacebookAuth.instance.login();
       completer.complete(
-        AuthUtilsCredential(accessToken: loginResult.accessToken!.token),
+        AuthUtilsCredential(accessToken: loginResult.accessToken!.tokenString),
       );
     } on Exception catch (e) {
       completer.completeError(e);

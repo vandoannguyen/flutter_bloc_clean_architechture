@@ -1,11 +1,9 @@
 import 'package:base_bloc_module/common/base_bloc_config.dart';
 import 'package:base_bloc_module/models/message_model.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'di/injection_container.dart';
 import 'my_app.dart';
-import 'firebase_options.dart';
 
 String envConfig(String flavor) {
   switch (flavor) {

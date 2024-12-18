@@ -31,7 +31,7 @@
       <option name="DART" value="true" />
     </context>
   </template>
-  <template name="bds" value="BlocBuilderDataState&lt;$name$Bloc, $name$State&gt;(&#10;    builder: (BuildContext context, $name$State state) {&#10;      return $Widget$;&#10;    },&#10;)," description="BlocBuilderDataState" toReformat="false" toShortenFQNames="true">
+    <template name="bds" value="BlocBuilderDataState&lt;$name$Bloc, $name$State&gt;(&#10;    builder: (BuildContext context, $name$State state) {&#10;      return $Widget$;&#10;    },&#10;)," description="BlocBuilderDataState" toReformat="false" toShortenFQNames="true">
     <variable name="name" expression="" defaultValue="" alwaysStopAt="true" />
     <variable name="Widget" expression="" defaultValue="" alwaysStopAt="true" />
     <context>

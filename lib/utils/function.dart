@@ -33,7 +33,7 @@ class FunctionUtils {
     /**
          * The background color for notification, default to [ThemeData.colorScheme.secondary].
          */
-    Color? background: Colors.transparent,
+    Color? background = Colors.transparent,
     /**
          * See more [ListTileTheme.textColor],[ListTileTheme.iconColor].
          */
@@ -60,7 +60,7 @@ class FunctionUtils {
     /**
          * The direction in which the notification can be dismissed.
          */
-    DismissDirection? slideDismissDirection: DismissDirection.up,
+    DismissDirection? slideDismissDirection = DismissDirection.up,
   }) {
     final dismissDirection = slideDismissDirection ?? (slideDismiss
             ? DismissDirection.horizontal

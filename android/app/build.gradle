@@ -14,7 +14,9 @@ if (localPropertiesFile.exists()) {
     }
 }
 if (keyPropertiesFile.exists()) {
-    keyProperties.load(new FileInputStream(keyPropertiesFile))
+    keyPropertiesFile.withReader('UTF-8') { reader ->
+        keyProperties.load(reader)
+    }
 }
 
 def flutterRoot = localProperties.getProperty('flutter.sdk')
@@ -32,15 +34,15 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 android {
-    compileSdkVersion 34
+    compileSdkVersion 35
     namespace "com.example.base_flutter_bloc"
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
 
     sourceSets {
@@ -49,18 +51,18 @@ android {
 
     defaultConfig {
         applicationId "com.example.baese_flutter_bloc"
-        minSdkVersion 21
-        targetSdkVersion 33
+        minSdkVersion 23
+        targetSdkVersion 35
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
     }
     signingConfigs {
         debug {
-            storePassword = keyProperties["key.storePassword"]
-            keyAlias = keyProperties["key.keyAlias"]
-            keyPassword = keyProperties["key.keyPassword"]
-            storeFile file(keyProperties["key.path"])
+            storePassword = keyProperties["storePassword"]
+            keyAlias = keyProperties["keyAlias"]
+            keyPassword = keyProperties["keyPassword"]
+            storeFile file(keyProperties["path"])
         }
     }
     flavorDimensions "dimentions"

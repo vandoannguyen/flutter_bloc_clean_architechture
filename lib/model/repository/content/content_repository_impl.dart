@@ -7,7 +7,7 @@ import 'content_repository.dart';
 
 @Injectable(as: ContentRepository)
 class ContentRepositoryImpl extends ContentRepository {
-  ContentNetwork _contentNetwork;
+  final ContentNetwork _contentNetwork;
 
   @factoryMethod
   ContentRepositoryImpl(this._contentNetwork);

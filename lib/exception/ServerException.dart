@@ -6,14 +6,9 @@ class ServerException extends DioException {
 
   ServerException({
     required this.businessError,
-    required RequestOptions requestOptions,
-    Response? response,
-    DioExceptionType type = DioExceptionType.unknown,
-    dynamic error,
-  }) : super(
-          requestOptions: requestOptions,
-          response: response,
-          type: type,
-          error: error,
-        );
+    required super.requestOptions,
+    super.response,
+    super.type,
+    dynamic super.error,
+  });
 }

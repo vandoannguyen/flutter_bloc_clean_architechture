@@ -19,7 +19,9 @@ mixin _$ContentModel {
   String? get a => throw _privateConstructorUsedError;
   String? get b => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ContentModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ContentModelCopyWith<ContentModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -43,6 +45,8 @@ class _$ContentModelCopyWithImpl<$Res, $Val extends ContentModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ContentModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -81,6 +85,8 @@ class __$$ContentModelImplCopyWithImpl<$Res>
       _$ContentModelImpl _value, $Res Function(_$ContentModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ContentModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -102,7 +108,6 @@ class __$$ContentModelImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-@JsonSerializable(explicitToJson: true)
 class _$ContentModelImpl implements _ContentModel {
   _$ContentModelImpl({this.a, this.b});
 
@@ -128,7 +133,9 @@ class _$ContentModelImpl implements _ContentModel {
   @override
   int get hashCode => Object.hash(runtimeType, a, b);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ContentModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ContentModelImplCopyWith<_$ContentModelImpl> get copyWith =>
@@ -143,8 +150,11 @@ abstract class _ContentModel implements ContentModel {
   String? get a;
   @override
   String? get b;
+
+  /// Create a copy of ContentModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ContentModelImplCopyWith<_$ContentModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

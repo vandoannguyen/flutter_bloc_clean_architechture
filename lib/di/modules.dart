@@ -1,4 +1,4 @@
-import 'package:base_flutter_bloc/api/dio_client.dart';
+import 'package:base_flutter_bloc/data/api/dio_client.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 

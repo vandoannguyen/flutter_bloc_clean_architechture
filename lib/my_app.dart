@@ -1,4 +1,6 @@
 import 'package:base_flutter_bloc/gen/l10n.dart';
+import 'package:base_flutter_bloc/presentation/bloc/app/app_bloc.dart';
+import 'package:base_flutter_bloc/presentation/routes/routes.dart';
 import 'package:base_flutter_bloc/utils/app_route_tracking.dart';
 import 'package:base_flutter_bloc/utils/navigate_utils.dart';
 import 'package:flutter/material.dart';
@@ -6,9 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'bloc/app/app_bloc.dart';
 import 'di/injection_container.dart';
-import 'routes/routes.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

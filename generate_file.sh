@@ -85,8 +85,8 @@ class ${class_name}Event extends BaseCubitEvent with _\$${class_name}Event {
 }
 " > lib/bloc/${feature_name}/${feature_name}_state.dart
 fvm flutter packages pub run build_runner build --delete-conflicting-outputs
-## Thêm export vào index file của usecase
-#echo "export 'src/${feature_name}_usecase.dart';" >> lib/features/domain/usecases/usecase.dart
+## Thêm export vào index file của use_cases
+#echo "export 'src/${feature_name}_usecase.dart';" >> lib/features/domain/usecases/use_cases.dart
 #
 ## Thêm page name vào file route name
 #page_name=$(echo "$feature_name" | awk -F'_' '{for(i=1;i<=NF;i++) { if(i==1) { printf $i } else { printf toupper(substr($i,1,1)) substr($i,2) } } print ""}')

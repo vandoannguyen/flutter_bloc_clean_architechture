@@ -22,38 +22,52 @@
 ### Struct
 
 ```
-│
-└───api // network config
-│
-└───bloc // contains bloc
 │    
 └───common // contains enum, extension, common functions...
-│   
-└───di 
-│   
-└───model 
-│   │   
-│   └───entity 
-│   │   
-│   └───local
-│   │   
-│   └───network
-│   │   
-│   └───repository
-│   
-└───routes // config route name and page
-│   
-└───theme // contains text style, common size, theme data
-│   
+│
+└───data 
+│    │
+│    └─── api // Api config
+│    │
+│    └─── data_source 
+│    │   │
+│    │   └─── local 
+│    │   │
+│    │   └─── remote 
+│    │
+│    └─── models // Api model
+│    │
+│    └─── repositories 
+└───domain  
+│    │
+│    └───adapters // mapper 
+│    │
+│    └───entities 
+│    │
+│    └───repositories  
+│    │
+│    └───use_cases  
+│
+└───presentation  
+│    │
+│    └───bloc  
+│    │
+│    └───routes // config route name and page
+│    │
+│    └───theme // contains text style, common size, theme data
+│    │   
+│    └───view
+│    │   
+│    └───widgets // Contains common widget 
 └───translations // mutiple language
 │   
 └───utils
 │   
-└───view
+└───di 
+│   
+└───model 
 │   
 └───gen // gen access file
-│   
-└───widgets // Contains common widget
 │   
 └───main.dart
 │   

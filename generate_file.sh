@@ -65,7 +65,7 @@ import '${feature_name}_state.dart';
 class ${class_name}Bloc extends BaseCubit<${class_name}State> {
   ${class_name}Bloc() : super(${class_name}State());
 }
-" > lib/bloc/${feature_name}/${feature_name}_cubit.dart
+" > lib/presentation/bloc/${feature_name}/${feature_name}_cubit.dart
 
 
 echo "import 'package:base_bloc_module/index.dart';
@@ -83,7 +83,11 @@ class ${class_name}State extends BaseDataStateCubit
 class ${class_name}Event extends BaseCubitEvent with _\$${class_name}Event {
   const factory ${class_name}Event.getData() = GetData;
 }
-" > lib/bloc/${feature_name}/${feature_name}_state.dart
+" > lib/presentation/bloc/${feature_name}/${feature_name}_state.dart
+
+echo "export '${feature_name}_bloc.dart';
+export '${feature_name}_sate.dart';
+" > lib/presentation/bloc/${feature_name}/index.dart
 fvm flutter packages pub run build_runner build --delete-conflicting-outputs
 ## Thêm export vào index file của use_cases
 #echo "export 'src/${feature_name}_usecase.dart';" >> lib/features/domain/usecases/use_cases.dart

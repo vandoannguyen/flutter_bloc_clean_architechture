@@ -35,6 +35,8 @@
 │   │   
 │   └───entity 
 │   │   
+│   └───request // request api model  
+│   │   
 │   └───local
 │   │   
 │   └───network

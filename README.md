@@ -390,8 +390,10 @@ Add google google_services.plist to
 
 Change Product Bundle Identifier in Runner/Targets/Runner/Build Setting/Product Bundle Identifier
 Change App Display Name in Runner/Targets/Runner/Build Setting/User-Defined/APP_NAME
+
 ##Template Live code Android Studio
 - copy Flutter.xml to 
 ```
 /Users/{User Name}/Library/Application Support/Google/AndroidStudio{version}/templates
 ```
+- Import setting: File->Manage IDE Settings-> Import Setting -> Choose file settings.zip

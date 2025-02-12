@@ -59,10 +59,10 @@ android {
     }
     signingConfigs {
         debug {
-            storePassword = keyProperties["storePassword"]
-            keyAlias = keyProperties["keyAlias"]
-            keyPassword = keyProperties["keyPassword"]
-            storeFile file(keyProperties["path"])
+//            storePassword = keyProperties["storePassword"]
+//            keyAlias = keyProperties["keyAlias"]
+//            keyPassword = keyProperties["keyPassword"]
+//            storeFile file(keyProperties["path"])
         }
     }
     flavorDimensions "dimentions"

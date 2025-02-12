@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(375, 812),
+      ensureScreenSize: true,
       minTextAdapt: true,
       builder: (ctx, _) => OverlaySupport.global(
         child: MultiBlocProvider(

@@ -1,4 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format width=80
 
 // **************************************************************************
 // InjectableConfigGenerator
@@ -28,27 +29,25 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
 extension GetItInjectableX on _i174.GetIt {
-// initializes the registration of main-scope dependencies inside of GetIt
+  // initializes the registration of main-scope dependencies inside of GetIt
   _i174.GetIt init({
     String? environment,
     _i526.EnvironmentFilter? environmentFilter,
   }) {
-    final gh = _i526.GetItHelper(
-      this,
-      environment,
-      environmentFilter,
-    );
+    final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final registerModule = _$RegisterModule();
     gh.factory<_i722.HomeBloc>(() => _i722.HomeBloc());
     gh.factory<_i41.LoginBloc>(() => _i41.LoginBloc());
-    gh.singleton<_i361.Dio>(() => registerModule.prefs);
-    gh.singleton<_i118.LogUtils>(() => _i118.LogUtils());
     gh.singleton<_i71.AppBloc>(() => _i71.AppBloc());
+    gh.singleton<_i118.LogUtils>(() => _i118.LogUtils());
+    gh.singleton<_i361.Dio>(() => registerModule.prefs);
     gh.factory<_i624.ContentLocal>(() => _i610.ContentLocalImpl());
     gh.factory<_i622.ContentNetwork>(
-        () => _i622.ContentNetwork(gh<_i361.Dio>()));
+      () => _i622.ContentNetwork(gh<_i361.Dio>()),
+    );
     gh.factory<_i793.ContentRepository>(
-        () => _i956.ContentRepositoryImpl(gh<_i622.ContentNetwork>()));
+      () => _i956.ContentRepositoryImpl(gh<_i622.ContentNetwork>()),
+    );
     return this;
   }
 }

@@ -1,5 +1,5 @@
-import 'dart:async';
 import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:path/path.dart' as p;
@@ -8,20 +8,23 @@ class MultipartFileExtended extends MultipartFile {
   final String filePath;
 
   MultipartFileExtended(
-    Stream<List<int>> stream,
-    length, {
-    filename,
+    super.stream,
+    super.length, {
     required this.filePath,
-    contentType,
-  }) : super(stream, length, filename: filename, contentType: contentType);
+    super.filename,
+    super.contentType,
+    super.headers,
+  });
 
   static MultipartFileExtended fromFileSync(
     String filePath, {
     required String filename,
     MediaType? contentType,
-  }) =>
-      multipartFileFromPathSync(filePath,
-          filename: filename, contentType: contentType);
+  }) => multipartFileFromPathSync(
+    filePath,
+    filename: filename,
+    contentType: contentType,
+  );
 }
 
 MultipartFileExtended multipartFileFromPathSync(

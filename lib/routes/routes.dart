@@ -3,11 +3,14 @@ import 'package:base_flutter_bloc/view/login/login_screen.dart';
 import 'package:flutter/material.dart';
 
 enum AppRoutes {
+  splash,
   login,
   home;
 
   Widget getPage(BuildContext context) {
     switch (this) {
+      case AppRoutes.splash:
+        return const LoginScreen();
       case AppRoutes.login:
         return const LoginScreen();
       case AppRoutes.home:

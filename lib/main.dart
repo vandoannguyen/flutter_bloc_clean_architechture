@@ -19,7 +19,7 @@ String envConfig(String flavor) {
 }
 
 void main() async {
-  const flavor = String.fromEnvironment('flavor', defaultValue: 'dev');
+  const flavor = String.fromEnvironment('FLUTTER_APP_FLAVOR', defaultValue: 'dev');
   WidgetsFlutterBinding.ensureInitialized();
   BaseBlocConfig.instance.configLoadingWidget(() {
     return const Center(

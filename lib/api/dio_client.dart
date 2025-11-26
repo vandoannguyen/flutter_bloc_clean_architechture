@@ -3,13 +3,14 @@ import 'dart:developer';
 
 import 'package:base_flutter_bloc/api/url_config.dart';
 import 'package:base_flutter_bloc/common/logger/logger.dart';
-import 'package:device_info_plus/device_info_plus.dart';
+// import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-import '../../exception/BusinessException.dart';
-import '../../exception/NetworkException.dart';
-import '../../exception/ServerException.dart';
+
+// import 'package:package_info_plus/package_info_plus.dart';
+import '../../exception/business_exception.dart';
+import '../../exception/network_exception.dart';
+import '../../exception/server_exception.dart';
 import '../model/entity/error/business_error.dart';
 import '../model/entity/token/token_info.dart';
 import '../utils/navigate_utils.dart';
@@ -20,10 +21,11 @@ const int _connectTimeout = 30000;
 const int _receiveTimeout = 30000;
 
 class DioClient {
-  PackageInfo? packageInfo;
+  // PackageInfo? packageInfo;
   int? appBuildVersion;
-  AndroidDeviceInfo? androidInfo;
-  IosDeviceInfo? iosInfo;
+
+  // AndroidDeviceInfo? androidInfo;
+  // IosDeviceInfo? iosInfo;
   String? deviceUuid;
   Dio? _dio;
   bool _isRefreshingToken = false;
@@ -42,8 +44,9 @@ class DioClient {
       );
       LogUtils.i(response.data["token"]);
       TokenInfo tokenInfo = TokenInfo(
-          accessToken: response.data["token"],
-          refreshToken: response.data["refreshToken"]);
+        accessToken: response.data["token"],
+        refreshToken: response.data["refreshToken"],
+      );
       return tokenInfo;
     }
     return null;
@@ -54,7 +57,7 @@ class DioClient {
       _isRefreshingToken = true;
       final newTokenInfo = await refreshFuture(currentTokenInfo.refreshToken);
       LogUtils.d('New Token Info: ${newTokenInfo?.toJson()}');
-      await SharedPreferenceUtil.setTokenInfo(newTokenInfo);
+      SharedPreferenceUtil.setTokenInfo(newTokenInfo);
     } finally {
       _isRefreshingToken = false;
     }
@@ -66,14 +69,16 @@ class DioClient {
     Dio dio,
     bool shouldHandleException,
   ) async {
-    LogUtils.e("Error interceptor: "
-        "\nBase url: ${error.requestOptions.baseUrl} "
-        "\n-> Path: ${error.requestOptions.path} "
-        "\n-> Request Header: ${error.requestOptions.headers} "
-        "\n-> Query paramms: ${error.requestOptions.queryParameters} "
-        "\n-> Request Data: ${error.requestOptions.data}"
-        "\n-> Error Data: ${error.response?.data.toString() ?? ""} "
-        "\n-> Error Status Code: : ${error.response?.statusCode.toString() ?? ""}");
+    LogUtils.e(
+      "Error interceptor: "
+      "\nBase url: ${error.requestOptions.baseUrl} "
+      "\n-> Path: ${error.requestOptions.path} "
+      "\n-> Request Header: ${error.requestOptions.headers} "
+      "\n-> Query paramms: ${error.requestOptions.queryParameters} "
+      "\n-> Request Data: ${error.requestOptions.data}"
+      "\n-> Error Data: ${error.response?.data.toString() ?? ""} "
+      "\n-> Error Status Code: : ${error.response?.statusCode.toString() ?? ""}",
+    );
     if (error.type == DioExceptionType.connectionTimeout ||
         error.type == DioExceptionType.receiveTimeout ||
         error.type == DioExceptionType.sendTimeout) {
@@ -133,9 +138,11 @@ class DioClient {
           }
         }
       } else {
-        LogUtils.e("Response err intercept: "
-            "\n${error.response!.data}"
-            "\n--> ${error.requestOptions.path}");
+        LogUtils.e(
+          "Response err intercept: "
+          "\n${error.response!.data}"
+          "\n--> ${error.requestOptions.path}",
+        );
         if (error.response == null) {
           handler.next(error);
         } else if (error.response!.statusCode! > 401) {
@@ -170,7 +177,9 @@ class DioClient {
   }
 
   void _onResponseInterceptor(
-      Response response, ResponseInterceptorHandler handler) {
+    Response response,
+    ResponseInterceptorHandler handler,
+  ) {
     LogUtils.d(
       "Response: \n${response.requestOptions.method} :"
       "\n${response.requestOptions.baseUrl}${response.requestOptions.path} "
@@ -198,17 +207,19 @@ class DioClient {
   }
 
   void _onRequestInterceptor(
-      RequestOptions request, RequestInterceptorHandler handler) async {
+    RequestOptions request,
+    RequestInterceptorHandler handler,
+  ) async {
     LogUtils.i(
       "[${request.method}] : "
       "\n${request.baseUrl}${request.path} "
       "\n--> ${request.queryParameters} "
       "\n--> ${request.data}",
     );
-    if (packageInfo == null) {
-      PackageInfo data = await PackageInfo.fromPlatform();
-      packageInfo = data;
-    }
+    // if (packageInfo == null) {
+    //   PackageInfo data = await PackageInfo.fromPlatform();
+    //   packageInfo = data;
+    // }
 
     var header = await _getDefaultHeader();
     request.headers = header;
@@ -219,26 +230,24 @@ class DioClient {
     try {
       final tokenInfo = await SharedPreferenceUtil.getTokenInfo();
       if (tokenInfo == null) {
-        return {
-          "Content-type": "application/json",
-        };
+        return {"Content-type": "application/json"};
       }
       if (tokenInfo.accessToken?.isNotEmpty == true) {
         return {
           "Content-type": "application/json",
-          "Authorization": "Bearer ${tokenInfo.accessToken}"
+          "Authorization": "Bearer ${tokenInfo.accessToken}",
         };
       }
       throw ("token not found");
     } catch (err) {
-      return {
-        "Content-type": "application/json",
-      };
+      return {"Content-type": "application/json"};
     }
   }
 
-  InterceptorsWrapper _getDefaultInterceptor(Dio dio,
-      {required bool shouldHandleException}) {
+  InterceptorsWrapper _getDefaultInterceptor(
+    Dio dio, {
+    required bool shouldHandleException,
+  }) {
     return InterceptorsWrapper(
       onError: (DioException error, ErrorInterceptorHandler handler) =>
           _onErrorInterceptor(error, handler, dio, shouldHandleException),
@@ -253,15 +262,16 @@ class DioClient {
     _dio!.options.connectTimeout = const Duration(seconds: _connectTimeout);
     _dio!.options.receiveTimeout = const Duration(seconds: _receiveTimeout);
     _dio!.options.baseUrl = apiUrl;
-    _dio!.interceptors.add(_getDefaultInterceptor(
-      _dio!,
-      shouldHandleException: true,
-    ));
+    _dio!.interceptors.add(
+      _getDefaultInterceptor(_dio!, shouldHandleException: true),
+    );
     return _dio!;
   }
 
   Future<void> _addRequestToQueue(
-      ErrorInterceptorHandler handler, RequestOptions requestOptions) async {
+    ErrorInterceptorHandler handler,
+    RequestOptions requestOptions,
+  ) async {
     requestOptions.headers = await _getDefaultHeader();
     if (requestOptions.data is FormData) {
       FormData formData = FormData();
@@ -283,14 +293,17 @@ class DioClient {
   }
 
   Future _repeatResponse() {
-    return Future.wait(_mappingQueueRequest.entries
-        .toList()
-        .map((e) => _handleRepeatResponse(e))
-        .toList());
+    return Future.wait(
+      _mappingQueueRequest.entries
+          .toList()
+          .map((e) => _handleRepeatResponse(e))
+          .toList(),
+    );
   }
 
   Future<void> _handleRepeatResponse(
-      MapEntry<ErrorInterceptorHandler, RequestOptions> data) async {
+    MapEntry<ErrorInterceptorHandler, RequestOptions> data,
+  ) async {
     final repeatedResponse = await _dio!.fetch(data.value);
     return data.key.resolve(repeatedResponse);
   }

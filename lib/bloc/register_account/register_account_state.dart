@@ -6,11 +6,15 @@ part 'register_account_state.freezed.dart';
 @Freezed(equal: true)
 class RegisterAccountState extends BaseDataStateCubit
     with _$RegisterAccountState {
+  RegisterAccountState._();
+
   factory RegisterAccountState() = _RegisterAccountState;
 }
 
 @freezed
 class RegisterAccountEvent extends BaseCubitEvent with _$RegisterAccountEvent {
-  const factory RegisterAccountEvent.getData() = GetData;
+  RegisterAccountEvent._();
+
+  factory RegisterAccountEvent.getData() = GetData;
 }
 

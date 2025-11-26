@@ -18,8 +18,10 @@ class Languages {
   static Languages? _current;
 
   static Languages get current {
-    assert(_current != null,
-        'No instance of Languages was loaded. Try to initialize the Languages delegate before accessing Languages.current.');
+    assert(
+      _current != null,
+      'No instance of Languages was loaded. Try to initialize the Languages delegate before accessing Languages.current.',
+    );
     return _current!;
   }
 
@@ -41,8 +43,10 @@ class Languages {
 
   static Languages of(BuildContext context) {
     final instance = Languages.maybeOf(context);
-    assert(instance != null,
-        'No instance of Languages present in the widget tree. Did you add Languages.delegate in localizationsDelegates?');
+    assert(
+      instance != null,
+      'No instance of Languages present in the widget tree. Did you add Languages.delegate in localizationsDelegates?',
+    );
     return instance!;
   }
 
@@ -55,9 +59,7 @@ class AppLocalizationDelegate extends LocalizationsDelegate<Languages> {
   const AppLocalizationDelegate();
 
   List<Locale> get supportedLocales {
-    return const <Locale>[
-      Locale.fromSubtags(languageCode: 'en'),
-    ];
+    return const <Locale>[Locale.fromSubtags(languageCode: 'en')];
   }
 
   @override

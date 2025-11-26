@@ -6,7 +6,7 @@ class SharedPreferenceUtil {
     return tokenInfo;
   }
 
-  static setTokenInfo(TokenInfo? newTokenInfo) {
+  static void setTokenInfo(TokenInfo? newTokenInfo) {
     tokenInfo = newTokenInfo;
   }
 }

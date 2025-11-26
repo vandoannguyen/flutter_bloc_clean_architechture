@@ -5,51 +5,53 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.0.0
+  sdk: ">=3.8.0 <4.0.0"
 dependencies:
   flutter:
     sdk: flutter
   #mutiple_language
   flutter_localizations:
     sdk: flutter
-  intl: ^0.19.0
-  flutter_lints: ^5.0.0
-  injectable: ^2.5.0 # inject (DI)
-  get_it: ^8.0.3 # inject (DI)
+  intl: ^0.20.2
+  injectable: ^2.7.0 # inject (DI)
+  get_it: ^9.1.1 # inject (DI)
   dio: ^5.7.0
-  flutter_bloc: ^8.1.6
+  flutter_bloc: ^9.1.1
   cupertino_icons: ^1.0.8
   overlay_support: ^2.1.0
-  bloc: ^8.1.4
+  bloc: ^9.1.0
   base_bloc_module:
     path: ./base_bloc_module
-  freezed_annotation: ^2.4.4
   #  firebase
-  firebase_auth: ^5.3.4
-  firebase_core: ^3.8.1
-  google_sign_in: ^6.2.2
-  the_apple_sign_in: ^1.1.1
-  flutter_facebook_auth: ^7.1.1
+  #  firebase_auth: ^6.1.2
+  #  firebase_core: ^4.2.1
+  #  google_sign_in: ^7.2.0
+  #  the_apple_sign_in: ^1.1.1
+  #  flutter_facebook_auth: ^7.1.1
   # package info
-  package_info_plus: ^8.1.2
-  device_info_plus: ^11.2.0
+  #  package_info_plus: ^9.0.0
+  #  device_info_plus: ^12.2.0
   #Env
-  flutter_dotenv: ^5.2.1
+  flutter_dotenv: ^6.0.0
   #json anotation
   json_annotation: ^4.9.0
   flutter_screenutil: ^5.9.3
   # loger
   logger: ^2.5.0
-  retrofit: ^4.4.1
+  retrofit: ^4.9.1
+  http_parser: ^4.1.2
+  path: ^1.9.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  injectable_generator: ^2.1.2
-  build_runner: ^2.4.14
+  flutter_lints: ^6.0.0
+  injectable_generator: ^2.9.1
+  build_runner: ^2.10.4
   flutter_gen_runner: ^5.8.0
-  freezed: ^2.5.7
-  json_serializable: ^6.9.0
-  retrofit_generator: ^9.1.5
+  freezed: ^3.1.0
+  freezed_annotation: ^3.1.0
+  json_serializable: ^6.11.2
+  retrofit_generator: ^10.2.0
 flutter_gen:
   integrations:
     flutter_svg: true
@@ -60,9 +62,9 @@ flutter:
   uses-material-design: true
   assets:
     - env/
-    - assets/images/
-    - assets/svg/
-    - assets/json/
+#    - assets/images/
+#    - assets/svg/
+#    - assets/json/
     - fonts/
   fonts:
     - family: Roboto

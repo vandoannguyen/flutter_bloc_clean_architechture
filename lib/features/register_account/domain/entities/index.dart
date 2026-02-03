@@ -1,0 +1,1 @@
+// Register account domain entities

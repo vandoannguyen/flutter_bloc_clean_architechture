@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 
-import '../model/entity/error/business_error.dart';
+import '../features/auth/data/models/business_error_model.dart';
 
 class BusinessException extends DioException {
-  BusinessError businessError;
+  BusinessErrorModel businessError;
 
   BusinessException({
     required this.businessError,

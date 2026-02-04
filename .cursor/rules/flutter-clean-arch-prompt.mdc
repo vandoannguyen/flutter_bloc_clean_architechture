@@ -1,0 +1,37 @@
+---
+description: Optimize prompts and cost when developing Flutter Clean Architecture
+alwaysApply: true
+---
+
+# Prompt & Cost Optimization – Flutter Clean Architecture
+
+## When the user asks to create a feature or change structure
+
+1. **Read first** (do not ask the user to paste):
+   - `DEVELOPMENT_RULES.md` – feature creation process, code examples per layer.
+   - `REQUIREMENTS.md` – mandatory rules (structure, dependencies, naming).
+
+2. **Behavior**:
+   - Follow order: Domain (entities → repository interface → use cases) → Data (models → datasources → repository impl) → Presentation (bloc → pages/widgets).
+   - Use `Result<T>` and `Failure` from `core/error`; do not define new error types unless the docs require it.
+   - Models: `@JsonSerializable()` (not Freezed). Entities: pure Dart, no JSON.
+   - Each feature has `index.dart` exports for each subfolder when creating new code.
+
+3. **Save tokens**:
+   - Reply concisely; only create or edit necessary files.
+   - Do not repeat DEVELOPMENT_RULES/REQUIREMENTS content in chat; only refer and follow.
+   - When the user says "follow DEVELOPMENT_RULES" or "comply with REQUIREMENTS", read the corresponding file and apply it.
+
+## When the user reports a bug or asks for review
+
+- Fix only the cause of the issue; do not refactor broadly unless the user asks.
+- Review using the checklist in REQUIREMENTS.md (dependency rules, feature structure); report violations and suggest short fixes.
+
+## Quick references
+
+- Form/validation: `FORM_VALIDATION_GUIDE.md`.
+- Base BLoC/Cubit: `base_bloc_module/README.md`.
+- Layer explanation: `CLEAN_ARCHITECTURE_LAYERS.md`.
+- Sample prompts for user: `PROMPT_OPTIMIZATION.md`.
+
+Respond in the language the user uses unless they request otherwise.

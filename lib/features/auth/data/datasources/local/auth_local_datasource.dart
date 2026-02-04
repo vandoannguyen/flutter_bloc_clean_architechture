@@ -1,6 +1,5 @@
 import 'package:base_flutter_bloc/features/auth/data/models/token_model.dart';
 import 'package:base_flutter_bloc/features/auth/data/models/user_model.dart';
-import 'package:injectable/injectable.dart';
 
 /// Local data source for authentication data (SharedPreferences, etc.).
 abstract class AuthLocalDataSource {

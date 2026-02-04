@@ -4,14 +4,13 @@ import 'dart:developer';
 import 'package:base_flutter_bloc/common/logger/logger.dart';
 import 'package:base_flutter_bloc/features/auth/data/models/business_error_model.dart';
 import 'package:base_flutter_bloc/features/auth/data/models/token_model.dart';
+import 'package:base_flutter_bloc/model/entity/error/business_error.dart';
 import 'url_config.dart';
 import 'package:base_flutter_bloc/shared/utils/navigate_utils.dart';
 import 'package:base_flutter_bloc/shared/utils/share_preference_utils.dart';
-// import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-// import 'package:package_info_plus/package_info_plus.dart';
 import '../../exception/business_exception.dart';
 import '../../exception/network_exception.dart';
 import '../../exception/server_exception.dart';
@@ -36,7 +35,7 @@ class DioClient {
     SharedPreferenceUtil.setTokenInfo(null);
   }
 
-  Future<TokenInfo?> refreshFuture(String? refreshToken) async {
+  Future<TokenModel?> refreshFuture(String? refreshToken) async {
     if (refreshToken != null) {
       var response = await _dio!.post(
         UrlConfig.refreshToken,
@@ -151,7 +150,7 @@ class DioClient {
           } else {
             handler.next(
               ServerException(
-                businessError: BusinessErrorModel.fromJson(error.response!.data),
+                businessError: BusinessError.fromJson(error.response!.data),
                 requestOptions: error.requestOptions,
                 response: error.response,
                 type: error.type,

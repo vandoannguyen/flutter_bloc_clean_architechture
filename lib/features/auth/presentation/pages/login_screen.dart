@@ -1,10 +1,10 @@
 import 'package:base_bloc_module/index.dart';
 import 'package:flutter/material.dart';
-import '../bloc/index.dart';
-import '../../../../shared/utils/navigate_utils.dart';
+import '../../../../core/di/injection_container.dart';
 import '../../../../shared/routes/routes.dart';
+import '../../../../shared/utils/navigate_utils.dart';
+import '../bloc/index.dart';
 
-/// Login screen.
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -14,12 +14,12 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState
     extends BaseViewCubitState<AuthBloc, AuthState, AuthEvent, LoginScreen> {
-  final _emailController = TextEditingController();
+  final _idController = TextEditingController();
   final _passwordController = TextEditingController();
 
   @override
   void dispose() {
-    _emailController.dispose();
+    _idController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -36,9 +36,9 @@ class _LoginScreenState
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
-              controller: _emailController,
+              controller: _idController,
               decoration: const InputDecoration(
-                labelText: 'Email',
+                labelText: 'ID',
                 border: OutlineInputBorder(),
               ),
             ),
@@ -55,7 +55,7 @@ class _LoginScreenState
             ElevatedButton(
               onPressed: () {
                 bloc?.login(
-                  _emailController.text,
+                  _idController.text.trim(),
                   _passwordController.text,
                 );
               },

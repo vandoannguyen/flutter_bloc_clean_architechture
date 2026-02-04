@@ -16,7 +16,7 @@ mkdir -p lib/view/${feature_name}
 
 # Create a basic file in the 'presentation' folder
 echo "import 'package:base_bloc_module/index.dart';
-import 'package:base_flutter_bloc/di/injection_container.dart';
+
 import 'package:base_flutter_bloc/bloc/${feature_name}/${feature_name}_cubit.dart';
 import 'package:base_flutter_bloc/bloc/${feature_name}/${feature_name}_state.dart';
 import 'package:flutter/material.dart';

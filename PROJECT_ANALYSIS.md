@@ -1,8 +1,8 @@
-# 📊 Phân Tích Cấu Trúc Dự Án
+# 📊 Project Structure Analysis
 
-## 1. Cấu Trúc Hiện Tại (Layer-Based)
+## 1. Current Structure (Layer-Based)
 
-### 📁 Cấu Trúc Folder
+### 📁 Folder Structure
 
 ```
 lib/
@@ -18,12 +18,12 @@ lib/
 │   └── register_account/
 │
 ├── model/                  # Data models (mixed concerns)
-│   ├── entity/            # ❌ Domain entities có JSON annotations
+│   ├── entity/            # ❌ Domain entities have JSON annotations
 │   │   ├── error/
 │   │   └── token/
 │   ├── local/             # Local data sources
 │   ├── network/            # Network data sources
-│   ├── repository/         # ❌ Repository interfaces ở data layer
+│   ├── repository/         # ❌ Repository interfaces in data layer
 │   └── request/           # API request models
 │
 ├── view/                   # UI screens (layer-based)
@@ -40,23 +40,23 @@ lib/
 └── widgets/                # Common widgets
 ```
 
-### ❌ Vấn Đề Hiện Tại
+### ❌ Current Issues
 
-1. **Layer-Based Structure**: Code được tổ chức theo layers (bloc/, model/, view/) thay vì features
-2. **Domain Layer Vi Phạm**: 
-   - `model/entity/token/token_info.dart` có JSON annotations
-   - `model/entity/error/business_error.dart` có JSON annotations
-3. **Repository Interface Sai Vị Trí**: 
-   - `model/repository/content/content_repository.dart` ở data layer
-   - Repository interface phải ở domain layer
-4. **Thiếu Use Cases**: Không có use cases để encapsulate business logic
-5. **Business Logic Trong BLoC**: Logic nghiệp vụ nằm trong presentation layer
+1. **Layer-Based Structure**: Code is organized by layers (bloc/, model/, view/) instead of features
+2. **Domain Layer Violations**:
+   - `model/entity/token/token_info.dart` has JSON annotations
+   - `model/entity/error/business_error.dart` has JSON annotations
+3. **Repository Interface in Wrong Place**:
+   - `model/repository/content/content_repository.dart` is in data layer
+   - Repository interface must be in domain layer
+4. **Missing Use Cases**: No use cases to encapsulate business logic
+5. **Business Logic in BLoC**: Business logic lives in presentation layer
 
 ---
 
-## 2. Cấu Trúc Mới (Clean Architecture - Feature-Based)
+## 2. New Structure (Clean Architecture - Feature-Based)
 
-### 📁 Cấu Trúc Mục Tiêu
+### 📁 Target Structure
 
 ```
 lib/
@@ -96,10 +96,10 @@ lib/
     └── utils/             # Shared utilities
 ```
 
-### ✅ Nguyên Tắc Clean Architecture
+### ✅ Clean Architecture Principles
 
 1. **Domain Layer (Innermost)**
-   - Pure Dart, không dependencies
+   - Pure Dart, no dependencies
    - Entities: Pure Dart classes
    - Repository Interfaces: Abstract classes
    - Use Cases: Business logic
@@ -122,11 +122,11 @@ lib/
 
 ---
 
-## 3. Mapping Từ Cấu Trúc Cũ Sang Mới
+## 3. Mapping from Old to New Structure
 
 ### Auth Feature
 
-| Cũ | Mới |
+| Old | New |
 |----|-----|
 | `bloc/login/` | `features/auth/presentation/bloc/` |
 | `view/login/` | `features/auth/presentation/pages/` |
@@ -140,7 +140,7 @@ lib/
 
 ### Core Infrastructure
 
-| Cũ | Mới |
+| Old | New |
 |----|-----|
 | `api/` | `core/network/` |
 | `di/` | `core/di/` |
@@ -149,7 +149,7 @@ lib/
 
 ### Shared Resources
 
-| Cũ | Mới |
+| Old | New |
 |----|-----|
 | `routes/` | `shared/routes/` |
 | `theme/` | `shared/theme/` |
@@ -158,11 +158,11 @@ lib/
 
 ---
 
-## 4. Các Thay Đổi Chính
+## 4. Main Changes
 
 ### 4.1. Domain Layer
 
-**Trước:**
+**Before:**
 ```dart
 // ❌ model/entity/token/token_info.dart
 @JsonSerializable(explicitToJson: true)
@@ -173,7 +173,7 @@ class TokenInfo {
 }
 ```
 
-**Sau:**
+**After:**
 ```dart
 // ✅ features/auth/domain/entities/token/token_entity.dart
 class TokenEntity {
@@ -185,34 +185,34 @@ class TokenEntity {
 
 ### 4.2. Repository Pattern
 
-**Trước:**
+**Before:**
 ```dart
 // ❌ model/repository/content/content_repository.dart
 abstract class ContentRepository implements ContentLocal, ContentNetwork {
-  // Interface ở data layer
+  // Interface in data layer
 }
 ```
 
-**Sau:**
+**After:**
 ```dart
 // ✅ features/auth/domain/repositories/auth_repository.dart
 abstract class AuthRepository {
   Future<Result<UserEntity>> login({...});
-  // Interface ở domain layer
+  // Interface in domain layer
 }
 
 // ✅ features/auth/data/repositories/auth_repository_impl.dart
 @Injectable(as: AuthRepository)
 class AuthRepositoryImpl implements AuthRepository {
-  // Implementation ở data layer
+  // Implementation in data layer
 }
 ```
 
 ### 4.3. Use Cases
 
-**Trước:**
+**Before:**
 ```dart
-// ❌ Business logic trong BLoC
+// ❌ Business logic in BLoC
 class LoginBloc extends BaseCubit<LoginState> {
   void handleLogin() {
     // Business logic here
@@ -220,7 +220,7 @@ class LoginBloc extends BaseCubit<LoginState> {
 }
 ```
 
-**Sau:**
+**After:**
 ```dart
 // ✅ features/auth/domain/usecases/login_usecase.dart
 @injectable
@@ -245,23 +245,23 @@ class AuthBloc extends BaseCubit<AuthState> {
 
 ---
 
-## 5. Lợi Ích Của Cấu Trúc Mới
+## 5. Benefits of the New Structure
 
-1. **Tách Biệt Rõ Ràng**: Mỗi layer có trách nhiệm riêng
-2. **Dễ Test**: Domain layer có thể test độc lập
-3. **Dễ Bảo Trì**: Code được tổ chức theo features
-4. **Tái Sử Dụng**: Core và shared modules có thể dùng chung
-5. **Tuân Thủ Clean Architecture**: Đúng nguyên tắc dependency rules
-6. **Scalable**: Dễ thêm features mới
+1. **Clear Separation**: Each layer has a single responsibility
+2. **Easier Testing**: Domain layer can be tested in isolation
+3. **Easier Maintenance**: Code organized by features
+4. **Reusability**: Core and shared modules can be reused
+5. **Clean Architecture Compliant**: Correct dependency rules
+6. **Scalable**: Easy to add new features
 
 ---
 
-## 6. Kế Hoạch Refactoring
+## 6. Refactoring Plan
 
 ### Phase 1: Setup Core Structure
-- [ ] Tạo `lib/core/` structure
-- [ ] Tạo `lib/features/` structure
-- [ ] Tạo `lib/shared/` structure
+- [ ] Create `lib/core/` structure
+- [ ] Create `lib/features/` structure
+- [ ] Create `lib/shared/` structure
 
 ### Phase 2: Refactor Auth Feature
 - [ ] Domain layer (entities, repositories, use cases)
@@ -269,21 +269,21 @@ class AuthBloc extends BaseCubit<AuthState> {
 - [ ] Presentation layer (BLoC, pages)
 
 ### Phase 3: Refactor Home Feature
-- [ ] Áp dụng Clean Architecture pattern
+- [ ] Apply Clean Architecture pattern
 
 ### Phase 4: Move Core Infrastructure
-- [ ] Di chuyển `api/` → `core/network/`
-- [ ] Di chuyển `di/` → `core/di/`
-- [ ] Di chuyển `exception/` → `core/error/`
-- [ ] Di chuyển `utils/` → `core/utils/` + `shared/utils/`
+- [ ] Move `api/` → `core/network/`
+- [ ] Move `di/` → `core/di/`
+- [ ] Move `exception/` → `core/error/`
+- [ ] Move `utils/` → `core/utils/` + `shared/utils/`
 
 ### Phase 5: Move Shared Resources
-- [ ] Di chuyển `routes/` → `shared/routes/`
-- [ ] Di chuyển `theme/` → `shared/theme/`
-- [ ] Di chuyển `widgets/` → `shared/widgets/`
+- [ ] Move `routes/` → `shared/routes/`
+- [ ] Move `theme/` → `shared/theme/`
+- [ ] Move `widgets/` → `shared/widgets/`
 
 ### Phase 6: Update & Cleanup
 - [ ] Update dependency injection
 - [ ] Update imports
-- [ ] Xóa folders cũ
+- [ ] Remove old folders
 - [ ] Update README.md

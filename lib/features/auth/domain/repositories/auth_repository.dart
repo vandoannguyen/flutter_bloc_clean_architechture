@@ -9,14 +9,9 @@ import '../entities/token/token_entity.dart';
 /// 
 /// All methods return Result<T> for type-safe error handling.
 abstract class AuthRepository {
-  /// Logs in a user with email and password.
-  /// 
-  /// [email] - User's email address
-  /// [password] - User's password
-  /// 
-  /// Returns [Result<UserEntity>] containing the authenticated user or an error.
+  /// Logs in a user with ID and password.
   Future<Result<UserEntity>> login({
-    required String email,
+    required String id,
     required String password,
   });
 

@@ -1,22 +1,22 @@
-# 📝 Form Validation trong Clean Architecture
+# 📝 Form Validation in Clean Architecture
 
-## 🎯 Nguyên Tắc
+## 🎯 Principles
 
-Trong Clean Architecture, validation được chia thành **2 loại**:
+In Clean Architecture, validation is split into **2 types**:
 
 ### 1. **Input Validation** (Format, Required Fields)
-- **Vị trí**: **Presentation Layer** (BLoC hoặc Form Widget)
-- **Mục đích**: Kiểm tra format, required fields trước khi gửi lên
-- **Ví dụ**: Email format, password length, required fields
+- **Location**: **Presentation Layer** (BLoC or Form Widget)
+- **Purpose**: Check format and required fields before submitting
+- **Examples**: Email format, password length, required fields
 
 ### 2. **Business Validation** (Business Rules)
-- **Vị trí**: **Domain Layer** (Use Cases)
-- **Mục đích**: Kiểm tra business rules, logic nghiệp vụ
-- **Ví dụ**: Email đã tồn tại, password đủ mạnh theo policy, số dư đủ để thanh toán
+- **Location**: **Domain Layer** (Use Cases)
+- **Purpose**: Enforce business rules and logic
+- **Examples**: Email already exists, password meets policy, sufficient balance for payment
 
 ---
 
-## 📐 Kiến Trúc
+## 📐 Architecture
 
 ```
 ┌─────────────────────────────────────┐
@@ -37,7 +37,7 @@ Trong Clean Architecture, validation được chia thành **2 loại**:
 │   Domain Layer (Business Logic)     │
 │   ┌─────────────────────────────┐  │
 │   │ Use Case                     │  │
-│   │ - Business validation        │  │
+│   │ - Business validation       │  │
 │   │ - Business rules             │  │
 │   └─────────────────────────────┘  │
 └─────────────────────────────────────┘
@@ -50,17 +50,17 @@ Trong Clean Architecture, validation được chia thành **2 loại**:
 
 ---
 
-## 💡 Ví Dụ: Form Đăng Ký
+## 💡 Example: Registration Form
 
-### Scenario: Form đăng ký với các trường:
+### Scenario: Registration form with fields:
 - Email (required, format)
 - Password (required, min 8 chars)
-- Confirm Password (required, match với password)
+- Confirm Password (required, must match password)
 - Name (required, min 2 chars)
 
 ---
 
-## ✅ Cách 1: Validation trong BLoC (Recommended)
+## ✅ Approach 1: Validation in BLoC (Recommended)
 
 ### Presentation Layer - BLoC
 
@@ -136,7 +136,7 @@ class RegisterBloc extends BaseCubit<RegisterState> {
     final confirmPasswordError = _validateConfirmPassword(password, confirmPassword);
     final nameError = _validateName(name);
 
-    emit(state.copyWith(
+    emit(dataState.copyWith(
       emailError: emailError,
       passwordError: passwordError,
       confirmPasswordError: confirmPasswordError,
@@ -153,7 +153,7 @@ class RegisterBloc extends BaseCubit<RegisterState> {
   /// Updates email field.
   void updateEmail(String email) {
     final error = _validateEmail(email);
-    emit(state.copyWith(
+    emit(dataState.copyWith(
       email: email,
       emailError: error,
     ));
@@ -163,7 +163,7 @@ class RegisterBloc extends BaseCubit<RegisterState> {
   /// Updates password field.
   void updatePassword(String password) {
     final error = _validatePassword(password);
-    emit(state.copyWith(
+    emit(dataState.copyWith(
       password: password,
       passwordError: error,
     ));
@@ -173,7 +173,7 @@ class RegisterBloc extends BaseCubit<RegisterState> {
   /// Updates confirm password field.
   void updateConfirmPassword(String confirmPassword) {
     final error = _validateConfirmPassword(state.password, confirmPassword);
-    emit(state.copyWith(
+    emit(dataState.copyWith(
       confirmPassword: confirmPassword,
       confirmPasswordError: error,
     ));
@@ -183,7 +183,7 @@ class RegisterBloc extends BaseCubit<RegisterState> {
   /// Updates name field.
   void updateName(String name) {
     final error = _validateName(name);
-    emit(state.copyWith(
+    emit(dataState.copyWith(
       name: name,
       nameError: error,
     ));
@@ -192,7 +192,7 @@ class RegisterBloc extends BaseCubit<RegisterState> {
 
   /// Checks overall form validity.
   void _checkFormValidity() {
-    emit(state.copyWith(
+    emit(dataState.copyWith(
       isValid: state.emailError == null &&
           state.passwordError == null &&
           state.confirmPasswordError == null &&
@@ -229,11 +229,11 @@ class RegisterBloc extends BaseCubit<RegisterState> {
 
     result.when(
       success: (user) {
-        emit(state.copyWith(isSuccess: true));
+        emit(dataState.copyWith(isSuccess: true));
         emit(const RegisterEvent.navigateToHome());
       },
       failure: (failure) {
-        emit(state.copyWith(errorMessage: failure.message));
+        emit(dataState.copyWith(errorMessage: failure.message));
         showMessage(failure.message, type: MessageType.error);
       },
     );
@@ -451,9 +451,9 @@ class RegisterUseCase {
 
 ---
 
-## ✅ Cách 2: Validation trong Form Widget (Alternative)
+## ✅ Approach 2: Validation in Form Widget (Alternative)
 
-Nếu muốn validation ngay trong Form widget:
+If you prefer validation directly in the Form widget:
 
 ```dart
 // lib/features/auth/presentation/pages/register_screen.dart
@@ -522,40 +522,40 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
 ---
 
-## 📋 Tóm Tắt
+## 📋 Summary
 
-| Loại Validation | Vị Trí | Ví Dụ |
+| Validation Type | Location | Examples |
 |----------------|--------|-------|
-| **Input Validation** | **Presentation Layer** (BLoC hoặc Form Widget) | Email format, required fields, password length |
-| **Business Validation** | **Domain Layer** (Use Cases) | Email đã tồn tại, password đủ mạnh, số dư đủ |
+| **Input Validation** | **Presentation Layer** (BLoC or Form Widget) | Email format, required fields, password length |
+| **Business Validation** | **Domain Layer** (Use Cases) | Email already exists, password strength policy, sufficient balance |
 
 ### ✅ Best Practices
 
 1. **Input Validation** → **BLoC** (Recommended)
-   - Dễ test
-   - Tách biệt logic khỏi UI
-   - Có thể reuse validation logic
+   - Easier to test
+   - Logic separated from UI
+   - Validation logic can be reused
 
 2. **Business Validation** → **Use Cases**
-   - Business rules không thay đổi theo UI
-   - Có thể test độc lập
-   - Tuân thủ Clean Architecture
+   - Business rules are independent of UI
+   - Can be tested in isolation
+   - Complies with Clean Architecture
 
-3. **Không validate ở Data Layer**
-   - Data layer chỉ serialize/deserialize
-   - Validation là business logic, không phải data concern
+3. **No validation in Data Layer**
+   - Data layer only serializes/deserializes
+   - Validation is business logic, not a data concern
 
 ---
 
-## 🎯 Recommendation cho Dự Án
+## 🎯 Recommendation for This Project
 
-**Sử dụng Cách 1 (Validation trong BLoC)** vì:
-- ✅ Tách biệt logic khỏi UI
-- ✅ Dễ test
-- ✅ Có thể reuse validation logic
-- ✅ Phù hợp với BLoC pattern
-- ✅ State management tốt hơn
+**Use Approach 1 (Validation in BLoC)** because:
+- ✅ Logic separated from UI
+- ✅ Easier to test
+- ✅ Validation logic can be reused
+- ✅ Fits BLoC pattern
+- ✅ Better state management
 
-**Business validation** (email tồn tại, password policy) → **Use Cases**
+**Business validation** (email exists, password policy) → **Use Cases**
 
 **Input validation** (format, required) → **BLoC**

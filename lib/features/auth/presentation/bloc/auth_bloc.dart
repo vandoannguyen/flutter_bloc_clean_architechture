@@ -1,5 +1,7 @@
 import 'package:base_bloc_module/index.dart';
+import 'package:base_bloc_module/models/message_model.dart';
 import 'package:injectable/injectable.dart';
+import '../../../../core/error/failures/failure.dart';
 import '../../../../core/error/result.dart';
 import '../../domain/usecases/login_usecase.dart';
 import '../../domain/usecases/logout_usecase.dart';
@@ -13,11 +15,8 @@ class AuthBloc extends BaseCubit<AuthState> {
   final LogoutUseCase _logoutUseCase;
   final GetCurrentUserUseCase _getCurrentUserUseCase;
 
-  AuthBloc(
-    this._loginUseCase,
-    this._logoutUseCase,
-    this._getCurrentUserUseCase,
-  ) : super(const AuthState()) {
+  AuthBloc(this._loginUseCase, this._logoutUseCase, this._getCurrentUserUseCase)
+    : super(AuthState()) {
     _checkAuthStatus();
   }
 
@@ -27,10 +26,7 @@ class AuthBloc extends BaseCubit<AuthState> {
     result.when(
       success: (user) {
         if (user != null) {
-          emit(state.copyWith(
-            user: user,
-            isAuthenticated: true,
-          ));
+          emit(dataState.copyWith(user: user, isAuthenticated: true));
         }
       },
       failure: (_) {
@@ -39,27 +35,17 @@ class AuthBloc extends BaseCubit<AuthState> {
     );
   }
 
-  /// Logs in a user.
-  /// 
-  /// [email] - User's email address
-  /// [password] - User's password
-  Future<void> login(String email, String password) async {
+  Future<void> login(String id, String password) async {
     showLoading();
 
-    final result = await _loginUseCase(
-      email: email,
-      password: password,
-    );
+    final result = await _loginUseCase(id: id, password: password);
 
     hideLoading();
 
     result.when(
       success: (user) {
-        emit(state.copyWith(
-          user: user,
-          isAuthenticated: true,
-        ));
-        emit(const AuthEvent.navigateToHome());
+        emit(dataState.copyWith(user: user, isAuthenticated: true));
+        emit(AuthEvent.navigateToHome());
       },
       failure: (failure) {
         emit(AuthEvent.showError(failure.message));
@@ -83,8 +69,8 @@ class AuthBloc extends BaseCubit<AuthState> {
 
     result.when(
       success: (_) {
-        emit(const AuthState());
-        emit(const AuthEvent.navigateToLogin());
+        emit(AuthState());
+        emit(AuthEvent.navigateToLogin());
       },
       failure: (failure) {
         emit(AuthEvent.showError(failure.message));

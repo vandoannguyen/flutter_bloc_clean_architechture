@@ -7,7 +7,7 @@ part 'failure.freezed.dart';
 /// This represents different types of failures that can occur in the application.
 /// Using a sealed class ensures type safety and exhaustive pattern matching.
 @freezed
-class Failure with _$Failure {
+abstract class Failure with _$Failure {
   /// Server error (4xx, 5xx responses).
   const factory Failure.server({
     required String message,
@@ -41,7 +41,7 @@ class Failure with _$Failure {
 extension FailureExtension on Failure {
   /// Returns the error message.
   String get message => when(
-        server: (message, _, __) => message,
+        server: (message, _, _) => message,
         network: (message) => message,
         validation: (message) => message,
         authentication: (message) => message,

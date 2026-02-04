@@ -12,7 +12,7 @@ import 'base_view_cubit_method.dart';
 abstract class BaseViewCubit<CUBIT extends BaseCubit<STATE>,
 STATE extends BaseStateCubit, EVENT extends BaseCubitEvent>
     extends StatelessWidget with BaseViewCubitMethod<CUBIT, EVENT> {
-  BaseViewCubit({Key? key}) : super(key: key) {
+  BaseViewCubit({super.key}) {
     bloc = initBloc();
   }
 

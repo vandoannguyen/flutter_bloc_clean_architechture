@@ -1,7 +1,8 @@
 import 'package:base_bloc_module/index.dart';
 import 'package:base_flutter_bloc/bloc/login/login_bloc.dart';
 import 'package:base_flutter_bloc/bloc/login/login_state.dart';
-import 'package:base_flutter_bloc/di/injection_container.dart';
+import 'package:base_flutter_bloc/core/di/injection_container.dart';
+
 import 'package:base_flutter_bloc/routes/index.dart';
 import 'package:base_flutter_bloc/utils/index.dart';
 import 'package:flutter/material.dart';

@@ -24,19 +24,20 @@ class Result<T> with _$Result<T> {
 
 /// Extension methods for Result type.
 extension ResultExtension<T> on Result<T> {
-  /// Pattern matching for Result.
-  /// 
-  /// Executes [success] callback if Result is Success,
-  /// or [failure] callback if Result is Failure.
-  R when<R>({
-    required R Function(T data) success,
-    required R Function(Failure failure) failure,
-  }) {
-    return switch (this) {
-      Success<T>(:final data) => success(data),
-      FailureResult<T>(:final failure) => failure(failure),
-    };
-  }
+  // /// Pattern matching for Result.
+  // ///
+  // /// Executes [success] callback if Result is Success,
+  // /// or [failure] callback if Result is Failure.
+  // R when<R>({
+  //   required R Function(T data) success,
+  //   required R Function(Failure failure) failure,
+  // }) {
+  //   return switch (this) {
+  //     Success<T>(:final data) => success(data),
+  //     FailureResult<T>(:final failure) => failure(failure),
+  //     Result<Object?>() => throw UnimplementedError(),
+  //   };
+  // }
 
   /// Returns true if Result is Success.
   bool get isSuccess => this is Success<T>;

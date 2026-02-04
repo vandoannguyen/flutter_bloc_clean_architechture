@@ -2,6 +2,7 @@ import 'package:injectable/injectable.dart';
 import '../../../../core/error/failures/failure.dart';
 import '../../../../core/error/result.dart';
 import '../../domain/entities/token/token_entity.dart';
+import '../../domain/entities/user_entity.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../datasources/remote/auth_remote_datasource.dart';
 import '../datasources/local/auth_local_datasource.dart';
@@ -26,14 +27,13 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Result<UserEntity>> login({
-    required String email,
+    required String id,
     required String password,
   }) async {
     try {
-      final request = LoginRequest(email, password);
+      final request = LoginRequest(id, password);
       final response = await _remoteDataSource.login(request);
 
-      // Extract token from response
       if (response['token'] != null && response['refreshToken'] != null) {
         final token = TokenModel(
           accessToken: response['token'],
@@ -42,11 +42,9 @@ class AuthRepositoryImpl implements AuthRepository {
         await _localDataSource.saveToken(token);
       }
 
-      // Extract user from response (if available)
-      // For now, create a basic user entity
       final user = UserModel(
-        id: response['userId']?.toString() ?? '0',
-        email: email,
+        id: response['userId']?.toString() ?? response['id']?.toString() ?? id,
+        email: response['email']?.toString() ?? '',
         name: response['name'],
       );
       await _localDataSource.saveUser(user);

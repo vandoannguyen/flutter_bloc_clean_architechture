@@ -9,7 +9,7 @@ class AppBloc extends BaseCubit<AppState> {
   final StreamController<void> toMain2 = StreamController();
 
   @factoryMethod
-  AppBloc() : super(const AppState());
+  AppBloc() : super(AppState());
 
   void testTap() {}
 

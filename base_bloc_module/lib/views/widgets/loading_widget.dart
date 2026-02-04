@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 
 class LoadingWidget extends StatelessWidget {
   const LoadingWidget({
-    Key? key,
+    super.key,
     this.width,
     this.height,
     this.backgroundColor = Colors.transparent,
     this.brightness = Brightness.light,
-  }) : super(key: key);
+  });
 
   /// Width of loading
   final double? width;

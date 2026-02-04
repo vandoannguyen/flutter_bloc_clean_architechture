@@ -5,7 +5,7 @@ import '../../domain/entities/counter_entity.dart';
 part 'home_state.freezed.dart';
 
 @Freezed(equal: true)
-class HomeState extends BaseDataStateCubit with _$HomeState {
+abstract class HomeState extends BaseDataStateCubit with _$HomeState {
   HomeState._();
 
   factory HomeState({
@@ -13,9 +13,9 @@ class HomeState extends BaseDataStateCubit with _$HomeState {
   }) = _HomeState;
 }
 
-@freezed
-class HomeEvent extends BaseCubitEvent with _$HomeEvent {
+@Freezed(equal: false)
+abstract class HomeEvent extends BaseCubitEvent with _$HomeEvent {
   HomeEvent._();
 
-  const factory HomeEvent.increment() = Increment;
+  factory HomeEvent.increment() = Increment;
 }

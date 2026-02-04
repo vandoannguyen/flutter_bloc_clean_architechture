@@ -9,7 +9,7 @@ abstract class BaseCubit<STATE extends BaseStateCubit>
   late STATE dataState;
 
   BaseCubit(STATE initialState) : super(initialState) {
-    this.dataState = initialState;
+    dataState = initialState;
   }
 
   void showLoading() {

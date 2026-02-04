@@ -7,10 +7,10 @@ import 'home_state.dart';
 class HomeBloc extends BaseCubit<HomeState> {
   final IncrementCounterUseCase _incrementCounterUseCase;
 
-  HomeBloc(this._incrementCounterUseCase) : super(const HomeState());
+  HomeBloc(this._incrementCounterUseCase) : super( HomeState());
 
   void increment() {
-    final newCounter = _incrementCounterUseCase(state.counter);
-    emit(state.copyWith(counter: newCounter));
+    final newCounter = _incrementCounterUseCase(dataState.counter);
+    emit(dataState.copyWith(counter: newCounter));
   }
 }

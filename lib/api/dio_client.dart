@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:base_flutter_bloc/api/url_config.dart';
 import 'package:base_flutter_bloc/common/logger/logger.dart';
+import 'package:base_flutter_bloc/features/auth/data/models/index.dart';
 // import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -12,7 +13,6 @@ import '../../exception/business_exception.dart';
 import '../../exception/network_exception.dart';
 import '../../exception/server_exception.dart';
 import '../model/entity/error/business_error.dart';
-import '../model/entity/token/token_info.dart';
 import '../utils/navigate_utils.dart';
 import '../utils/share_preference_utils.dart';
 import 'multipart_file_extended.dart';
@@ -36,23 +36,20 @@ class DioClient {
     SharedPreferenceUtil.setTokenInfo(null);
   }
 
-  Future<TokenInfo?> refreshFuture(String? refreshToken) async {
+  Future<TokenModel?> refreshFuture(String? refreshToken) async {
     if (refreshToken != null) {
       var response = await _dio!.post(
         UrlConfig.refreshToken,
         data: {"refreshToken": refreshToken},
       );
       LogUtils.i(response.data["token"]);
-      TokenInfo tokenInfo = TokenInfo(
-        accessToken: response.data["token"],
-        refreshToken: response.data["refreshToken"],
-      );
+      TokenModel tokenInfo = TokenModel.fromJson(response.data);
       return tokenInfo;
     }
     return null;
   }
 
-  Future<void> _issueNewToken(TokenInfo currentTokenInfo) async {
+  Future<void> _issueNewToken(TokenModel currentTokenInfo) async {
     try {
       _isRefreshingToken = true;
       final newTokenInfo = await refreshFuture(currentTokenInfo.refreshToken);
@@ -163,7 +160,7 @@ class DioClient {
           LogUtils.e('Case business exception');
           handler.next(
             BusinessException(
-              businessError: BusinessError.fromJson(error.response!.data),
+              businessError: BusinessErrorModel.fromJson(error.response!.data),
               requestOptions: error.requestOptions,
               response: error.response,
               type: error.type,
@@ -197,7 +194,7 @@ class DioClient {
     if (response.requestOptions.path == UrlConfig.login &&
         response.data["status"] == "Logged in") {
       SharedPreferenceUtil.setTokenInfo(
-        TokenInfo(
+        TokenModel(
           accessToken: response.data["token"],
           refreshToken: response.data["refreshToken"],
         ),

@@ -6,7 +6,7 @@ part 'auth_state.freezed.dart';
 
 /// Authentication state for data.
 @Freezed(equal: true)
-class AuthState extends BaseDataStateCubit with _$AuthState {
+abstract class AuthState extends BaseDataStateCubit with _$AuthState {
   AuthState._();
 
   factory AuthState({
@@ -16,11 +16,11 @@ class AuthState extends BaseDataStateCubit with _$AuthState {
 }
 
 /// Authentication events for UI side effects.
-@freezed
-class AuthEvent extends BaseCubitEvent with _$AuthEvent {
+@Freezed(equal: false)
+abstract class AuthEvent extends BaseCubitEvent with _$AuthEvent {
   AuthEvent._();
 
-  const factory AuthEvent.navigateToHome() = NavigateToHome;
-  const factory AuthEvent.navigateToLogin() = NavigateToLogin;
-  const factory AuthEvent.showError(String message) = ShowError;
+   factory AuthEvent.navigateToHome() = _NavigateToHome;
+   factory AuthEvent.navigateToLogin() = _NavigateToLogin;
+   factory AuthEvent.showError(String message) = _ShowError;
 }

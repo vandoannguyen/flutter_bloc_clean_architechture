@@ -1,46 +1,46 @@
-# 🏗️ Các Tầng trong Clean Architecture
+# 🏗️ Layers in Clean Architecture
 
-## 📐 Tổng Quan
+## 📐 Overview
 
-Clean Architecture chia ứng dụng thành **3 tầng chính** và **2 tầng hỗ trợ**:
+Clean Architecture divides the application into **3 main layers** and **2 supporting layers**:
 
 ```
 ┌─────────────────────────────────────────────┐
-│         Presentation Layer (UI)              │ ← Tầng ngoài cùng
+│         Presentation Layer (UI)              │ ← Outermost layer
 │         (flutter_bloc, widgets)              │
 └─────────────────────────────────────────────┘
                     ↓ depends on
 ┌─────────────────────────────────────────────┐
-│         Domain Layer (Business Logic)       │ ← Tầng trong cùng
+│         Domain Layer (Business Logic)       │ ← Innermost layer
 │         (entities, use cases, interfaces)   │
 └─────────────────────────────────────────────┘
                     ↑ depends on
 ┌─────────────────────────────────────────────┐
-│         Data Layer (Implementation)         │ ← Tầng giữa
+│         Data Layer (Implementation)         │ ← Middle layer
 │         (models, repositories, APIs)          │
 └─────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────┐
-│         Core (Infrastructure)               │ ← Hỗ trợ
+│         Core (Infrastructure)               │ ← Supporting
 │         (error, network, DI, utils)        │
 └─────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────┐
-│         Shared (Common Resources)           │ ← Hỗ trợ
+│         Shared (Common Resources)           │ ← Supporting
 │         (routes, theme, widgets, utils)      │
 └─────────────────────────────────────────────┘
 ```
 
 ---
 
-## 🎯 1. Domain Layer (Tầng Nghiệp Vụ)
+## 🎯 1. Domain Layer (Business Layer)
 
-### 📍 Vị Trí
-- **Innermost layer** - Tầng trong cùng
-- **Không phụ thuộc** vào bất kỳ tầng nào khác
-- Pure Dart, không có framework dependencies
+### 📍 Position
+- **Innermost layer**
+- **Does not depend** on any other layer
+- Pure Dart, no framework dependencies
 
-### 📁 Cấu Trúc
+### 📁 Structure
 ```
 lib/features/{feature}/domain/
 ├── entities/          # Business objects
@@ -48,15 +48,15 @@ lib/features/{feature}/domain/
 └── usecases/         # Business logic
 ```
 
-### 🎯 Tác Dụng
+### 🎯 Purpose
 
-#### 1. **Entities** (Đối Tượng Nghiệp Vụ)
-- **Mục đích**: Đại diện cho các đối tượng nghiệp vụ trong hệ thống
-- **Đặc điểm**:
-  - Pure Dart classes (không có JSON annotations)
-  - Không phụ thuộc framework
-  - Chứa business logic cơ bản
-- **Ví dụ**:
+#### 1. **Entities** (Business Objects)
+- **Purpose**: Represent business objects in the system
+- **Characteristics**:
+  - Pure Dart classes (no JSON annotations)
+  - No framework dependencies
+  - May contain basic business logic
+- **Example**:
 ```dart
 // lib/features/auth/domain/entities/user_entity.dart
 class UserEntity {
@@ -75,13 +75,13 @@ class UserEntity {
 }
 ```
 
-#### 2. **Repository Interfaces** (Giao Diện Repository)
-- **Mục đích**: Định nghĩa contract cho data operations
-- **Đặc điểm**:
+#### 2. **Repository Interfaces** (Repository Contracts)
+- **Purpose**: Define contracts for data operations
+- **Characteristics**:
   - Abstract classes/interfaces
-  - Chỉ định nghĩa methods, không implement
-  - Sử dụng domain entities, không phải data models
-- **Ví dụ**:
+  - Only declare methods, no implementation
+  - Use domain entities, not data models
+- **Example**:
 ```dart
 // lib/features/auth/domain/repositories/auth_repository.dart
 abstract class AuthRepository {
@@ -94,13 +94,13 @@ abstract class AuthRepository {
 }
 ```
 
-#### 3. **Use Cases** (Logic Nghiệp Vụ)
-- **Mục đích**: Encapsulate business logic cho một use case cụ thể
-- **Đặc điểm**:
-  - Mỗi use case = một business operation
-  - Sử dụng repository interfaces
-  - Có thể có business validation
-- **Ví dụ**:
+#### 3. **Use Cases** (Business Logic)
+- **Purpose**: Encapsulate business logic for a specific use case
+- **Characteristics**:
+  - One use case = one business operation
+  - Use repository interfaces
+  - May contain business validation
+- **Example**:
 ```dart
 // lib/features/auth/domain/usecases/login_usecase.dart
 @injectable
@@ -126,23 +126,23 @@ class LoginUseCase {
 }
 ```
 
-### ✅ Nguyên Tắc Domain Layer
+### ✅ Domain Layer Principles
 
-1. **Không phụ thuộc** vào bất kỳ tầng nào
-2. **Pure Dart** - Không có framework dependencies
-3. **Business Logic** - Chứa tất cả logic nghiệp vụ
-4. **Testable** - Có thể test độc lập, không cần UI hay API
+1. **No dependencies** on any other layer
+2. **Pure Dart** - No framework dependencies
+3. **Business Logic** - Contains all business logic
+4. **Testable** - Can be tested in isolation, no UI or API needed
 
 ---
 
-## 💾 2. Data Layer (Tầng Dữ Liệu)
+## 💾 2. Data Layer
 
-### 📍 Vị Trí
-- **Middle layer** - Tầng giữa
-- **Phụ thuộc** vào Domain Layer
-- Implement các interfaces từ Domain Layer
+### 📍 Position
+- **Middle layer**
+- **Depends** on Domain Layer
+- Implements interfaces from Domain Layer
 
-### 📁 Cấu Trúc
+### 📁 Structure
 ```
 lib/features/{feature}/data/
 ├── datasources/       # Remote & Local data sources
@@ -153,12 +153,12 @@ lib/features/{feature}/data/
 └── repositories/     # Repository implementations
 ```
 
-### 🎯 Tác Dụng
+### 🎯 Purpose
 
-#### 1. **Data Sources** (Nguồn Dữ Liệu)
-- **Remote Data Source**: Gọi API, fetch data từ server
-- **Local Data Source**: Lưu trữ local (SharedPreferences, SQLite, etc.)
-- **Ví dụ**:
+#### 1. **Data Sources** (Data Providers)
+- **Remote Data Source**: Call API, fetch data from server
+- **Local Data Source**: Local storage (SharedPreferences, SQLite, etc.)
+- **Example**:
 ```dart
 // lib/features/auth/data/datasources/remote/auth_remote_datasource.dart
 @RestApi()
@@ -174,12 +174,12 @@ abstract class AuthLocalDataSource {
 }
 ```
 
-#### 2. **Models** (Mô Hình Dữ Liệu)
-- **Mục đích**: Đại diện cho data từ API/local storage
-- **Đặc điểm**:
-  - JSON serializable (có annotations)
-  - Có thể convert sang Entity
-- **Ví dụ**:
+#### 2. **Models** (Data Models)
+- **Purpose**: Represent data from API/local storage
+- **Characteristics**:
+  - JSON serializable (with annotations)
+  - Can be converted to Entity
+- **Example**:
 ```dart
 // lib/features/auth/data/models/user_model.dart
 @freezed
@@ -205,9 +205,9 @@ extension UserModelExtension on UserModel {
 }
 ```
 
-#### 3. **Mappers** (Bộ Chuyển Đổi)
-- **Mục đích**: Convert giữa Model (Data) và Entity (Domain)
-- **Ví dụ**:
+#### 3. **Mappers** (Converters)
+- **Purpose**: Convert between Model (Data) and Entity (Domain)
+- **Example**:
 ```dart
 // lib/features/auth/data/mappers/user_mapper.dart
 @injectable
@@ -230,12 +230,12 @@ class UserMapper implements Mapper<UserModel, UserEntity> {
 }
 ```
 
-#### 4. **Repository Implementations** (Triển Khai Repository)
-- **Mục đích**: Implement các repository interfaces từ Domain Layer
-- **Đặc điểm**:
-  - Sử dụng data sources để fetch data
-  - Convert Model → Entity trước khi return
-- **Ví dụ**:
+#### 4. **Repository Implementations**
+- **Purpose**: Implement repository interfaces from Domain Layer
+- **Characteristics**:
+  - Use data sources to fetch data
+  - Convert Model → Entity before returning
+- **Example**:
 ```dart
 // lib/features/auth/data/repositories/auth_repository_impl.dart
 @Injectable(as: AuthRepository)
@@ -266,23 +266,23 @@ class AuthRepositoryImpl implements AuthRepository {
 }
 ```
 
-### ✅ Nguyên Tắc Data Layer
+### ✅ Data Layer Principles
 
-1. **Phụ thuộc Domain** - Chỉ phụ thuộc vào Domain Layer
-2. **Implement Interfaces** - Implement các repository interfaces
+1. **Depends on Domain** - Only depends on Domain Layer
+2. **Implement Interfaces** - Implement repository interfaces
 3. **Data Conversion** - Convert Model ↔ Entity
-4. **Error Handling** - Xử lý errors và convert sang Failure
+4. **Error Handling** - Handle errors and convert to Failure
 
 ---
 
-## 🎨 3. Presentation Layer (Tầng Giao Diện)
+## 🎨 3. Presentation Layer (UI Layer)
 
-### 📍 Vị Trí
-- **Outermost layer** - Tầng ngoài cùng
-- **Phụ thuộc** vào Domain Layer và Data Layer
-- Tương tác trực tiếp với người dùng
+### 📍 Position
+- **Outermost layer**
+- **Depends** on Domain Layer and Data Layer
+- Directly interacts with the user
 
-### 📁 Cấu Trúc
+### 📁 Structure
 ```
 lib/features/{feature}/presentation/
 ├── bloc/             # State management (BLoC/Cubit)
@@ -290,15 +290,15 @@ lib/features/{feature}/presentation/
 └── widgets/          # Feature-specific widgets
 ```
 
-### 🎯 Tác Dụng
+### 🎯 Purpose
 
 #### 1. **BLoC/Cubit** (State Management)
-- **Mục đích**: Quản lý state và business logic coordination
-- **Đặc điểm**:
-  - Sử dụng Use Cases từ Domain Layer
-  - Không chứa business logic (chỉ coordination)
-  - Emit states để UI rebuild
-- **Ví dụ**:
+- **Purpose**: Manage state and coordinate business logic
+- **Characteristics**:
+  - Use Use Cases from Domain Layer
+  - Do not contain business logic (only coordination)
+  - Emit states for UI rebuild
+- **Example**:
 ```dart
 // lib/features/auth/presentation/bloc/auth_bloc.dart
 @injectable
@@ -316,7 +316,7 @@ class AuthBloc extends BaseCubit<AuthState> {
     
     result.when(
       success: (user) {
-        emit(state.copyWith(user: user, isAuthenticated: true));
+        emit(dataState.copyWith(user: user, isAuthenticated: true));
         emit(const AuthEvent.navigateToHome());
       },
       failure: (failure) {
@@ -327,10 +327,10 @@ class AuthBloc extends BaseCubit<AuthState> {
 }
 ```
 
-#### 2. **State** (Trạng Thái)
-- **Data State**: Chứa data để UI hiển thị (triggers rebuild)
+#### 2. **State** (State Types)
+- **Data State**: Holds data for UI display (triggers rebuild)
 - **Event State**: One-time events (navigation, messages, dialogs)
-- **Ví dụ**:
+- **Example**:
 ```dart
 // Data State
 @Freezed(equal: true)
@@ -349,12 +349,12 @@ class AuthEvent extends BaseCubitEvent with _$AuthEvent {
 }
 ```
 
-#### 3. **Pages** (Màn Hình)
-- **Mục đích**: UI screens, tương tác với người dùng
-- **Đặc điểm**:
-  - Sử dụng BLoC để quản lý state
-  - Listen events để xử lý side effects
-- **Ví dụ**:
+#### 3. **Pages** (Screens)
+- **Purpose**: UI screens, user interaction
+- **Characteristics**:
+  - Use BLoC for state management
+  - Listen to events for side effects
+- **Example**:
 ```dart
 // lib/features/auth/presentation/pages/login_screen.dart
 class LoginScreen extends StatefulWidget {
@@ -396,27 +396,27 @@ class _LoginScreenState
 }
 ```
 
-#### 4. **Widgets** (Thành Phần UI)
-- **Mục đích**: Feature-specific widgets
-- **Ví dụ**: Custom buttons, cards, forms cho feature đó
+#### 4. **Widgets** (UI Components)
+- **Purpose**: Feature-specific widgets
+- **Example**: Custom buttons, cards, forms for that feature
 
-### ✅ Nguyên Tắc Presentation Layer
+### ✅ Presentation Layer Principles
 
-1. **Phụ thuộc Domain** - Sử dụng Use Cases từ Domain
-2. **Không Business Logic** - Chỉ coordination, không chứa business logic
-3. **State Management** - Quản lý UI state
-4. **User Interaction** - Xử lý user input và hiển thị output
+1. **Depends on Domain** - Use Use Cases from Domain
+2. **No Business Logic** - Only coordination, no business logic
+3. **State Management** - Manage UI state
+4. **User Interaction** - Handle user input and display output
 
 ---
 
-## 🔧 4. Core Layer (Tầng Hạ Tầng)
+## 🔧 4. Core Layer (Infrastructure)
 
-### 📍 Vị Trí
-- **Shared infrastructure** - Hạ tầng dùng chung
-- **Không phụ thuộc** vào features
-- **Được sử dụng** bởi tất cả các layers
+### 📍 Position
+- **Shared infrastructure**
+- **Does not depend** on features
+- **Used by** all layers
 
-### 📁 Cấu Trúc
+### 📁 Structure
 ```
 lib/core/
 ├── error/            # Error handling (Result, Failure)
@@ -427,11 +427,11 @@ lib/core/
 └── mappers/          # Base mapper interfaces
 ```
 
-### 🎯 Tác Dụng
+### 🎯 Purpose
 
 #### 1. **Error Handling**
 - `Result<T>` - Type-safe success/failure handling
-- `Failure` - Các loại errors (Server, Network, Validation, etc.)
+- `Failure` - Error types (Server, Network, Validation, etc.)
 
 #### 2. **Network**
 - `DioClient` - HTTP client configuration
@@ -449,14 +449,14 @@ lib/core/
 
 ---
 
-## 🎨 5. Shared Layer (Tầng Dùng Chung)
+## 🎨 5. Shared Layer (Common Resources)
 
-### 📍 Vị Trí
-- **Common resources** - Tài nguyên dùng chung
-- **UI-related** - Liên quan đến UI
-- **Được sử dụng** bởi Presentation Layer
+### 📍 Position
+- **Common resources**
+- **UI-related**
+- **Used by** Presentation Layer
 
-### 📁 Cấu Trúc
+### 📁 Structure
 ```
 lib/shared/
 ├── routes/           # Routing configuration
@@ -465,7 +465,7 @@ lib/shared/
 └── utils/            # Shared utilities
 ```
 
-### 🎯 Tác Dụng
+### 🎯 Purpose
 
 #### 1. **Routes**
 - Route definitions, navigation setup
@@ -481,7 +481,7 @@ lib/shared/
 
 ---
 
-## 🔄 Dependency Flow (Luồng Phụ Thuộc)
+## 🔄 Dependency Flow
 
 ```
 Presentation Layer
@@ -497,56 +497,56 @@ Shared Layer (common resources)
 
 ### ✅ Dependency Rules
 
-1. **Domain** → **Không phụ thuộc** gì cả ✅
-2. **Data** → **Chỉ phụ thuộc** Domain ✅
-3. **Presentation** → **Phụ thuộc** Domain + Data ✅
-4. **Core** → **Không phụ thuộc** features ✅
-5. **Shared** → **Không phụ thuộc** features ✅
+1. **Domain** → **No dependencies** ✅
+2. **Data** → **Depends only on** Domain ✅
+3. **Presentation** → **Depends on** Domain + Data ✅
+4. **Core** → **Does not depend on** features ✅
+5. **Shared** → **Does not depend on** features ✅
 
 ---
 
-## 📊 So Sánh Các Tầng
+## 📊 Layer Comparison
 
-| Tầng | Phụ Thuộc | Framework | Business Logic | Testability |
-|------|-----------|-----------|----------------|-------------|
-| **Domain** | Không | Không | Có | Rất cao ✅ |
-| **Data** | Domain | Có (Dio, etc.) | Không | Cao ✅ |
-| **Presentation** | Domain + Data | Có (Flutter) | Không | Trung bình ⚠️ |
-| **Core** | Không | Có | Không | Cao ✅ |
-| **Shared** | Không | Có (Flutter) | Không | Trung bình ⚠️ |
+| Layer | Dependencies | Framework | Business Logic | Testability |
+|------|--------------|-----------|----------------|-------------|
+| **Domain** | None | No | Yes | Very high ✅ |
+| **Data** | Domain | Yes (Dio, etc.) | No | High ✅ |
+| **Presentation** | Domain + Data | Yes (Flutter) | No | Medium ⚠️ |
+| **Core** | None | Yes | No | High ✅ |
+| **Shared** | None | Yes (Flutter) | No | Medium ⚠️ |
 
 ---
 
-## 🎯 Tóm Tắt
+## 🎯 Summary
 
 ### Domain Layer
-- **Mục đích**: Business logic, entities, use cases
-- **Đặc điểm**: Pure Dart, không dependencies
-- **Vai trò**: Core của ứng dụng
+- **Purpose**: Business logic, entities, use cases
+- **Characteristics**: Pure Dart, no dependencies
+- **Role**: Core of the application
 
 ### Data Layer
-- **Mục đích**: Fetch và lưu trữ data
-- **Đặc điểm**: Implement domain interfaces
-- **Vai trò**: Bridge giữa Domain và external sources
+- **Purpose**: Fetch and store data
+- **Characteristics**: Implements domain interfaces
+- **Role**: Bridge between Domain and external sources
 
 ### Presentation Layer
-- **Mục đích**: UI và user interaction
-- **Đặc điểm**: Sử dụng Use Cases, quản lý state
-- **Vai trò**: Interface với người dùng
+- **Purpose**: UI and user interaction
+- **Characteristics**: Uses Use Cases, manages state
+- **Role**: Interface with the user
 
 ### Core Layer
-- **Mục đích**: Infrastructure, error handling, DI
-- **Đặc điểm**: Shared across features
-- **Vai trò**: Hỗ trợ cho tất cả layers
+- **Purpose**: Infrastructure, error handling, DI
+- **Characteristics**: Shared across features
+- **Role**: Support for all layers
 
 ### Shared Layer
-- **Mục đích**: Common UI resources
-- **Đặc điểm**: Reusable components
-- **Vai trò**: Hỗ trợ Presentation Layer
+- **Purpose**: Common UI resources
+- **Characteristics**: Reusable components
+- **Role**: Support for Presentation Layer
 
 ---
 
-## 📚 Xem Thêm
+## 📚 See Also
 
 - `README.md` - Project overview
 - `PROJECT_ANALYSIS.md` - Detailed structure analysis

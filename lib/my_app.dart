@@ -1,4 +1,5 @@
 import 'package:base_flutter_bloc/gen/l10n.dart';
+import 'package:base_flutter_bloc/utils/alice_utils.dart';
 import 'package:base_flutter_bloc/utils/app_route_tracking.dart';
 import 'package:base_flutter_bloc/utils/navigate_utils.dart';
 import 'package:flutter/material.dart';
@@ -10,9 +11,19 @@ import 'bloc/app/app_bloc.dart';
 import 'di/injection_container.dart';
 import 'routes/routes.dart';
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    AliceUtils.instance.setNavigatorKey(NavigatorUtils.instance.navigatorKey);
+  }
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(

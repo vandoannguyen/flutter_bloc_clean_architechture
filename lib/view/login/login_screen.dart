@@ -17,14 +17,7 @@ class _LoginScreenState
     extends BaseViewCubitState<LoginBloc, LoginState, LoginEvent, LoginScreen> {
   @override
   Widget buildWidget(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: ElevatedButton(
-          onPressed: bloc?.handleLogin,
-          child: const Text("To Home"),
-        ),
-      ),
-    );
+    return Scaffold(body: Center(child: Placeholder()));
   }
 
   @override
@@ -37,8 +30,10 @@ class _LoginScreenState
 
   @override
   void initEventViewModel(BuildContext context, LoginEvent state) {
-    state.when(moveToHome: () {
-      NavigatorUtils.instance.pushReplacementNamed(AppRoutes.home.routeName);
-    });
+    state.when(
+      moveToHome: () {
+        NavigatorUtils.instance.pushReplacementNamed(AppRoutes.home.routeName);
+      },
+    );
   }
 }

@@ -41,12 +41,11 @@ class _ContentNetwork implements ContentNetwork {
   }
 
   @override
-  Future<dynamic> login(LoginRequest body) async {
+  Future<dynamic> login(InvalidType body) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(body.toJson());
+    final _data = body;
     final _options = _setStreamType<dynamic>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
@@ -63,7 +62,7 @@ class _ContentNetwork implements ContentNetwork {
   }
 
   @override
-  Future<dynamic> token(RefreshTokenRequest token) async {
+  Future<dynamic> token(InvalidType token) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};

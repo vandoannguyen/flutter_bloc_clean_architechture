@@ -16,6 +16,9 @@ dependencies:
   injectable: ^2.7.0 # inject (DI)
   get_it: ^9.1.1 # inject (DI)
   dio: ^5.7.0
+  # for check request in dev + stg
+  alice: ^1.0.0
+  alice_dio: ^1.0.0
   flutter_bloc: ^9.1.1
   cupertino_icons: ^1.0.8
   overlay_support: ^2.1.0

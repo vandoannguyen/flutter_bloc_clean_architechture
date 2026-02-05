@@ -3,3 +3,4 @@ export 'function.dart';
 export 'navigate_utils.dart';
 export 'share_preference_utils.dart';
 export 'auth_utils.dart';
+export 'alice_utils.dart';
